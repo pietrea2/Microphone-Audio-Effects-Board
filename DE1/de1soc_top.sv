@@ -22,59 +22,51 @@ module DE1
 
     // Slider Switches
     input       [9:0]         SW,
-
-    // VGA
-    output      [7:0]         VGA_B,
-    output                    VGA_BLANK_N,
-    output                    VGA_CLK,
-    output      [7:0]         VGA_G,
-    output                    VGA_HS,
-    output      [7:0]         VGA_R,
-    output                    VGA_SYNC_N,
-    output                    VGA_VS
+	 
+	 input       [7:0]         AUDIO_IN
 );
-	// Clock signal
-	wire clk = CLOCK_50;
-	
-	// KEYs are active low, invert them here
-	wire reset = ~KEY[0];
-	wire enter = ~KEY[1];
-	
-	// Number guess input
-	wire [7:0] guess = SW[7:0];
-	
-	// The actual game module
-	wire under;
-	wire over;
-	wire equal;
-	wire update_leds;
-	game game_inst
-	(
-		.clk(clk),
-		.reset(reset),
-		.i_guess(guess),
-		.i_enter(enter),
-		.o_under(under),
-		.o_over(over),
-		.o_equal(equal),
-		.o_update_leds(update_leds)
-	);
-	
-	// LED controllers
-	led_ctrl ledc_under(clk, reset, under, update_leds, LEDR[7]);
-	led_ctrl ledc_over(clk, reset, over, update_leds, LEDR[0]);
-	led_ctrl ledc_equal(clk, reset, equal, update_leds, LEDR[4]);
+	//Clock signal
+	//wire clk = CLOCK_50;
+//
+	////KEYs are active low, invert them here
+	//wire reset = ~KEY[0];
+	//wire enter = ~KEY[1];
+	//
+	//// Number guess input
+	//wire [7:0] guess = SW[7:0];
+	//
+	////The actual game module
+	//wire under;
+	//wire over;
+	//wire equal;
+	//wire update_leds;
+	//game game_inst
+	//(
+	//	.clk(clk),
+	//	.reset(reset),
+	//	.i_guess(guess),
+	//	.i_enter(enter),
+	//	.o_under(under),
+	//	.o_over(over),
+	//	.o_equal(equal),
+	//	.o_update_leds(update_leds)
+	//);
+	//
+	////LED controllers
+	//led_ctrl ledc_under(clk, reset, under, update_leds, LEDR[7]);
+	//led_ctrl ledc_over(clk, reset, over, update_leds, LEDR[0]);
+	//led_ctrl ledc_equal(clk, reset, equal, update_leds, LEDR[4]);
 	
 	// Hex Decoders
-	hex_decoder hexdec_guess0
+	hex_decoder hex0
 	(
-		.hex_digit(guess[3:0]),
+		.hex_digit(AUDIO_IN[3:0]),
 		.segments(HEX0)
 	);
 	
-	hex_decoder hexdec_guess1
+	hex_decoder hex1
 	(
-		.hex_digit(guess[7:4]),
+		.hex_digit(AUDIO_IN[7:4]),
 		.segments(HEX1)
 	);
 	
