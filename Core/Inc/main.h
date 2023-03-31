@@ -93,6 +93,20 @@ void Error_Handler(void);
 /* USER CODE BEGIN Private defines */
 #define SPI_SNSS_Pin GPIO_PIN_13
 #define SPI_SNSS_GPIO_Port GPIOF
+
+//TESTING GPIO BUS
+#define TEST_GPIO_1 GPIO_PIN_7
+#define TEST_GPIO_2 GPIO_PIN_6
+#define TEST_GPIO_3 GPIO_PIN_5
+#define TEST_GPIO_4 GPIO_PIN_4
+#define TEST_GPIO_Port_1 GPIOD
+
+#define TEST_GPIO_5 GPIO_PIN_2
+#define TEST_GPIO_6 GPIO_PIN_4
+#define TEST_GPIO_7 GPIO_PIN_5
+#define TEST_GPIO_8 GPIO_PIN_6
+#define TEST_GPIO_Port_2 GPIOE
+
 /* USER CODE END Private defines */
 
 #ifdef __cplusplus

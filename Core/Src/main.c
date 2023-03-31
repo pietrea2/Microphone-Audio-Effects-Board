@@ -21,7 +21,6 @@
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
-#include "usbd_cdc_if.h"
 #include <stdio.h>
 #include <string.h>
 /* USER CODE END Includes */
@@ -46,8 +45,6 @@ SPI_HandleTypeDef hspi1;
 
 UART_HandleTypeDef huart3;
 
-PCD_HandleTypeDef hpcd_USB_OTG_FS;
-
 /* USER CODE BEGIN PV */
 
 /* USER CODE END PV */
@@ -57,7 +54,6 @@ void SystemClock_Config(void);
 static void MX_GPIO_Init(void);
 static void MX_USART3_UART_Init(void);
 static void MX_SPI1_Init(void);
-static void MX_USB_OTG_FS_PCD_Init(void);
 /* USER CODE BEGIN PFP */
 
 /* USER CODE END PFP */
@@ -103,12 +99,21 @@ int main(void)
   MX_GPIO_Init();
   MX_USART3_UART_Init();
   MX_SPI1_Init();
-  MX_USB_OTG_FS_PCD_Init();
   /* USER CODE BEGIN 2 */
   int strindex = 0;
   char strbuf[6000];
 
-  HAL_GPIO_WritePin(SPI_SNSS_GPIO_Port, SPI_SNSS_Pin, GPIO_PIN_SET); // NSS1 Default Set
+  HAL_GPIO_WritePin(SPI_SNSS_GPIO_Port, SPI_SNSS_Pin, GPIO_PIN_RESET); // NSS1 Default Set
+
+  HAL_GPIO_WritePin(TEST_GPIO_Port_1, GPIO_PIN_7, GPIO_PIN_RESET);
+  HAL_GPIO_WritePin(TEST_GPIO_Port_1, GPIO_PIN_6, GPIO_PIN_SET);
+  HAL_GPIO_WritePin(TEST_GPIO_Port_1, GPIO_PIN_5, GPIO_PIN_RESET);
+  HAL_GPIO_WritePin(TEST_GPIO_Port_1, GPIO_PIN_4, GPIO_PIN_RESET);
+
+  HAL_GPIO_WritePin(TEST_GPIO_Port_2, GPIO_PIN_2, GPIO_PIN_SET);
+  HAL_GPIO_WritePin(TEST_GPIO_Port_2, GPIO_PIN_4, GPIO_PIN_SET);
+  HAL_GPIO_WritePin(TEST_GPIO_Port_2, GPIO_PIN_5, GPIO_PIN_SET);
+  HAL_GPIO_WritePin(TEST_GPIO_Port_2, GPIO_PIN_6, GPIO_PIN_RESET);
 
 #define NUM_VALS 100
   int vindex = 0;
@@ -123,6 +128,11 @@ int main(void)
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
+
+
+
+
+	/*
 	uint16_t value = 0;
 	HAL_GPIO_WritePin(SPI_SNSS_GPIO_Port, SPI_SNSS_Pin, GPIO_PIN_RESET); // NSS1 low
 	value |= get_spi_byte();
@@ -131,18 +141,40 @@ int main(void)
 
 	if (vindex >= NUM_VALS)
 	{
-		//HAL_UART_Transmit(&huart3, (uint8_t*)"\n\nBegin:\n", strlen("\n\nBegin:\n"), 100);
-		CDC_Transmit_FS((uint8_t*)"\n\nBegin:\n", strlen("\n\nBegin:\n"));
+		HAL_UART_Transmit(&huart3, (uint8_t*)"\n\nBegin:\n", strlen("\n\nBegin:\n"), 100);
+		//CDC_Transmit_FS((uint8_t*)"\n\nBegin:\n", strlen("\n\nBegin:\n"));
 
 		vindex = 0; strindex = 0;
 		for (int i = 0; i < NUM_VALS; ++i)
 			strindex += sprintf(strbuf + strindex, "%d, ", values[i]);
 
-		//HAL_UART_Transmit(&huart3, (uint8_t*)strbuf, strindex, 100);
-		CDC_Transmit_FS((uint8_t*)strbuf, strindex);
+		HAL_UART_Transmit(&huart3, (uint8_t*)strbuf, strindex, 100);
+		//CDC_Transmit_FS((uint8_t*)strbuf, strindex);
 	}
 	else { values[vindex++] = value; }
+	*/
+
+	GPIO_PinState bit1 = HAL_GPIO_ReadPin(TEST_GPIO_Port_1, GPIO_PIN_7);
+	/*
+	GPIO_PinState bit2 = HAL_GPIO_ReadPin(TEST_GPIO_Port_1, GPIO_PIN_6);
+	GPIO_PinState bit3 = HAL_GPIO_ReadPin(TEST_GPIO_Port_1, GPIO_PIN_5);
+	GPIO_PinState bit4 = HAL_GPIO_ReadPin(TEST_GPIO_Port_1, GPIO_PIN_4);
+
+
+	GPIO_PinState bit5 = HAL_GPIO_ReadPin(TEST_GPIO_Port_2, GPIO_PIN_2);
+	GPIO_PinState bit6 = HAL_GPIO_ReadPin(TEST_GPIO_Port_2, GPIO_PIN_4);
+	GPIO_PinState bit7 = HAL_GPIO_ReadPin(TEST_GPIO_Port_2, GPIO_PIN_5);
+	GPIO_PinState bit8 = HAL_GPIO_ReadPin(TEST_GPIO_Port_2, GPIO_PIN_6);
+	*/
+	if(bit1 == GPIO_PIN_SET){HAL_UART_Transmit(&huart3, (uint8_t*)"\nBit 1 = 0:\n", strlen("\nBit 1 = 0:\n"), 100);}
+	HAL_Delay(100);
+
+
+
+
   }
+
+
 
   /* USER CODE END 3 */
 }
@@ -265,41 +297,6 @@ static void MX_USART3_UART_Init(void)
 }
 
 /**
-  * @brief USB_OTG_FS Initialization Function
-  * @param None
-  * @retval None
-  */
-static void MX_USB_OTG_FS_PCD_Init(void)
-{
-
-  /* USER CODE BEGIN USB_OTG_FS_Init 0 */
-
-  /* USER CODE END USB_OTG_FS_Init 0 */
-
-  /* USER CODE BEGIN USB_OTG_FS_Init 1 */
-
-  /* USER CODE END USB_OTG_FS_Init 1 */
-  hpcd_USB_OTG_FS.Instance = USB_OTG_FS;
-  hpcd_USB_OTG_FS.Init.dev_endpoints = 6;
-  hpcd_USB_OTG_FS.Init.speed = PCD_SPEED_FULL;
-  hpcd_USB_OTG_FS.Init.dma_enable = DISABLE;
-  hpcd_USB_OTG_FS.Init.phy_itface = PCD_PHY_EMBEDDED;
-  hpcd_USB_OTG_FS.Init.Sof_enable = ENABLE;
-  hpcd_USB_OTG_FS.Init.low_power_enable = DISABLE;
-  hpcd_USB_OTG_FS.Init.lpm_enable = DISABLE;
-  hpcd_USB_OTG_FS.Init.vbus_sensing_enable = ENABLE;
-  hpcd_USB_OTG_FS.Init.use_dedicated_ep1 = DISABLE;
-  if (HAL_PCD_Init(&hpcd_USB_OTG_FS) != HAL_OK)
-  {
-    Error_Handler();
-  }
-  /* USER CODE BEGIN USB_OTG_FS_Init 2 */
-
-  /* USER CODE END USB_OTG_FS_Init 2 */
-
-}
-
-/**
   * @brief GPIO Initialization Function
   * @param None
   * @retval None
@@ -311,6 +308,7 @@ static void MX_GPIO_Init(void)
 /* USER CODE END MX_GPIO_Init_1 */
 
   /* GPIO Ports Clock Enable */
+  __HAL_RCC_GPIOE_CLK_ENABLE();
   __HAL_RCC_GPIOC_CLK_ENABLE();
   __HAL_RCC_GPIOH_CLK_ENABLE();
   __HAL_RCC_GPIOA_CLK_ENABLE();
@@ -320,6 +318,9 @@ static void MX_GPIO_Init(void)
   __HAL_RCC_GPIOG_CLK_ENABLE();
 
   /*Configure GPIO pin Output Level */
+  HAL_GPIO_WritePin(GPIOE, GPIO_PIN_2|GPIO_PIN_4|GPIO_PIN_5|GPIO_PIN_6, GPIO_PIN_RESET);
+
+  /*Configure GPIO pin Output Level */
   HAL_GPIO_WritePin(GPIOB, LD1_Pin|LD3_Pin|LD2_Pin, GPIO_PIN_RESET);
 
   /*Configure GPIO pin Output Level */
@@ -327,6 +328,19 @@ static void MX_GPIO_Init(void)
 
   /*Configure GPIO pin Output Level */
   HAL_GPIO_WritePin(USB_PowerSwitchOn_GPIO_Port, USB_PowerSwitchOn_Pin, GPIO_PIN_RESET);
+
+  /*Configure GPIO pin Output Level */
+  HAL_GPIO_WritePin(GPIOD, GPIO_PIN_4|GPIO_PIN_5|GPIO_PIN_6, GPIO_PIN_RESET);
+
+  /*Configure GPIO pin Output Level */
+  HAL_GPIO_WritePin(GPIOD, GPIO_PIN_7, GPIO_PIN_SET);
+
+  /*Configure GPIO pins : PE2 PE4 PE5 PE6 */
+  GPIO_InitStruct.Pin = GPIO_PIN_2|GPIO_PIN_4|GPIO_PIN_5|GPIO_PIN_6;
+  GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_OD;
+  GPIO_InitStruct.Pull = GPIO_PULLUP;
+  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
+  HAL_GPIO_Init(GPIOE, &GPIO_InitStruct);
 
   /*Configure GPIO pin : USER_Btn_Pin */
   GPIO_InitStruct.Pin = USER_Btn_Pin;
@@ -360,6 +374,27 @@ static void MX_GPIO_Init(void)
   GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   HAL_GPIO_Init(USB_OverCurrent_GPIO_Port, &GPIO_InitStruct);
+
+  /*Configure GPIO pins : USB_SOF_Pin USB_ID_Pin USB_DM_Pin USB_DP_Pin */
+  GPIO_InitStruct.Pin = USB_SOF_Pin|USB_ID_Pin|USB_DM_Pin|USB_DP_Pin;
+  GPIO_InitStruct.Mode = GPIO_MODE_AF_PP;
+  GPIO_InitStruct.Pull = GPIO_NOPULL;
+  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_VERY_HIGH;
+  GPIO_InitStruct.Alternate = GPIO_AF10_OTG_FS;
+  HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
+
+  /*Configure GPIO pin : USB_VBUS_Pin */
+  GPIO_InitStruct.Pin = USB_VBUS_Pin;
+  GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
+  GPIO_InitStruct.Pull = GPIO_NOPULL;
+  HAL_GPIO_Init(USB_VBUS_GPIO_Port, &GPIO_InitStruct);
+
+  /*Configure GPIO pins : PD4 PD5 PD6 PD7 */
+  GPIO_InitStruct.Pin = GPIO_PIN_4|GPIO_PIN_5|GPIO_PIN_6|GPIO_PIN_7;
+  GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_OD;
+  GPIO_InitStruct.Pull = GPIO_PULLUP;
+  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
+  HAL_GPIO_Init(GPIOD, &GPIO_InitStruct);
 
 /* USER CODE BEGIN MX_GPIO_Init_2 */
 /* USER CODE END MX_GPIO_Init_2 */
