@@ -1,4 +1,4 @@
-module DE1
+module de1soc_top 
 (
 	// These are the board inputs/outputs required for all the ECE342 labs.
 	// Each lab can use the subset it needs -- unused pins will be ignored.
