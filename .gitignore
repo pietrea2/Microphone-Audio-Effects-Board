@@ -75,6 +75,10 @@
 *.l2p
 *.iex
 
+DE1/db
+DE1/incremental_db
+DE1/output_files
+DE1/simulation
 
 # Don't version zip files for students
 *.zip

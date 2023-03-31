@@ -21,6 +21,7 @@
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
+#include "usbd_cdc_if.h"
 #include <stdio.h>
 #include <string.h>
 /* USER CODE END Includes */
@@ -55,8 +56,8 @@ PCD_HandleTypeDef hpcd_USB_OTG_FS;
 void SystemClock_Config(void);
 static void MX_GPIO_Init(void);
 static void MX_USART3_UART_Init(void);
-static void MX_USB_OTG_FS_PCD_Init(void);
 static void MX_SPI1_Init(void);
+static void MX_USB_OTG_FS_PCD_Init(void);
 /* USER CODE BEGIN PFP */
 
 /* USER CODE END PFP */
@@ -101,8 +102,8 @@ int main(void)
   /* Initialize all configured peripherals */
   MX_GPIO_Init();
   MX_USART3_UART_Init();
-  MX_USB_OTG_FS_PCD_Init();
   MX_SPI1_Init();
+  MX_USB_OTG_FS_PCD_Init();
   /* USER CODE BEGIN 2 */
   int strindex = 0;
   char strbuf[6000];
@@ -130,13 +131,15 @@ int main(void)
 
 	if (vindex >= NUM_VALS)
 	{
-		HAL_UART_Transmit(&huart3, (uint8_t*)"\n\nBegin:\n", strlen("\n\nBegin:\n"), 100);
+		//HAL_UART_Transmit(&huart3, (uint8_t*)"\n\nBegin:\n", strlen("\n\nBegin:\n"), 100);
+		CDC_Transmit_FS((uint8_t*)"\n\nBegin:\n", strlen("\n\nBegin:\n"));
 
 		vindex = 0; strindex = 0;
 		for (int i = 0; i < NUM_VALS; ++i)
 			strindex += sprintf(strbuf + strindex, "%d, ", values[i]);
 
-		HAL_UART_Transmit(&huart3, (uint8_t*)strbuf, strindex, 100);
+		//HAL_UART_Transmit(&huart3, (uint8_t*)strbuf, strindex, 100);
+		CDC_Transmit_FS((uint8_t*)strbuf, strindex);
 	}
 	else { values[vindex++] = value; }
   }
