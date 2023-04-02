@@ -1,79 +1,69 @@
 module DE1
 (
-	// These are the board inputs/outputs required for all the ECE342 labs.
-	// Each lab can use the subset it needs -- unused pins will be ignored.
-	
     // Clock pins
-    input                     CLOCK_50,
+    input            CLOCK_50,
 
     // Seven Segment Displays
-    output      [6:0]         HEX0,
-    output      [6:0]         HEX1,
-    output      [6:0]         HEX2,
-    output      [6:0]         HEX3,
-    output      [6:0]         HEX4,
-    output      [6:0]         HEX5,
+    output[6:0]      HEX0,
+    output[6:0]      HEX1,
+    output[6:0]      HEX2,
+    output[6:0]      HEX3,
+    output[6:0]      HEX4,
+    output[6:0]      HEX5,
 
     // Pushbuttons
-    input       [3:0]         KEY,
+    input[3:0]       KEY,
 
     // LEDs
-    output      [9:0]         LEDR,
+    output[9:0]      LEDR,
 
     // Slider Switches
-    input       [9:0]         SW,
+    input[9:0]       SW,
+	 	 
+	 // DE1 audio
+	 input				AUD_ADCDAT,
+	 inout				AUD_BCLK,
+	 inout				AUD_ADCLRCK,
+	 inout				AUD_DACLRCK,
+	 output				AUD_XCK,
+	 output				AUD_DACDAT,
 	 
-	 input       [7:0]         AUDIO_IN
+	 // from STM32
+	 input[15:0]      AUDIO_IN,
+	 input            AUDIO_WR,
+	 input            AUDIO_ENABLE,
+	 
+	 // to STM32
+	 output           AUDIO_READY
 );
-	//Clock signal
-	//wire clk = CLOCK_50;
-//
-	////KEYs are active low, invert them here
-	//wire reset = ~KEY[0];
-	//wire enter = ~KEY[1];
-	//
-	//// Number guess input
-	//wire [7:0] guess = SW[7:0];
-	//
-	////The actual game module
-	//wire under;
-	//wire over;
-	//wire equal;
-	//wire update_leds;
-	//game game_inst
-	//(
-	//	.clk(clk),
-	//	.reset(reset),
-	//	.i_guess(guess),
-	//	.i_enter(enter),
-	//	.o_under(under),
-	//	.o_over(over),
-	//	.o_equal(equal),
-	//	.o_update_leds(update_leds)
-	//);
-	//
-	////LED controllers
-	//led_ctrl ledc_under(clk, reset, under, update_leds, LEDR[7]);
-	//led_ctrl ledc_over(clk, reset, over, update_leds, LEDR[0]);
-	//led_ctrl ledc_equal(clk, reset, equal, update_leds, LEDR[4]);
 	
-	// Hex Decoders
-	hex_decoder hex0
-	(
-		.hex_digit(AUDIO_IN[3:0]),
-		.segments(HEX0)
-	);
+Audio_Controller de1_audio
+(
+	.CLOCK_50(CLOCK_50),
+	.reset(!AUDIO_ENABLE),
 	
-	hex_decoder hex1
-	(
-		.hex_digit(AUDIO_IN[7:4]),
-		.segments(HEX1)
-	);
+ 	.AUD_ADCDAT(AUD_ADCDAT),
+ 	.AUD_BCLK(AUD_BCLK),
+ 	.AUD_ADCLRCK(AUD_ADCLRCK),
+ 	.AUD_DACLRCK(AUD_DACLRCK),
+ 	.AUD_XCK(AUD_XCK),
+ 	.AUD_DACDAT(AUD_DACDAT),
 	
-	// Turn off the other HEXes
-	assign HEX2 = '1;
-	assign HEX3 = '1;
-	assign HEX4 = '1;
-	assign HEX5 = '1;
+	.audio_out_allowed(AUDIO_READY),		
+	.write_audio_out(AUDIO_WR),
+	.left_channel_audio_out(AUDIO_IN),
+	.right_channel_audio_out(AUDIO_IN)
+	
+);
+defparam de1_audio.AUDIO_DATA_WIDTH = 16,
+			de1_audio.BIT_COUNTER_INIT = 4'd15;
+
+// debug
+hex_decoder hex0(.hex_digit(AUDIO_IN[3:0]),.segments(HEX0));	
+hex_decoder hex1(.hex_digit(AUDIO_IN[7:4]),.segments(HEX1));
+hex_decoder hex2(.hex_digit(AUDIO_IN[11:8]),.segments(HEX2));
+hex_decoder hex3(.hex_digit({3'd0, AUDIO_WR}),.segments(HEX3));
+hex_decoder hex4(.hex_digit({3'd0, AUDIO_READY}),.segments(HEX4));
+hex_decoder hex5(.hex_digit({3'd0, AUDIO_ENABLE}),.segments(HEX5));
 	
 endmodule
