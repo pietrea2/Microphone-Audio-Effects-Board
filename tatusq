@@ -1,0 +1,42 @@
+[33mcommit 32ba00d9af614d67b83ae24aead680d496dfc7fc[m[33m ([m[1;36mHEAD -> [m[1;32mmain[m[33m, [m[1;31morigin/main[m[33m, [m[1;31morigin/HEAD[m[33m)[m
+Merge: fbed30a 8ae21b5
+Author: Maya Warrier <maya.warrierm@gmail.com>
+Date:   Fri Mar 31 01:05:14 2023 -0400
+
+    Merge branch 'main' of https://github.com/mayawarrier/ece342-final-project
+
+[33mcommit fbed30adde9646c7e11b1bb2cb6e8e97be00975d[m
+Author: Maya Warrier <maya.warrierm@gmail.com>
+Date:   Fri Mar 31 01:05:02 2023 -0400
+
+    Working GPIO DE1git add .!
+
+[33mcommit 8ae21b55abaab5eb8323dbdd136271a97d3e7314[m
+Author: Adam Pietrewicz <adam.pietrewicz@mail.utoronto.ca>
+Date:   Fri Mar 31 01:04:17 2023 -0400
+
+    Working Nucleo GPIOs
+
+[33mcommit e2c9fd323a476819278662d19fdfbf97634c60ea[m
+Author: Adam Pietrewicz <adam.pietrewicz@mail.utoronto.ca>
+Date:   Thu Mar 30 21:35:15 2023 -0400
+
+    Working Quartus demo
+
+[33mcommit fa137a5bd6973ca961772434249ba25e5e832b0a[m
+Author: Maya Warrier <maya.warrierm@gmail.com>
+Date:   Thu Mar 30 21:14:12 2023 -0400
+
+    Add DE1 project
+
+[33mcommit 845d90206b91ed8f38414957dc530c11a1123e25[m
+Author: Adam Pietrewicz <adam.pietrewicz@mail.utoronto.ca>
+Date:   Thu Mar 30 18:28:53 2023 -0400
+
+    Reading from mic complete
+
+[33mcommit 038381302f2461d5b58a7145ff4efc41ed953567[m
+Author: Maya Warrier <maya.warrierm@gmail.com>
+Date:   Sat Mar 25 01:49:23 2023 -0400
+
+    Reading from microphone v1

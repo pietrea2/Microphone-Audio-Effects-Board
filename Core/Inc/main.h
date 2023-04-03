@@ -49,6 +49,8 @@ extern "C" {
 
 /* USER CODE END EM */
 
+void HAL_TIM_MspPostInit(TIM_HandleTypeDef *htim);
+
 /* Exported functions prototypes ---------------------------------------------*/
 void Error_Handler(void);
 
@@ -95,17 +97,57 @@ void Error_Handler(void);
 #define SPI_SNSS_GPIO_Port GPIOF
 
 //TESTING GPIO BUS
+/*
 #define TEST_GPIO_1 GPIO_PIN_7
 #define TEST_GPIO_2 GPIO_PIN_6
 #define TEST_GPIO_3 GPIO_PIN_5
 #define TEST_GPIO_4 GPIO_PIN_4
-#define TEST_GPIO_Port_1 GPIOD
+*/
+#define AUDIO_GPIO_0 GPIO_PIN_7
+#define AUDIO_GPIO_1 GPIO_PIN_6
+#define AUDIO_GPIO_2 GPIO_PIN_5
+#define AUDIO_GPIO_3 GPIO_PIN_4
+#define AUDIO_GPIO_PINS_0_3_PORT GPIOD
 
-#define TEST_GPIO_5 GPIO_PIN_2
-#define TEST_GPIO_6 GPIO_PIN_4
-#define TEST_GPIO_7 GPIO_PIN_5
-#define TEST_GPIO_8 GPIO_PIN_6
-#define TEST_GPIO_Port_2 GPIOE
+#define AUDIO_GPIO_4 GPIO_PIN_2
+#define AUDIO_GPIO_5 GPIO_PIN_4
+#define AUDIO_GPIO_6 GPIO_PIN_5
+#define AUDIO_GPIO_7 GPIO_PIN_6
+
+//NEW
+#define AUDIO_GPIO_8 GPIO_PIN_3
+#define AUDIO_GPIO_PINS_4_8_PORT GPIOE
+
+#define AUDIO_GPIO_9 GPIO_PIN_8
+#define AUDIO_GPIO_10 GPIO_PIN_7
+#define AUDIO_GPIO_11 GPIO_PIN_9
+#define AUDIO_GPIO_PINS_9_11_PORT GPIOF
+
+#define AUDIO_GPIO_12 GPIO_PIN_1
+#define AUDIO_GPIO_PIN_12_PORT GPIOG
+
+#define AUDIO_GPIO_13 GPIO_PIN_0
+#define AUDIO_GPIO_14 GPIO_PIN_1
+#define AUDIO_GPIO_PINS_13_14_PORT GPIOD
+
+#define AUDIO_GPIO_15 GPIO_PIN_0
+#define AUDIO_GPIO_PIN_15_PORT GPIOG
+
+
+//DE1 signals
+#define AUDIO_READY GPIO_PIN_15 //FPGA i ready to recieve data
+#define AUDIO_READY_GPIO_PORT GPIOE
+
+#define AUDIO_WRITE GPIO_PIN_10
+#define AUDIO_ENABLE GPIO_PIN_11
+#define AUDIO_WRITE_AND_ENABLE_GPIO_PORT GPIOB
+
+#define AUDIO_CLEAR_BUF GPIO_PIN_14
+#define AUDIO_CLEAR_BUF_GPIO_PORT GPIOE
+
+
+
+
 
 /* USER CODE END Private defines */
 
