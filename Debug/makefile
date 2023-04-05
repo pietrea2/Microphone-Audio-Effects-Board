@@ -60,8 +60,8 @@ all: main-build
 main-build: FinalProject342.elf secondary-outputs
 
 # Tool invocations
-FinalProject342.elf FinalProject342.map: $(OBJS) $(USER_OBJS) C:\adam\winter\ 2023\ECE342\project\ece342-final-project\STM32F446ZETX_FLASH.ld makefile objects.list $(OPTIONAL_TOOL_DEPS)
-	arm-none-eabi-gcc -o "FinalProject342.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m4 -T"C:\adam\winter 2023\ECE342\project\ece342-final-project\STM32F446ZETX_FLASH.ld" --specs=nosys.specs -Wl,-Map="FinalProject342.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+FinalProject342.elf FinalProject342.map: $(OBJS) $(USER_OBJS) C:\Users\Owner\STM32CubeIDE\workspace_1.12.0\FinalProject342\STM32F446ZETX_FLASH.ld makefile objects.list $(OPTIONAL_TOOL_DEPS)
+	arm-none-eabi-gcc -o "FinalProject342.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m4 -T"C:\Users\Owner\STM32CubeIDE\workspace_1.12.0\FinalProject342\STM32F446ZETX_FLASH.ld" --specs=nosys.specs -Wl,-Map="FinalProject342.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
 	@echo 'Finished building target: $@'
 	@echo ' '
 

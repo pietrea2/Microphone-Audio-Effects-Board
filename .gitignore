@@ -1,3 +1,25 @@
+
+# Visual studio
+.vs/
+Debug/
+Release/
+*.sln
+*.vcxproj
+*.vcxproj.filters
+*.vcxproj.user
+*.psess
+*.vspx
+*.vsp
+*.diagsession
+*.hint
+
+# DE1
+DE1/db
+DE1/incremental_db
+DE1/output_files
+DE1/simulation
+
+
 # A .gitignore for Keil projects.
 # Taken mostly from https://raw.githubusercontent.com/mrshrdlu/gitignore-keil/master/keil.gitignore
 
@@ -75,10 +97,7 @@
 *.l2p
 *.iex
 
-DE1/db
-DE1/incremental_db
-DE1/output_files
-DE1/simulation
+
 
 # Don't version zip files for students
 *.zip

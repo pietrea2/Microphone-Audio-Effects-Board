@@ -61,20 +61,54 @@ void Error_Handler(void);
 /* Private defines -----------------------------------------------------------*/
 #define USER_Btn_Pin GPIO_PIN_13
 #define USER_Btn_GPIO_Port GPIOC
+#define AUDIO0_Pin GPIO_PIN_0
+#define AUDIO0_GPIO_Port GPIOF
+#define AUDIO1_Pin GPIO_PIN_1
+#define AUDIO1_GPIO_Port GPIOF
+#define AUDIO2_Pin GPIO_PIN_2
+#define AUDIO2_GPIO_Port GPIOF
+#define AUDIO3_Pin GPIO_PIN_3
+#define AUDIO3_GPIO_Port GPIOF
+#define AUDIO4_Pin GPIO_PIN_4
+#define AUDIO4_GPIO_Port GPIOF
+#define AUDIO5_Pin GPIO_PIN_5
+#define AUDIO5_GPIO_Port GPIOF
+#define AUDIO6_Pin GPIO_PIN_6
+#define AUDIO6_GPIO_Port GPIOF
+#define AUDIO7_Pin GPIO_PIN_7
+#define AUDIO7_GPIO_Port GPIOF
+#define AUDIO8_Pin GPIO_PIN_8
+#define AUDIO8_GPIO_Port GPIOF
+#define AUDIO9_Pin GPIO_PIN_9
+#define AUDIO9_GPIO_Port GPIOF
+#define AUDIO10_Pin GPIO_PIN_10
+#define AUDIO10_GPIO_Port GPIOF
 #define MCO_Pin GPIO_PIN_0
 #define MCO_GPIO_Port GPIOH
 #define LD1_Pin GPIO_PIN_0
 #define LD1_GPIO_Port GPIOB
+#define AUDIO11_Pin GPIO_PIN_11
+#define AUDIO11_GPIO_Port GPIOF
+#define AUDIO12_Pin GPIO_PIN_12
+#define AUDIO12_GPIO_Port GPIOF
+#define AUDIO13_Pin GPIO_PIN_13
+#define AUDIO13_GPIO_Port GPIOF
+#define AUDIO14_Pin GPIO_PIN_14
+#define AUDIO14_GPIO_Port GPIOF
+#define AUDIO15_Pin GPIO_PIN_15
+#define AUDIO15_GPIO_Port GPIOF
+#define SNSS_Pin GPIO_PIN_11
+#define SNSS_GPIO_Port GPIOE
+#define DE1_AUDIO_WR_Pin GPIO_PIN_10
+#define DE1_AUDIO_WR_GPIO_Port GPIOB
+#define DE1_AUDIO_READY_Pin GPIO_PIN_11
+#define DE1_AUDIO_READY_GPIO_Port GPIOB
 #define LD3_Pin GPIO_PIN_14
 #define LD3_GPIO_Port GPIOB
 #define STLK_RX_Pin GPIO_PIN_8
 #define STLK_RX_GPIO_Port GPIOD
 #define STLK_TX_Pin GPIO_PIN_9
 #define STLK_TX_GPIO_Port GPIOD
-#define USB_PowerSwitchOn_Pin GPIO_PIN_6
-#define USB_PowerSwitchOn_GPIO_Port GPIOG
-#define USB_OverCurrent_Pin GPIO_PIN_7
-#define USB_OverCurrent_GPIO_Port GPIOG
 #define USB_SOF_Pin GPIO_PIN_8
 #define USB_SOF_GPIO_Port GPIOA
 #define USB_VBUS_Pin GPIO_PIN_9
@@ -93,16 +127,16 @@ void Error_Handler(void);
 #define LD2_GPIO_Port GPIOB
 
 /* USER CODE BEGIN Private defines */
+/*
 #define SPI_SNSS_Pin GPIO_PIN_13
 #define SPI_SNSS_GPIO_Port GPIOF
 
 //TESTING GPIO BUS
-/*
 #define TEST_GPIO_1 GPIO_PIN_7
 #define TEST_GPIO_2 GPIO_PIN_6
 #define TEST_GPIO_3 GPIO_PIN_5
 #define TEST_GPIO_4 GPIO_PIN_4
-*/
+
 #define AUDIO_GPIO_0 GPIO_PIN_7
 #define AUDIO_GPIO_1 GPIO_PIN_6
 #define AUDIO_GPIO_2 GPIO_PIN_5
@@ -133,7 +167,6 @@ void Error_Handler(void);
 #define AUDIO_GPIO_15 GPIO_PIN_0
 #define AUDIO_GPIO_PIN_15_PORT GPIOG
 
-
 //DE1 signals
 #define AUDIO_READY GPIO_PIN_15 //FPGA i ready to recieve data
 #define AUDIO_READY_GPIO_PORT GPIOE
@@ -144,7 +177,7 @@ void Error_Handler(void);
 
 #define AUDIO_CLEAR_BUF GPIO_PIN_14
 #define AUDIO_CLEAR_BUF_GPIO_PORT GPIOE
-
+*/
 
 
 
