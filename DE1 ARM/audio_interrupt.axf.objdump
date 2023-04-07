@@ -1,0 +1,2319 @@
+
+audio_interrupt.axf:     file format elf32-littlearm
+
+
+Disassembly of section .vectors:
+
+00000000 <__cs3_interrupt_vector>:
+   0:	18 f0 9f e5 18 f0 9f e5 18 f0 9f e5 18 f0 9f e5     ................
+  10:	18 f0 9f e5 18 f0 9f e5 18 f0 9f e5 18 f0 9f e5     ................
+  20:	20 04 00 00 2c 04 00 00 38 04 00 00 44 04 00 00      ...,...8...D...
+  30:	50 04 00 00 1c 0d 00 00 5c 04 00 00 a4 05 00 00     P.......\.......
+
+Disassembly of section .text:
+
+00000040 <__cs3_reset_generic>:
+  40:	ea000026 	b	e0 <__cs3_start_asm_sim>
+
+00000044 <__cs3_start_c>:
+  44:	e59f608c 	ldr	r6, [pc, #140]	; d8 <__cs3_start_c+0x94>
+  48:	e3560000 	cmp	r6, #0
+  4c:	e92d4080 	push	{r7, lr}
+  50:	e2466001 	sub	r6, r6, #1
+  54:	0a00001e 	beq	d4 <__cs3_start_c+0x90>
+  58:	e59f507c 	ldr	r5, [pc, #124]	; dc <__cs3_start_c+0x98>
+  5c:	e3a00000 	mov	r0, #0
+  60:	e3a01000 	mov	r1, #0
+  64:	e515200c 	ldr	r2, [r5, #-12]
+  68:	e515e010 	ldr	lr, [r5, #-16]
+  6c:	e5154008 	ldr	r4, [r5, #-8]
+  70:	e15e0002 	cmp	lr, r2
+  74:	00822004 	addeq	r2, r2, r4
+  78:	0a000009 	beq	a4 <__cs3_start_c+0x60>
+  7c:	e3540000 	cmp	r4, #0
+  80:	0a000007 	beq	a4 <__cs3_start_c+0x60>
+  84:	e1a07002 	mov	r7, r2
+  88:	e1a0c002 	mov	r12, r2
+  8c:	e8be000c 	ldm	lr!, {r2, r3}
+  90:	e8ac000c 	stmia	r12!, {r2, r3}
+  94:	e067300c 	rsb	r3, r7, r12
+  98:	e1540003 	cmp	r4, r3
+  9c:	e1a0200c 	mov	r2, r12
+  a0:	1afffff9 	bne	8c <__cs3_start_c+0x48>
+  a4:	e515e004 	ldr	lr, [r5, #-4]
+  a8:	e35e0000 	cmp	lr, #0
+  ac:	11a03002 	movne	r3, r2
+  b0:	0a000003 	beq	c4 <__cs3_start_c+0x80>
+  b4:	e8a30003 	stmia	r3!, {r0, r1}
+  b8:	e062c003 	rsb	r12, r2, r3
+  bc:	e15e000c 	cmp	lr, r12
+  c0:	1afffffb 	bne	b4 <__cs3_start_c+0x70>
+  c4:	e2466001 	sub	r6, r6, #1
+  c8:	e3760001 	cmn	r6, #1
+  cc:	e2855014 	add	r5, r5, #20
+  d0:	1affffe3 	bne	64 <__cs3_start_c+0x20>
+  d4:	eb0002f7 	bl	cb8 <__cs3_premain>
+  d8:	00000001 	.word	0x00000001
+  dc:	00004c6c 	.word	0x00004c6c
+
+000000e0 <__cs3_start_asm_sim>:
+  e0:	e28f103c 	add	r1, pc, #60	; 0x3c
+  e4:	e3a00016 	mov	r0, #22
+  e8:	ef123456 	svc	0x00123456
+  ec:	e3500000 	cmp	r0, #0
+  f0:	ba000008 	blt	118 <__cs3_start_asm_sim+0x38>
+  f4:	e59f2028 	ldr	r2, [pc, #40]	; 124 <__cs3_heap_start_ptr>
+  f8:	e59fd01c 	ldr	sp, [pc, #28]	; 11c <__cs3_start_asm_sim+0x3c>
+  fc:	e5920008 	ldr	r0, [r2, #8]
+ 100:	e3500000 	cmp	r0, #0
+ 104:	11a0d000 	movne	sp, r0
+ 108:	e59f1010 	ldr	r1, [pc, #16]	; 120 <__cs3_start_asm_sim+0x40>
+ 10c:	e5920004 	ldr	r0, [r2, #4]
+ 110:	e3500000 	cmp	r0, #0
+ 114:	15810000 	strne	r0, [r1]
+ 118:	eaffffc9 	b	44 <__cs3_start_c>
+ 11c:	3ffffff8 	.word	0x3ffffff8
+ 120:	000050a8 	.word	0x000050a8
+
+00000124 <__cs3_heap_start_ptr>:
+ 124:	000a14e0 	.word	0x000a14e0
+
+00000128 <_start>:
+ 128:	e51fd000 	ldr	sp, [pc, #-0]	; 130 <_start+0x8>
+ 12c:	eaffffc4 	b	44 <__cs3_start_c>
+ 130:	3ffffff8 	.word	0x3ffffff8
+
+00000134 <deregister_tm_clones>:
+ 134:	e92d4008 	push	{r3, lr}
+ 138:	e59f002c 	ldr	r0, [pc, #44]	; 16c <deregister_tm_clones+0x38>
+ 13c:	e59f302c 	ldr	r3, [pc, #44]	; 170 <deregister_tm_clones+0x3c>
+ 140:	e0603003 	rsb	r3, r0, r3
+ 144:	e3530006 	cmp	r3, #6
+ 148:	8a000001 	bhi	154 <deregister_tm_clones+0x20>
+ 14c:	e8bd4008 	pop	{r3, lr}
+ 150:	e12fff1e 	bx	lr
+ 154:	e59f3018 	ldr	r3, [pc, #24]	; 174 <deregister_tm_clones+0x40>
+ 158:	e3530000 	cmp	r3, #0
+ 15c:	0afffffa 	beq	14c <deregister_tm_clones+0x18>
+ 160:	e1a0e00f 	mov	lr, pc
+ 164:	e12fff13 	bx	r3
+ 168:	eafffff7 	b	14c <deregister_tm_clones+0x18>
+ 16c:	000050b0 	.word	0x000050b0
+ 170:	000050b3 	.word	0x000050b3
+ 174:	00000000 	.word	0x00000000
+
+00000178 <register_tm_clones>:
+ 178:	e92d4008 	push	{r3, lr}
+ 17c:	e59f0034 	ldr	r0, [pc, #52]	; 1b8 <register_tm_clones+0x40>
+ 180:	e59f3034 	ldr	r3, [pc, #52]	; 1bc <register_tm_clones+0x44>
+ 184:	e0603003 	rsb	r3, r0, r3
+ 188:	e1a03143 	asr	r3, r3, #2
+ 18c:	e0833fa3 	add	r3, r3, r3, lsr #31
+ 190:	e1b010c3 	asrs	r1, r3, #1
+ 194:	1a000001 	bne	1a0 <register_tm_clones+0x28>
+ 198:	e8bd4008 	pop	{r3, lr}
+ 19c:	e12fff1e 	bx	lr
+ 1a0:	e59f2018 	ldr	r2, [pc, #24]	; 1c0 <register_tm_clones+0x48>
+ 1a4:	e3520000 	cmp	r2, #0
+ 1a8:	0afffffa 	beq	198 <register_tm_clones+0x20>
+ 1ac:	e1a0e00f 	mov	lr, pc
+ 1b0:	e12fff12 	bx	r2
+ 1b4:	eafffff7 	b	198 <register_tm_clones+0x20>
+ 1b8:	000050b0 	.word	0x000050b0
+ 1bc:	000050b0 	.word	0x000050b0
+ 1c0:	00000000 	.word	0x00000000
+
+000001c4 <__do_global_dtors_aux>:
+ 1c4:	e92d4010 	push	{r4, lr}
+ 1c8:	e59f402c 	ldr	r4, [pc, #44]	; 1fc <__do_global_dtors_aux+0x38>
+ 1cc:	e5d43000 	ldrb	r3, [r4]
+ 1d0:	e3530000 	cmp	r3, #0
+ 1d4:	1a000006 	bne	1f4 <__do_global_dtors_aux+0x30>
+ 1d8:	ebffffd5 	bl	134 <deregister_tm_clones>
+ 1dc:	e59f301c 	ldr	r3, [pc, #28]	; 200 <__do_global_dtors_aux+0x3c>
+ 1e0:	e3530000 	cmp	r3, #0
+ 1e4:	159f0018 	ldrne	r0, [pc, #24]	; 204 <__do_global_dtors_aux+0x40>
+ 1e8:	1320f000 	nopne	{0}
+ 1ec:	e3a03001 	mov	r3, #1
+ 1f0:	e5c43000 	strb	r3, [r4]
+ 1f4:	e8bd4010 	pop	{r4, lr}
+ 1f8:	e12fff1e 	bx	lr
+ 1fc:	000050b0 	.word	0x000050b0
+ 200:	00000000 	.word	0x00000000
+ 204:	00000da8 	.word	0x00000da8
+
+00000208 <frame_dummy>:
+ 208:	e92d4008 	push	{r3, lr}
+ 20c:	e59f3034 	ldr	r3, [pc, #52]	; 248 <frame_dummy+0x40>
+ 210:	e3530000 	cmp	r3, #0
+ 214:	159f0030 	ldrne	r0, [pc, #48]	; 24c <frame_dummy+0x44>
+ 218:	159f1030 	ldrne	r1, [pc, #48]	; 250 <frame_dummy+0x48>
+ 21c:	1320f000 	nopne	{0}
+ 220:	e59f002c 	ldr	r0, [pc, #44]	; 254 <frame_dummy+0x4c>
+ 224:	e5903000 	ldr	r3, [r0]
+ 228:	e3530000 	cmp	r3, #0
+ 22c:	0a000003 	beq	240 <frame_dummy+0x38>
+ 230:	e59f3020 	ldr	r3, [pc, #32]	; 258 <frame_dummy+0x50>
+ 234:	e3530000 	cmp	r3, #0
+ 238:	11a0e00f 	movne	lr, pc
+ 23c:	112fff13 	bxne	r3
+ 240:	e8bd4008 	pop	{r3, lr}
+ 244:	eaffffcb 	b	178 <register_tm_clones>
+ 248:	00000000 	.word	0x00000000
+ 24c:	00000da8 	.word	0x00000da8
+ 250:	000050b4 	.word	0x000050b4
+ 254:	00004c70 	.word	0x00004c70
+ 258:	00000000 	.word	0x00000000
+
+0000025c <main>:
+ *  	   controlled by using interrupts
+ * 	2. plays the recorded audio when an interrupt is generated by pressing
+ * 	   KEY[1]. LEDR[1] is lit while playing. Audio playback is controlled by
+ * 	   using interrupts
+********************************************************************************/
+int main(void) {
+ 25c:	e92d4800 	push	{r11, lr}
+ 260:	e28db004 	add	r11, sp, #4
+    /* initialize some variables */
+    record       = 0;
+ 264:	e30530cc 	movw	r3, #20684	; 0x50cc
+ 268:	e3403000 	movt	r3, #0
+ 26c:	e3a02000 	mov	r2, #0
+ 270:	e5832000 	str	r2, [r3]
+    play         = 0;
+ 274:	e30530d0 	movw	r3, #20688	; 0x50d0
+ 278:	e3403000 	movt	r3, #0
+ 27c:	e3a02000 	mov	r2, #0
+ 280:	e5832000 	str	r2, [r3]
+    buffer_index = 0; // used for audio record/playback
+ 284:	e30530d4 	movw	r3, #20692	; 0x50d4
+ 288:	e3403000 	movt	r3, #0
+ 28c:	e3a02000 	mov	r2, #0
+ 290:	e5832000 	str	r2, [r3]
+    timeout      = 0; // synchronize with the timer
+ 294:	e30134d8 	movw	r3, #5336	; 0x14d8
+ 298:	e340300a 	movt	r3, #10
+ 29c:	e3a02000 	mov	r2, #0
+ 2a0:	e5832000 	str	r2, [r3]
+
+    set_A9_IRQ_stack();            // initialize the stack pointer for IRQ mode
+ 2a4:	eb0000c1 	bl	5b0 <set_A9_IRQ_stack>
+    config_GIC();                  // configure the general interrupt controller
+ 2a8:	eb0000dc 	bl	620 <config_GIC>
+    config_MPcore_private_timer(); // configure ARM A9 private timer
+ 2ac:	eb00000e 	bl	2ec <config_MPcore_private_timer>
+    config_KEYs(); // configure pushbutton KEYs to generate interrupts
+ 2b0:	eb00004d 	bl	3ec <config_KEYs>
+    config_audio();
+ 2b4:	eb00003d 	bl	3b0 <config_audio>
+
+    enable_A9_interrupts(); // enable interrupts
+ 2b8:	eb0000ce 	bl	5f8 <enable_A9_interrupts>
+
+    while (1) {
+        while (!timeout)
+ 2bc:	e1a00000 	nop			; (mov r0, r0)
+ 2c0:	e30134d8 	movw	r3, #5336	; 0x14d8
+ 2c4:	e340300a 	movt	r3, #10
+ 2c8:	e5933000 	ldr	r3, [r3]
+ 2cc:	e3530000 	cmp	r3, #0
+ 2d0:	0afffffa 	beq	2c0 <main+0x64>
+            ; // wait to synchronize with timer
+        timeout = 0;
+ 2d4:	e30134d8 	movw	r3, #5336	; 0x14d8
+ 2d8:	e340300a 	movt	r3, #10
+ 2dc:	e3a02000 	mov	r2, #0
+ 2e0:	e5832000 	str	r2, [r3]
+    }
+ 2e4:	e1a00000 	nop			; (mov r0, r0)
+    config_audio();
+
+    enable_A9_interrupts(); // enable interrupts
+
+    while (1) {
+        while (!timeout)
+ 2e8:	eafffff3 	b	2bc <main+0x60>
+
+000002ec <config_MPcore_private_timer>:
+        timeout = 0;
+    }
+}
+
+/* setup private timer in the ARM A9 */
+void config_MPcore_private_timer() {
+ 2ec:	e52db004 	push	{r11}		; (str r11, [sp, #-4]!)
+ 2f0:	e28db000 	add	r11, sp, #0
+ 2f4:	e24dd00c 	sub	sp, sp, #12
+    volatile int * MPcore_private_timer_ptr =
+ 2f8:	e3a03cc6 	mov	r3, #50688	; 0xc600
+ 2fc:	e34f3ffe 	movt	r3, #65534	; 0xfffe
+ 300:	e50b3008 	str	r3, [r11, #-8]
+        (int *)MPCORE_PRIV_TIMER; // timer base address
+
+    /* set the timer period */
+    int counter = 20000000; // period = 1/(200 MHz) x 40x10^6 = 0.2 sec
+ 304:	e3a03c2d 	mov	r3, #11520	; 0x2d00
+ 308:	e3403131 	movt	r3, #305	; 0x131
+ 30c:	e50b300c 	str	r3, [r11, #-12]
+    *(MPcore_private_timer_ptr) = counter; // write to timer load register
+ 310:	e51b3008 	ldr	r3, [r11, #-8]
+ 314:	e51b200c 	ldr	r2, [r11, #-12]
+ 318:	e5832000 	str	r2, [r3]
+
+    /* write to control register to start timer, with interrupts */
+    *(MPcore_private_timer_ptr + 2) = 0x7; // int mask = 1, mode = 1, enable = 1
+ 31c:	e51b3008 	ldr	r3, [r11, #-8]
+ 320:	e2833008 	add	r3, r3, #8
+ 324:	e3a02007 	mov	r2, #7
+ 328:	e5832000 	str	r2, [r3]
+}
+ 32c:	e28bd000 	add	sp, r11, #0
+ 330:	e8bd0800 	ldmfd	sp!, {r11}
+ 334:	e12fff1e 	bx	lr
+
+00000338 <hw_set_bit>:
+
+void hw_set_bit(volatile int* ptr, int bit, int value)
+{
+ 338:	e52db004 	push	{r11}		; (str r11, [sp, #-4]!)
+ 33c:	e28db000 	add	r11, sp, #0
+ 340:	e24dd014 	sub	sp, sp, #20
+ 344:	e50b0008 	str	r0, [r11, #-8]
+ 348:	e50b100c 	str	r1, [r11, #-12]
+ 34c:	e50b2010 	str	r2, [r11, #-16]
+    if (value)
+ 350:	e51b3010 	ldr	r3, [r11, #-16]
+ 354:	e3530000 	cmp	r3, #0
+ 358:	0a000008 	beq	380 <hw_set_bit+0x48>
+        *ptr |= 1 << bit;
+ 35c:	e51b3008 	ldr	r3, [r11, #-8]
+ 360:	e5932000 	ldr	r2, [r3]
+ 364:	e3a01001 	mov	r1, #1
+ 368:	e51b300c 	ldr	r3, [r11, #-12]
+ 36c:	e1a03311 	lsl	r3, r1, r3
+ 370:	e1822003 	orr	r2, r2, r3
+ 374:	e51b3008 	ldr	r3, [r11, #-8]
+ 378:	e5832000 	str	r2, [r3]
+ 37c:	ea000008 	b	3a4 <hw_set_bit+0x6c>
+    else
+        *ptr &= ~(1 << bit);
+ 380:	e51b3008 	ldr	r3, [r11, #-8]
+ 384:	e5932000 	ldr	r2, [r3]
+ 388:	e3a01001 	mov	r1, #1
+ 38c:	e51b300c 	ldr	r3, [r11, #-12]
+ 390:	e1a03311 	lsl	r3, r1, r3
+ 394:	e1e03003 	mvn	r3, r3
+ 398:	e0022003 	and	r2, r2, r3
+ 39c:	e51b3008 	ldr	r3, [r11, #-8]
+ 3a0:	e5832000 	str	r2, [r3]
+}
+ 3a4:	e28bd000 	add	sp, r11, #0
+ 3a8:	e8bd0800 	ldmfd	sp!, {r11}
+ 3ac:	e12fff1e 	bx	lr
+
+000003b0 <config_audio>:
+
+void config_audio(void)
+{
+ 3b0:	e92d4800 	push	{r11, lr}
+ 3b4:	e28db004 	add	r11, sp, #4
+ 3b8:	e24dd008 	sub	sp, sp, #8
+    volatile int* audio_ptr = (int*)AUDIO_BASE;
+ 3bc:	e3a03dc1 	mov	r3, #12352	; 0x3040
+ 3c0:	e34f3f20 	movt	r3, #65312	; 0xff20
+ 3c4:	e50b3008 	str	r3, [r11, #-8]
+    *audio_ptr = 0;
+ 3c8:	e51b3008 	ldr	r3, [r11, #-8]
+ 3cc:	e3a02000 	mov	r2, #0
+ 3d0:	e5832000 	str	r2, [r3]
+    hw_set_bit(audio_ptr, 1, 1); // enable write audio interrupts
+ 3d4:	e51b0008 	ldr	r0, [r11, #-8]
+ 3d8:	e3a01001 	mov	r1, #1
+ 3dc:	e3a02001 	mov	r2, #1
+ 3e0:	ebffffd4 	bl	338 <hw_set_bit>
+}
+ 3e4:	e24bd004 	sub	sp, r11, #4
+ 3e8:	e8bd8800 	pop	{r11, pc}
+
+000003ec <config_KEYs>:
+
+/* setup the KEY interrupts in the FPGA */
+void config_KEYs() {
+ 3ec:	e52db004 	push	{r11}		; (str r11, [sp, #-4]!)
+ 3f0:	e28db000 	add	r11, sp, #0
+ 3f4:	e24dd00c 	sub	sp, sp, #12
+    volatile int * KEY_ptr = (int *)KEY_BASE; // pushbutton KEY address
+ 3f8:	e3a03050 	mov	r3, #80	; 0x50
+ 3fc:	e34f3f20 	movt	r3, #65312	; 0xff20
+ 400:	e50b3008 	str	r3, [r11, #-8]
+
+    *(KEY_ptr + 2) =
+ 404:	e51b3008 	ldr	r3, [r11, #-8]
+ 408:	e2833008 	add	r3, r3, #8
+ 40c:	e3a0200f 	mov	r2, #15
+ 410:	e5832000 	str	r2, [r3]
+        0xF; /* write to the pushbutton interrupt mask register, and
+                      * set the bits to 1 */
+}
+ 414:	e28bd000 	add	sp, r11, #0
+ 418:	e8bd0800 	ldmfd	sp!, {r11}
+ 41c:	e12fff1e 	bx	lr
+
+00000420 <__cs3_reset>:
+void audio_ISR (void);
+void keys_ISR(void);
+
+// Define the exception handlers here 
+void __attribute__ ((interrupt)) __cs3_reset (void)
+{
+ 420:	e52db004 	push	{r11}		; (str r11, [sp, #-4]!)
+ 424:	e28db000 	add	r11, sp, #0
+    while(1);
+ 428:	eafffffe 	b	428 <__cs3_reset+0x8>
+
+0000042c <__cs3_isr_undef>:
+}
+
+void __attribute__ ((interrupt)) __cs3_isr_undef (void)
+{
+ 42c:	e52db004 	push	{r11}		; (str r11, [sp, #-4]!)
+ 430:	e28db000 	add	r11, sp, #0
+    while(1);
+ 434:	eafffffe 	b	434 <__cs3_isr_undef+0x8>
+
+00000438 <__cs3_isr_swi>:
+}
+
+void __attribute__ ((interrupt)) __cs3_isr_swi (void)
+{
+ 438:	e52db004 	push	{r11}		; (str r11, [sp, #-4]!)
+ 43c:	e28db000 	add	r11, sp, #0
+    while(1);
+ 440:	eafffffe 	b	440 <__cs3_isr_swi+0x8>
+
+00000444 <__cs3_isr_pabort>:
+}
+
+void __attribute__ ((interrupt)) __cs3_isr_pabort (void)
+{
+ 444:	e52db004 	push	{r11}		; (str r11, [sp, #-4]!)
+ 448:	e28db000 	add	r11, sp, #0
+    while(1);
+ 44c:	eafffffe 	b	44c <__cs3_isr_pabort+0x8>
+
+00000450 <__cs3_isr_dabort>:
+}
+
+void __attribute__ ((interrupt)) __cs3_isr_dabort (void)
+{
+ 450:	e52db004 	push	{r11}		; (str r11, [sp, #-4]!)
+ 454:	e28db000 	add	r11, sp, #0
+    while(1);
+ 458:	eafffffe 	b	458 <__cs3_isr_dabort+0x8>
+
+0000045c <__cs3_isr_irq>:
+}
+
+void __attribute__ ((interrupt)) __cs3_isr_irq (void)
+{
+ 45c:	e24ee004 	sub	lr, lr, #4
+ 460:	e92d580f 	push	{r0, r1, r2, r3, r11, r12, lr}
+ 464:	e28db018 	add	r11, sp, #24
+ 468:	e24dd00c 	sub	sp, sp, #12
+	// Read the ICCIAR from the processor interface 
+	int address = MPCORE_GIC_CPUIF + ICCIAR; 
+ 46c:	e30c310c 	movw	r3, #49420	; 0xc10c
+ 470:	e34f3ffe 	movt	r3, #65534	; 0xfffe
+ 474:	e50b3020 	str	r3, [r11, #-32]	; 0xffffffe0
+	int int_ID = *((int *) address); 
+ 478:	e51b3020 	ldr	r3, [r11, #-32]	; 0xffffffe0
+ 47c:	e5933000 	ldr	r3, [r3]
+ 480:	e50b3024 	str	r3, [r11, #-36]	; 0xffffffdc
+   
+	if (int_ID == MPCORE_PRIV_TIMER_IRQ)	// check if interrupt is from the private timer
+ 484:	e51b3024 	ldr	r3, [r11, #-36]	; 0xffffffdc
+ 488:	e353001d 	cmp	r3, #29
+ 48c:	1a000001 	bne	498 <__cs3_isr_irq+0x3c>
+		MPcore_private_timer_ISR();
+ 490:	eb0000cc 	bl	7c8 <MPcore_private_timer_ISR>
+ 494:	ea00000a 	b	4c4 <__cs3_isr_irq+0x68>
+	else if (int_ID == AUDIO_IRQ)				// check if interrupt is from the audio
+ 498:	e51b3024 	ldr	r3, [r11, #-36]	; 0xffffffdc
+ 49c:	e353004e 	cmp	r3, #78	; 0x4e
+ 4a0:	1a000001 	bne	4ac <__cs3_isr_irq+0x50>
+		audio_ISR();
+ 4a4:	eb0000d9 	bl	810 <audio_ISR>
+ 4a8:	ea000005 	b	4c4 <__cs3_isr_irq+0x68>
+	else if (int_ID == KEYS_IRQ)
+ 4ac:	e51b3024 	ldr	r3, [r11, #-36]	; 0xffffffdc
+ 4b0:	e3530049 	cmp	r3, #73	; 0x49
+ 4b4:	1a000001 	bne	4c0 <__cs3_isr_irq+0x64>
+		keys_ISR();
+ 4b8:	eb00000a 	bl	4e8 <keys_ISR>
+ 4bc:	ea000000 	b	4c4 <__cs3_isr_irq+0x68>
+	else
+		while (1);									// if unexpected, then halt
+ 4c0:	eafffffe 	b	4c0 <__cs3_isr_irq+0x64>
+
+	// Write to the End of Interrupt Register (ICCEOIR)
+	address = MPCORE_GIC_CPUIF + ICCEOIR;
+ 4c4:	e30c3110 	movw	r3, #49424	; 0xc110
+ 4c8:	e34f3ffe 	movt	r3, #65534	; 0xfffe
+ 4cc:	e50b3020 	str	r3, [r11, #-32]	; 0xffffffe0
+	*((int *) address) = int_ID;
+ 4d0:	e51b3020 	ldr	r3, [r11, #-32]	; 0xffffffe0
+ 4d4:	e51b2024 	ldr	r2, [r11, #-36]	; 0xffffffdc
+ 4d8:	e5832000 	str	r2, [r3]
+
+	return;
+ 4dc:	e1a00000 	nop			; (mov r0, r0)
+}
+ 4e0:	e24bd018 	sub	sp, r11, #24
+ 4e4:	e8fd980f 	ldm	sp!, {r0, r1, r2, r3, r11, r12, pc}^
+
+000004e8 <keys_ISR>:
+
+void keys_ISR(void)
+{
+ 4e8:	e52db004 	push	{r11}		; (str r11, [sp, #-4]!)
+ 4ec:	e28db000 	add	r11, sp, #0
+ 4f0:	e24dd014 	sub	sp, sp, #20
+	volatile int* key_ptr = (int*)KEY_BASE;
+ 4f4:	e3a03050 	mov	r3, #80	; 0x50
+ 4f8:	e34f3f20 	movt	r3, #65312	; 0xff20
+ 4fc:	e50b3008 	str	r3, [r11, #-8]
+	volatile int* red_LED_ptr = (int*)LED_BASE;
+ 500:	e3a03000 	mov	r3, #0
+ 504:	e34f3f20 	movt	r3, #65312	; 0xff20
+ 508:	e50b300c 	str	r3, [r11, #-12]
+
+	int press = *(key_ptr + 3);
+ 50c:	e51b3008 	ldr	r3, [r11, #-8]
+ 510:	e593300c 	ldr	r3, [r3, #12]
+ 514:	e50b3010 	str	r3, [r11, #-16]
+	*(key_ptr + 3) = press;
+ 518:	e51b3008 	ldr	r3, [r11, #-8]
+ 51c:	e283300c 	add	r3, r3, #12
+ 520:	e51b2010 	ldr	r2, [r11, #-16]
+ 524:	e5832000 	str	r2, [r3]
+
+	if (press & 0x1)
+ 528:	e51b3010 	ldr	r3, [r11, #-16]
+ 52c:	e2033001 	and	r3, r3, #1
+ 530:	e3530000 	cmp	r3, #0
+ 534:	0a000003 	beq	548 <keys_ISR+0x60>
+		*red_LED_ptr = 0x1;
+ 538:	e51b300c 	ldr	r3, [r11, #-12]
+ 53c:	e3a02001 	mov	r2, #1
+ 540:	e5832000 	str	r2, [r3]
+	else if (press & 0x4)
+		*red_LED_ptr = 0x4;
+	else
+		*red_LED_ptr = 0x8;
+
+	return;
+ 544:	ea000012 	b	594 <keys_ISR+0xac>
+	int press = *(key_ptr + 3);
+	*(key_ptr + 3) = press;
+
+	if (press & 0x1)
+		*red_LED_ptr = 0x1;
+	else if (press & 0x2)
+ 548:	e51b3010 	ldr	r3, [r11, #-16]
+ 54c:	e2033002 	and	r3, r3, #2
+ 550:	e3530000 	cmp	r3, #0
+ 554:	0a000003 	beq	568 <keys_ISR+0x80>
+		*red_LED_ptr = 0x2;
+ 558:	e51b300c 	ldr	r3, [r11, #-12]
+ 55c:	e3a02002 	mov	r2, #2
+ 560:	e5832000 	str	r2, [r3]
+	else if (press & 0x4)
+		*red_LED_ptr = 0x4;
+	else
+		*red_LED_ptr = 0x8;
+
+	return;
+ 564:	ea00000a 	b	594 <keys_ISR+0xac>
+
+	if (press & 0x1)
+		*red_LED_ptr = 0x1;
+	else if (press & 0x2)
+		*red_LED_ptr = 0x2;
+	else if (press & 0x4)
+ 568:	e51b3010 	ldr	r3, [r11, #-16]
+ 56c:	e2033004 	and	r3, r3, #4
+ 570:	e3530000 	cmp	r3, #0
+ 574:	0a000003 	beq	588 <keys_ISR+0xa0>
+		*red_LED_ptr = 0x4;
+ 578:	e51b300c 	ldr	r3, [r11, #-12]
+ 57c:	e3a02004 	mov	r2, #4
+ 580:	e5832000 	str	r2, [r3]
+	else
+		*red_LED_ptr = 0x8;
+
+	return;
+ 584:	ea000002 	b	594 <keys_ISR+0xac>
+	else if (press & 0x2)
+		*red_LED_ptr = 0x2;
+	else if (press & 0x4)
+		*red_LED_ptr = 0x4;
+	else
+		*red_LED_ptr = 0x8;
+ 588:	e51b300c 	ldr	r3, [r11, #-12]
+ 58c:	e3a02008 	mov	r2, #8
+ 590:	e5832000 	str	r2, [r3]
+
+	return;
+ 594:	e1a00000 	nop			; (mov r0, r0)
+}
+ 598:	e28bd000 	add	sp, r11, #0
+ 59c:	e8bd0800 	ldmfd	sp!, {r11}
+ 5a0:	e12fff1e 	bx	lr
+
+000005a4 <__cs3_isr_fiq>:
+
+void __attribute__ ((interrupt)) __cs3_isr_fiq (void)
+{
+ 5a4:	e52db004 	push	{r11}		; (str r11, [sp, #-4]!)
+ 5a8:	e28db000 	add	r11, sp, #0
+    while(1);
+ 5ac:	eafffffe 	b	5ac <__cs3_isr_fiq+0x8>
+
+000005b0 <set_A9_IRQ_stack>:
+
+/* 
+ * Initialize the banked stack pointer register for IRQ mode
+*/
+void set_A9_IRQ_stack(void)
+{
+ 5b0:	e52db004 	push	{r11}		; (str r11, [sp, #-4]!)
+ 5b4:	e28db000 	add	r11, sp, #0
+ 5b8:	e24dd00c 	sub	sp, sp, #12
+	int stack, mode;
+	stack = A9_ONCHIP_END - 7;		// top of A9 onchip memory, aligned to 8 bytes
+ 5bc:	e3e03007 	mvn	r3, #7
+ 5c0:	e50b3008 	str	r3, [r11, #-8]
+	/* change processor to IRQ mode with interrupts disabled */
+	mode = INT_DISABLE | IRQ_MODE;
+ 5c4:	e3a030d2 	mov	r3, #210	; 0xd2
+ 5c8:	e50b300c 	str	r3, [r11, #-12]
+	asm("msr cpsr, %[ps]" : : [ps] "r" (mode));
+ 5cc:	e51b300c 	ldr	r3, [r11, #-12]
+ 5d0:	e129f003 	msr	CPSR_fc, r3
+	/* set banked stack pointer */
+	asm("mov sp, %[ps]" : : [ps] "r" (stack));
+ 5d4:	e51b3008 	ldr	r3, [r11, #-8]
+ 5d8:	e1a0d003 	mov	sp, r3
+
+	/* go back to SVC mode before executing subroutine return! */
+	mode = INT_DISABLE | SVC_MODE;
+ 5dc:	e3a030d3 	mov	r3, #211	; 0xd3
+ 5e0:	e50b300c 	str	r3, [r11, #-12]
+	asm("msr cpsr, %[ps]" : : [ps] "r" (mode));
+ 5e4:	e51b300c 	ldr	r3, [r11, #-12]
+ 5e8:	e129f003 	msr	CPSR_fc, r3
+}
+ 5ec:	e28bd000 	add	sp, r11, #0
+ 5f0:	e8bd0800 	ldmfd	sp!, {r11}
+ 5f4:	e12fff1e 	bx	lr
+
+000005f8 <enable_A9_interrupts>:
+
+/* 
+ * Turn on interrupts in the ARM processor
+*/
+void enable_A9_interrupts(void)
+{
+ 5f8:	e52db004 	push	{r11}		; (str r11, [sp, #-4]!)
+ 5fc:	e28db000 	add	r11, sp, #0
+ 600:	e24dd00c 	sub	sp, sp, #12
+	int status = SVC_MODE | INT_ENABLE;
+ 604:	e3a03053 	mov	r3, #83	; 0x53
+ 608:	e50b3008 	str	r3, [r11, #-8]
+	asm("msr cpsr,%[ps]" : : [ps]"r"(status));
+ 60c:	e51b3008 	ldr	r3, [r11, #-8]
+ 610:	e129f003 	msr	CPSR_fc, r3
+}
+ 614:	e28bd000 	add	sp, r11, #0
+ 618:	e8bd0800 	ldmfd	sp!, {r11}
+ 61c:	e12fff1e 	bx	lr
+
+00000620 <config_GIC>:
+
+/* 
+ * Configure the Generic Interrupt Controller (GIC)
+*/
+void config_GIC(void)
+{
+ 620:	e92d4800 	push	{r11, lr}
+ 624:	e28db004 	add	r11, sp, #4
+ 628:	e24dd008 	sub	sp, sp, #8
+	int address;	// used to calculate register addresses
+
+	/* enable some examples of interrupts */
+  	config_interrupt (MPCORE_PRIV_TIMER_IRQ, CPU0);
+ 62c:	e3a0001d 	mov	r0, #29
+ 630:	e3a01001 	mov	r1, #1
+ 634:	eb000019 	bl	6a0 <config_interrupt>
+  	config_interrupt (KEYS_IRQ, CPU0);
+ 638:	e3a00049 	mov	r0, #73	; 0x49
+ 63c:	e3a01001 	mov	r1, #1
+ 640:	eb000016 	bl	6a0 <config_interrupt>
+  	config_interrupt (AUDIO_IRQ, CPU0);
+ 644:	e3a0004e 	mov	r0, #78	; 0x4e
+ 648:	e3a01001 	mov	r1, #1
+ 64c:	eb000013 	bl	6a0 <config_interrupt>
+    
+  	// Set Interrupt Priority Mask Register (ICCPMR). Enable interrupts for lowest priority 
+	address = MPCORE_GIC_CPUIF + ICCPMR;
+ 650:	e30c3104 	movw	r3, #49412	; 0xc104
+ 654:	e34f3ffe 	movt	r3, #65534	; 0xfffe
+ 658:	e50b3008 	str	r3, [r11, #-8]
+  	*((int *) address) = 0xFFFF;       
+ 65c:	e51b3008 	ldr	r3, [r11, #-8]
+ 660:	e30f2fff 	movw	r2, #65535	; 0xffff
+ 664:	e5832000 	str	r2, [r3]
+
+  	// Set CPU Interface Control Register (ICCICR). Enable signaling of interrupts
+	address = MPCORE_GIC_CPUIF + ICCICR;
+ 668:	e3a03cc1 	mov	r3, #49408	; 0xc100
+ 66c:	e34f3ffe 	movt	r3, #65534	; 0xfffe
+ 670:	e50b3008 	str	r3, [r11, #-8]
+	*((int *) address) = ENABLE;
+ 674:	e51b3008 	ldr	r3, [r11, #-8]
+ 678:	e3a02001 	mov	r2, #1
+ 67c:	e5832000 	str	r2, [r3]
+
+	// Configure the Distributor Control Register (ICDDCR) to send pending interrupts to CPUs 
+	address = MPCORE_GIC_DIST + ICDDCR;
+ 680:	e3a03a0d 	mov	r3, #53248	; 0xd000
+ 684:	e34f3ffe 	movt	r3, #65534	; 0xfffe
+ 688:	e50b3008 	str	r3, [r11, #-8]
+	*((int *) address) = ENABLE;   
+ 68c:	e51b3008 	ldr	r3, [r11, #-8]
+ 690:	e3a02001 	mov	r2, #1
+ 694:	e5832000 	str	r2, [r3]
+}
+ 698:	e24bd004 	sub	sp, r11, #4
+ 69c:	e8bd8800 	pop	{r11, pc}
+
+000006a0 <config_interrupt>:
+
+/* 
+ * Configure registers in the GIC for individual interrupt IDs.
+*/
+void config_interrupt (int int_ID, int CPU_target)
+{
+ 6a0:	e92d4800 	push	{r11, lr}
+ 6a4:	e28db004 	add	r11, sp, #4
+ 6a8:	e24dd018 	sub	sp, sp, #24
+ 6ac:	e50b0018 	str	r0, [r11, #-24]	; 0xffffffe8
+ 6b0:	e50b101c 	str	r1, [r11, #-28]	; 0xffffffe4
+	/* Set Interrupt Processor Targets Register (ICDIPTRn) to cpu0. 
+	 * n = integer_div(int_ID / 4) * 4
+	 * addr_offet = #ICDIPTR + n
+	 * value = CPU_target << ((int_ID & 0x3) * 8)
+	 */
+	n = (int_ID >> 2) << 2;
+ 6b4:	e51b3018 	ldr	r3, [r11, #-24]	; 0xffffffe8
+ 6b8:	e3c33003 	bic	r3, r3, #3
+ 6bc:	e50b3008 	str	r3, [r11, #-8]
+	addr_offset = ICDIPTR + n;
+ 6c0:	e51b3008 	ldr	r3, [r11, #-8]
+ 6c4:	e2833b02 	add	r3, r3, #2048	; 0x800
+ 6c8:	e50b300c 	str	r3, [r11, #-12]
+	value = CPU_target << ((int_ID & 0x3) << 3);
+ 6cc:	e51b3018 	ldr	r3, [r11, #-24]	; 0xffffffe8
+ 6d0:	e2033003 	and	r3, r3, #3
+ 6d4:	e1a03183 	lsl	r3, r3, #3
+ 6d8:	e51b201c 	ldr	r2, [r11, #-28]	; 0xffffffe4
+ 6dc:	e1a03312 	lsl	r3, r2, r3
+ 6e0:	e50b3010 	str	r3, [r11, #-16]
+	
+	/* Now that we know the register address and value, we need to set the correct bits in 
+	 * the GIC register, without changing the other bits */
+	address = MPCORE_GIC_DIST + addr_offset;
+ 6e4:	e51b300c 	ldr	r3, [r11, #-12]
+ 6e8:	e2433a13 	sub	r3, r3, #77824	; 0x13000
+ 6ec:	e50b3014 	str	r3, [r11, #-20]	; 0xffffffec
+	hw_write_bits((int *) address, 0xff << ((int_ID & 0x3) << 3), value);  
+ 6f0:	e51b2014 	ldr	r2, [r11, #-20]	; 0xffffffec
+ 6f4:	e51b3018 	ldr	r3, [r11, #-24]	; 0xffffffe8
+ 6f8:	e2033003 	and	r3, r3, #3
+ 6fc:	e1a03183 	lsl	r3, r3, #3
+ 700:	e3a010ff 	mov	r1, #255	; 0xff
+ 704:	e1a03311 	lsl	r3, r1, r3
+ 708:	e1a00002 	mov	r0, r2
+ 70c:	e1a01003 	mov	r1, r3
+ 710:	e51b2010 	ldr	r2, [r11, #-16]
+ 714:	eb000019 	bl	780 <hw_write_bits>
+    
+	/* Set Interrupt Set-Enable Registers (ICDISERn). 
+	 * n = (integer_div(in_ID / 32) * 4
+	 * addr_offset = 0x100 + n
+	 * value = enable << (int_ID & 0x1F) */
+	n = (int_ID >> 5) << 2; 
+ 718:	e51b3018 	ldr	r3, [r11, #-24]	; 0xffffffe8
+ 71c:	e1a032c3 	asr	r3, r3, #5
+ 720:	e1a03103 	lsl	r3, r3, #2
+ 724:	e50b3008 	str	r3, [r11, #-8]
+	addr_offset = ICDISER + n;
+ 728:	e51b3008 	ldr	r3, [r11, #-8]
+ 72c:	e2833c01 	add	r3, r3, #256	; 0x100
+ 730:	e50b300c 	str	r3, [r11, #-12]
+	value = 0x1 << (int_ID & 0x1f);
+ 734:	e51b3018 	ldr	r3, [r11, #-24]	; 0xffffffe8
+ 738:	e203301f 	and	r3, r3, #31
+ 73c:	e3a02001 	mov	r2, #1
+ 740:	e1a03312 	lsl	r3, r2, r3
+ 744:	e50b3010 	str	r3, [r11, #-16]
+	/* Now that we know the register address and value, we need to set the correct bits in 
+	 * the GIC register, without changing the other bits */
+	address = MPCORE_GIC_DIST + addr_offset;
+ 748:	e51b300c 	ldr	r3, [r11, #-12]
+ 74c:	e2433a13 	sub	r3, r3, #77824	; 0x13000
+ 750:	e50b3014 	str	r3, [r11, #-20]	; 0xffffffec
+	hw_write_bits((int *) address, 0x1 << (int_ID & 0x1f), value);    
+ 754:	e51b2014 	ldr	r2, [r11, #-20]	; 0xffffffec
+ 758:	e51b3018 	ldr	r3, [r11, #-24]	; 0xffffffe8
+ 75c:	e203301f 	and	r3, r3, #31
+ 760:	e3a01001 	mov	r1, #1
+ 764:	e1a03311 	lsl	r3, r1, r3
+ 768:	e1a00002 	mov	r0, r2
+ 76c:	e1a01003 	mov	r1, r3
+ 770:	e51b2010 	ldr	r2, [r11, #-16]
+ 774:	eb000001 	bl	780 <hw_write_bits>
+}
+ 778:	e24bd004 	sub	sp, r11, #4
+ 77c:	e8bd8800 	pop	{r11, pc}
+
+00000780 <hw_write_bits>:
+
+void hw_write_bits(volatile int * addr, volatile int unmask, volatile int value)
+{     
+ 780:	e52db004 	push	{r11}		; (str r11, [sp, #-4]!)
+ 784:	e28db000 	add	r11, sp, #0
+ 788:	e24dd014 	sub	sp, sp, #20
+ 78c:	e50b0008 	str	r0, [r11, #-8]
+ 790:	e50b100c 	str	r1, [r11, #-12]
+ 794:	e50b2010 	str	r2, [r11, #-16]
+    *addr = ((~unmask) & *addr) | value;
+ 798:	e51b300c 	ldr	r3, [r11, #-12]
+ 79c:	e1e02003 	mvn	r2, r3
+ 7a0:	e51b3008 	ldr	r3, [r11, #-8]
+ 7a4:	e5933000 	ldr	r3, [r3]
+ 7a8:	e0022003 	and	r2, r2, r3
+ 7ac:	e51b3010 	ldr	r3, [r11, #-16]
+ 7b0:	e1822003 	orr	r2, r2, r3
+ 7b4:	e51b3008 	ldr	r3, [r11, #-8]
+ 7b8:	e5832000 	str	r2, [r3]
+}
+ 7bc:	e28bd000 	add	sp, r11, #0
+ 7c0:	e8bd0800 	ldmfd	sp!, {r11}
+ 7c4:	e12fff1e 	bx	lr
+
+000007c8 <MPcore_private_timer_ISR>:
+ * MPcore private timer interrupt service routine
+ *                                                                          
+ * Controls refresh of the VGA screen
+******************************************************************************/
+void MPcore_private_timer_ISR( )
+{
+ 7c8:	e52db004 	push	{r11}		; (str r11, [sp, #-4]!)
+ 7cc:	e28db000 	add	r11, sp, #0
+ 7d0:	e24dd00c 	sub	sp, sp, #12
+	volatile int * MPcore_private_timer_ptr = (int *) MPCORE_PRIV_TIMER;	// private timer address
+ 7d4:	e3a03cc6 	mov	r3, #50688	; 0xc600
+ 7d8:	e34f3ffe 	movt	r3, #65534	; 0xfffe
+ 7dc:	e50b3008 	str	r3, [r11, #-8]
+
+	*(MPcore_private_timer_ptr + 3) = 1;	// Write to timer interrupt status register to
+ 7e0:	e51b3008 	ldr	r3, [r11, #-8]
+ 7e4:	e283300c 	add	r3, r3, #12
+ 7e8:	e3a02001 	mov	r2, #1
+ 7ec:	e5832000 	str	r2, [r3]
+														// clear the interrupt (note: not really necessary)
+
+	timeout = 1;									// set global variable
+ 7f0:	e30134d8 	movw	r3, #5336	; 0x14d8
+ 7f4:	e340300a 	movt	r3, #10
+ 7f8:	e3a02001 	mov	r2, #1
+ 7fc:	e5832000 	str	r2, [r3]
+
+	return;
+ 800:	e1a00000 	nop			; (mov r0, r0)
+}
+ 804:	e28bd000 	add	sp, r11, #0
+ 808:	e8bd0800 	ldmfd	sp!, {r11}
+ 80c:	e12fff1e 	bx	lr
+
+00000810 <audio_ISR>:
+
+/***************************************************************************************
+ * Audio interrupt service routine
+****************************************************************************************/
+void audio_ISR( void )
+{
+ 810:	e92d4800 	push	{r11, lr}
+ 814:	e28db004 	add	r11, sp, #4
+ 818:	e24dd010 	sub	sp, sp, #16
+	volatile int * audio_ptr = (int *) AUDIO_BASE;		// audio port address
+ 81c:	e3a03dc1 	mov	r3, #12352	; 0x3040
+ 820:	e34f3f20 	movt	r3, #65312	; 0xff20
+ 824:	e50b300c 	str	r3, [r11, #-12]
+  	volatile int * red_LED_ptr = (int *) LED_BASE;		// red LED address
+ 828:	e3a03000 	mov	r3, #0
+ 82c:	e34f3f20 	movt	r3, #65312	; 0xff20
+ 830:	e50b3010 	str	r3, [r11, #-16]
+	//			*(audio_ptr) = 0x0; 					// turn off interrupts
+	//		}
+	//		fifospace = *(audio_ptr + 1);	// read the audio port fifospace register
+	//	}
+	//}
+	if (*(audio_ptr) & 0x200)						// check bit WI of the Control register
+ 834:	e51b300c 	ldr	r3, [r11, #-12]
+ 838:	e5933000 	ldr	r3, [r3]
+ 83c:	e2033c02 	and	r3, r3, #512	; 0x200
+ 840:	e3530000 	cmp	r3, #0
+ 844:	0a00004d 	beq	980 <audio_ISR+0x170>
+	{
+        if (buffer_index == 0)
+ 848:	e30530d4 	movw	r3, #20692	; 0x50d4
+ 84c:	e3403000 	movt	r3, #0
+ 850:	e5933000 	ldr	r3, [r3]
+ 854:	e3530000 	cmp	r3, #0
+ 858:	1a000002 	bne	868 <audio_ISR+0x58>
+            *(red_LED_ptr) = 0x2;					// turn on LEDR_1
+ 85c:	e51b3010 	ldr	r3, [r11, #-16]
+ 860:	e3a02002 	mov	r2, #2
+ 864:	e5832000 	str	r2, [r3]
+
+		fifospace = *(audio_ptr + 1);	 			// read the audio port fifospace register
+ 868:	e51b300c 	ldr	r3, [r11, #-12]
+ 86c:	e5933004 	ldr	r3, [r3, #4]
+ 870:	e50b3008 	str	r3, [r11, #-8]
+		// output data until the buffer is empty or the audio-out FIFO is full
+		while ( (fifospace & 0x00FF0000) && (buffer_index < AUDIO_SIZE) )
+ 874:	ea000037 	b	958 <audio_ISR+0x148>
+		{
+			*(audio_ptr + 2) = ding_pcm[buffer_index];
+ 878:	e51b300c 	ldr	r3, [r11, #-12]
+ 87c:	e2832008 	add	r2, r3, #8
+ 880:	e30530d4 	movw	r3, #20692	; 0x50d4
+ 884:	e3403000 	movt	r3, #0
+ 888:	e5931000 	ldr	r1, [r3]
+ 88c:	e3003dac 	movw	r3, #3500	; 0xdac
+ 890:	e3403000 	movt	r3, #0
+ 894:	e7933101 	ldr	r3, [r3, r1, lsl #2]
+ 898:	e5823000 	str	r3, [r2]
+			*(audio_ptr + 3) = ding_pcm[buffer_index];
+ 89c:	e51b300c 	ldr	r3, [r11, #-12]
+ 8a0:	e283200c 	add	r2, r3, #12
+ 8a4:	e30530d4 	movw	r3, #20692	; 0x50d4
+ 8a8:	e3403000 	movt	r3, #0
+ 8ac:	e5931000 	ldr	r1, [r3]
+ 8b0:	e3003dac 	movw	r3, #3500	; 0xdac
+ 8b4:	e3403000 	movt	r3, #0
+ 8b8:	e7933101 	ldr	r3, [r3, r1, lsl #2]
+ 8bc:	e5823000 	str	r3, [r2]
+			++buffer_index;
+ 8c0:	e30530d4 	movw	r3, #20692	; 0x50d4
+ 8c4:	e3403000 	movt	r3, #0
+ 8c8:	e5933000 	ldr	r3, [r3]
+ 8cc:	e2832001 	add	r2, r3, #1
+ 8d0:	e30530d4 	movw	r3, #20692	; 0x50d4
+ 8d4:	e3403000 	movt	r3, #0
+ 8d8:	e5832000 	str	r2, [r3]
+	
+			if (buffer_index == AUDIO_SIZE)
+ 8dc:	e30530d4 	movw	r3, #20692	; 0x50d4
+ 8e0:	e3403000 	movt	r3, #0
+ 8e4:	e5932000 	ldr	r2, [r3]
+ 8e8:	e3003f9a 	movw	r3, #3994	; 0xf9a
+ 8ec:	e1520003 	cmp	r2, r3
+ 8f0:	1a000015 	bne	94c <audio_ISR+0x13c>
+			{
+				// done playback
+				play = 0;
+ 8f4:	e30530d0 	movw	r3, #20688	; 0x50d0
+ 8f8:	e3403000 	movt	r3, #0
+ 8fc:	e3a02000 	mov	r2, #0
+ 900:	e5832000 	str	r2, [r3]
+                buffer_index = 0;
+ 904:	e30530d4 	movw	r3, #20692	; 0x50d4
+ 908:	e3403000 	movt	r3, #0
+ 90c:	e3a02000 	mov	r2, #0
+ 910:	e5832000 	str	r2, [r3]
+				*(red_LED_ptr) = 0x0;				// turn off LEDR
+ 914:	e51b3010 	ldr	r3, [r11, #-16]
+ 918:	e3a02000 	mov	r2, #0
+ 91c:	e5832000 	str	r2, [r3]
+                *(audio_ptr) = 0x8;
+ 920:	e51b300c 	ldr	r3, [r11, #-12]
+ 924:	e3a02008 	mov	r2, #8
+ 928:	e5832000 	str	r2, [r3]
+				*(audio_ptr) = 0x0; 					// turn off interrupts
+ 92c:	e51b300c 	ldr	r3, [r11, #-12]
+ 930:	e3a02000 	mov	r2, #0
+ 934:	e5832000 	str	r2, [r3]
+                hw_set_bit(audio_ptr, 1, 1); // enable write audio interrupts
+ 938:	e51b000c 	ldr	r0, [r11, #-12]
+ 93c:	e3a01001 	mov	r1, #1
+ 940:	e3a02001 	mov	r2, #1
+ 944:	ebfffe7b 	bl	338 <hw_set_bit>
+                return;
+ 948:	ea00000d 	b	984 <audio_ISR+0x174>
+			}
+			fifospace = *(audio_ptr + 1);	// read the audio port fifospace register
+ 94c:	e51b300c 	ldr	r3, [r11, #-12]
+ 950:	e5933004 	ldr	r3, [r3, #4]
+ 954:	e50b3008 	str	r3, [r11, #-8]
+        if (buffer_index == 0)
+            *(red_LED_ptr) = 0x2;					// turn on LEDR_1
+
+		fifospace = *(audio_ptr + 1);	 			// read the audio port fifospace register
+		// output data until the buffer is empty or the audio-out FIFO is full
+		while ( (fifospace & 0x00FF0000) && (buffer_index < AUDIO_SIZE) )
+ 958:	e51b3008 	ldr	r3, [r11, #-8]
+ 95c:	e20338ff 	and	r3, r3, #16711680	; 0xff0000
+ 960:	e3530000 	cmp	r3, #0
+ 964:	0a000005 	beq	980 <audio_ISR+0x170>
+ 968:	e30530d4 	movw	r3, #20692	; 0x50d4
+ 96c:	e3403000 	movt	r3, #0
+ 970:	e5932000 	ldr	r2, [r3]
+ 974:	e3003f99 	movw	r3, #3993	; 0xf99
+ 978:	e1520003 	cmp	r2, r3
+ 97c:	daffffbd 	ble	878 <audio_ISR+0x68>
+		}
+	}
+
+    // turn interrupts back on
+    //hw_set_bit(audio_ptr, 1, 1);
+	return;
+ 980:	e1a00000 	nop			; (mov r0, r0)
+}
+ 984:	e24bd004 	sub	sp, r11, #4
+ 988:	e8bd8800 	pop	{r11, pc}
+
+0000098c <atexit>:
+ 98c:	e1a01000 	mov	r1, r0
+ 990:	e3a00000 	mov	r0, #0
+ 994:	e92d4008 	push	{r3, lr}
+ 998:	e1a02000 	mov	r2, r0
+ 99c:	e1a03000 	mov	r3, r0
+ 9a0:	eb00000e 	bl	9e0 <__register_exitproc>
+ 9a4:	e8bd4008 	pop	{r3, lr}
+ 9a8:	e12fff1e 	bx	lr
+
+000009ac <exit>:
+ 9ac:	e92d4008 	push	{r3, lr}
+ 9b0:	e3a01000 	mov	r1, #0
+ 9b4:	e1a04000 	mov	r4, r0
+ 9b8:	eb000045 	bl	ad4 <__call_exitprocs>
+ 9bc:	e59f3018 	ldr	r3, [pc, #24]	; 9dc <exit+0x30>
+ 9c0:	e5930000 	ldr	r0, [r3]
+ 9c4:	e590303c 	ldr	r3, [r0, #60]	; 0x3c
+ 9c8:	e3530000 	cmp	r3, #0
+ 9cc:	11a0e00f 	movne	lr, pc
+ 9d0:	112fff13 	bxne	r3
+ 9d4:	e1a00004 	mov	r0, r4
+ 9d8:	eb0000c9 	bl	d04 <_exit>
+ 9dc:	00004c14 	.word	0x00004c14
+
+000009e0 <__register_exitproc>:
+ 9e0:	e59fc0e4 	ldr	r12, [pc, #228]	; acc <__register_exitproc+0xec>
+ 9e4:	e92d41f0 	push	{r4, r5, r6, r7, r8, lr}
+ 9e8:	e59c4000 	ldr	r4, [r12]
+ 9ec:	e594c148 	ldr	r12, [r4, #328]	; 0x148
+ 9f0:	e35c0000 	cmp	r12, #0
+ 9f4:	0284cf53 	addeq	r12, r4, #332	; 0x14c
+ 9f8:	e59c5004 	ldr	r5, [r12, #4]
+ 9fc:	0584c148 	streq	r12, [r4, #328]	; 0x148
+ a00:	e355001f 	cmp	r5, #31
+ a04:	e24dd010 	sub	sp, sp, #16
+ a08:	e1a06000 	mov	r6, r0
+ a0c:	da000015 	ble	a68 <__register_exitproc+0x88>
+ a10:	e59f00b8 	ldr	r0, [pc, #184]	; ad0 <__register_exitproc+0xf0>
+ a14:	e3500000 	cmp	r0, #0
+ a18:	1a000001 	bne	a24 <__register_exitproc+0x44>
+ a1c:	e3e00000 	mvn	r0, #0
+ a20:	ea000018 	b	a88 <__register_exitproc+0xa8>
+ a24:	e3a00e19 	mov	r0, #400	; 0x190
+ a28:	e58d100c 	str	r1, [sp, #12]
+ a2c:	e58d2008 	str	r2, [sp, #8]
+ a30:	e58d3004 	str	r3, [sp, #4]
+ a34:	e320f000 	nop	{0}
+ a38:	e250c000 	subs	r12, r0, #0
+ a3c:	e59d100c 	ldr	r1, [sp, #12]
+ a40:	e59d2008 	ldr	r2, [sp, #8]
+ a44:	e59d3004 	ldr	r3, [sp, #4]
+ a48:	0afffff3 	beq	a1c <__register_exitproc+0x3c>
+ a4c:	e5945148 	ldr	r5, [r4, #328]	; 0x148
+ a50:	e3a00000 	mov	r0, #0
+ a54:	e58c0004 	str	r0, [r12, #4]
+ a58:	e58c5000 	str	r5, [r12]
+ a5c:	e584c148 	str	r12, [r4, #328]	; 0x148
+ a60:	e58c0188 	str	r0, [r12, #392]	; 0x188
+ a64:	e58c018c 	str	r0, [r12, #396]	; 0x18c
+ a68:	e3560000 	cmp	r6, #0
+ a6c:	e59c4004 	ldr	r4, [r12, #4]
+ a70:	1a000007 	bne	a94 <__register_exitproc+0xb4>
+ a74:	e2843002 	add	r3, r4, #2
+ a78:	e2844001 	add	r4, r4, #1
+ a7c:	e78c1103 	str	r1, [r12, r3, lsl #2]
+ a80:	e58c4004 	str	r4, [r12, #4]
+ a84:	e3a00000 	mov	r0, #0
+ a88:	e28dd010 	add	sp, sp, #16
+ a8c:	e8bd41f0 	pop	{r4, r5, r6, r7, r8, lr}
+ a90:	e12fff1e 	bx	lr
+ a94:	e3a00001 	mov	r0, #1
+ a98:	e1a00410 	lsl	r0, r0, r4
+ a9c:	e08c8104 	add	r8, r12, r4, lsl #2
+ aa0:	e3560002 	cmp	r6, #2
+ aa4:	e59c7188 	ldr	r7, [r12, #392]	; 0x188
+ aa8:	e5883108 	str	r3, [r8, #264]	; 0x108
+ aac:	059c318c 	ldreq	r3, [r12, #396]	; 0x18c
+ ab0:	e1877000 	orr	r7, r7, r0
+ ab4:	01830000 	orreq	r0, r3, r0
+ ab8:	e1a05008 	mov	r5, r8
+ abc:	e5882088 	str	r2, [r8, #136]	; 0x88
+ ac0:	e58c7188 	str	r7, [r12, #392]	; 0x188
+ ac4:	058c018c 	streq	r0, [r12, #396]	; 0x18c
+ ac8:	eaffffe9 	b	a74 <__register_exitproc+0x94>
+ acc:	00004c14 	.word	0x00004c14
+ ad0:	00000000 	.word	0x00000000
+
+00000ad4 <__call_exitprocs>:
+ ad4:	e92d4ff0 	push	{r4, r5, r6, r7, r8, r9, r10, r11, lr}
+ ad8:	e59f3168 	ldr	r3, [pc, #360]	; c48 <__call_exitprocs+0x174>
+ adc:	e5933000 	ldr	r3, [r3]
+ ae0:	e24dd014 	sub	sp, sp, #20
+ ae4:	e58d3004 	str	r3, [sp, #4]
+ ae8:	e2833f52 	add	r3, r3, #328	; 0x148
+ aec:	e58d0008 	str	r0, [sp, #8]
+ af0:	e58d300c 	str	r3, [sp, #12]
+ af4:	e1a07001 	mov	r7, r1
+ af8:	e3a08001 	mov	r8, #1
+ afc:	e59d3004 	ldr	r3, [sp, #4]
+ b00:	e5936148 	ldr	r6, [r3, #328]	; 0x148
+ b04:	e3560000 	cmp	r6, #0
+ b08:	e59db00c 	ldr	r11, [sp, #12]
+ b0c:	0a000033 	beq	be0 <__call_exitprocs+0x10c>
+ b10:	e5965004 	ldr	r5, [r6, #4]
+ b14:	e2554001 	subs	r4, r5, #1
+ b18:	5286a088 	addpl	r10, r6, #136	; 0x88
+ b1c:	5285501f 	addpl	r5, r5, #31
+ b20:	508a5105 	addpl	r5, r10, r5, lsl #2
+ b24:	5a000007 	bpl	b48 <__call_exitprocs+0x74>
+ b28:	ea000029 	b	bd4 <__call_exitprocs+0x100>
+ b2c:	e5953000 	ldr	r3, [r5]
+ b30:	e1530007 	cmp	r3, r7
+ b34:	0a000005 	beq	b50 <__call_exitprocs+0x7c>
+ b38:	e2444001 	sub	r4, r4, #1
+ b3c:	e3740001 	cmn	r4, #1
+ b40:	e2455004 	sub	r5, r5, #4
+ b44:	0a000022 	beq	bd4 <__call_exitprocs+0x100>
+ b48:	e3570000 	cmp	r7, #0
+ b4c:	1afffff6 	bne	b2c <__call_exitprocs+0x58>
+ b50:	e5963004 	ldr	r3, [r6, #4]
+ b54:	e06a2005 	rsb	r2, r10, r5
+ b58:	e2433001 	sub	r3, r3, #1
+ b5c:	e0862002 	add	r2, r6, r2
+ b60:	e1530004 	cmp	r3, r4
+ b64:	e5123078 	ldr	r3, [r2, #-120]	; 0xffffff88
+ b68:	13a01000 	movne	r1, #0
+ b6c:	05864004 	streq	r4, [r6, #4]
+ b70:	15021078 	strne	r1, [r2, #-120]	; 0xffffff88
+ b74:	e3530000 	cmp	r3, #0
+ b78:	0affffee 	beq	b38 <__call_exitprocs+0x64>
+ b7c:	e1a02418 	lsl	r2, r8, r4
+ b80:	e5961188 	ldr	r1, [r6, #392]	; 0x188
+ b84:	e1120001 	tst	r2, r1
+ b88:	e5969004 	ldr	r9, [r6, #4]
+ b8c:	0a000016 	beq	bec <__call_exitprocs+0x118>
+ b90:	e596118c 	ldr	r1, [r6, #396]	; 0x18c
+ b94:	e1120001 	tst	r2, r1
+ b98:	1a000016 	bne	bf8 <__call_exitprocs+0x124>
+ b9c:	e59d0008 	ldr	r0, [sp, #8]
+ ba0:	e5151080 	ldr	r1, [r5, #-128]	; 0xffffff80
+ ba4:	e1a0e00f 	mov	lr, pc
+ ba8:	e12fff13 	bx	r3
+ bac:	e5963004 	ldr	r3, [r6, #4]
+ bb0:	e1530009 	cmp	r3, r9
+ bb4:	1affffd0 	bne	afc <__call_exitprocs+0x28>
+ bb8:	e59b3000 	ldr	r3, [r11]
+ bbc:	e1530006 	cmp	r3, r6
+ bc0:	1affffcd 	bne	afc <__call_exitprocs+0x28>
+ bc4:	e2444001 	sub	r4, r4, #1
+ bc8:	e3740001 	cmn	r4, #1
+ bcc:	e2455004 	sub	r5, r5, #4
+ bd0:	1affffdc 	bne	b48 <__call_exitprocs+0x74>
+ bd4:	e59f1070 	ldr	r1, [pc, #112]	; c4c <__call_exitprocs+0x178>
+ bd8:	e3510000 	cmp	r1, #0
+ bdc:	1a000009 	bne	c08 <__call_exitprocs+0x134>
+ be0:	e28dd014 	add	sp, sp, #20
+ be4:	e8bd4ff0 	pop	{r4, r5, r6, r7, r8, r9, r10, r11, lr}
+ be8:	e12fff1e 	bx	lr
+ bec:	e1a0e00f 	mov	lr, pc
+ bf0:	e12fff13 	bx	r3
+ bf4:	eaffffec 	b	bac <__call_exitprocs+0xd8>
+ bf8:	e5150080 	ldr	r0, [r5, #-128]	; 0xffffff80
+ bfc:	e1a0e00f 	mov	lr, pc
+ c00:	e12fff13 	bx	r3
+ c04:	eaffffe8 	b	bac <__call_exitprocs+0xd8>
+ c08:	e5963004 	ldr	r3, [r6, #4]
+ c0c:	e3530000 	cmp	r3, #0
+ c10:	e5963000 	ldr	r3, [r6]
+ c14:	1a000008 	bne	c3c <__call_exitprocs+0x168>
+ c18:	e3530000 	cmp	r3, #0
+ c1c:	0a000006 	beq	c3c <__call_exitprocs+0x168>
+ c20:	e1a00006 	mov	r0, r6
+ c24:	e58b3000 	str	r3, [r11]
+ c28:	e320f000 	nop	{0}
+ c2c:	e59b6000 	ldr	r6, [r11]
+ c30:	e3560000 	cmp	r6, #0
+ c34:	1affffb5 	bne	b10 <__call_exitprocs+0x3c>
+ c38:	eaffffe8 	b	be0 <__call_exitprocs+0x10c>
+ c3c:	e1a0b006 	mov	r11, r6
+ c40:	e1a06003 	mov	r6, r3
+ c44:	eafffff9 	b	c30 <__call_exitprocs+0x15c>
+ c48:	00004c14 	.word	0x00004c14
+ c4c:	00000000 	.word	0x00000000
+
+00000c50 <register_fini>:
+ c50:	e92d4008 	push	{r3, lr}
+ c54:	e59f3010 	ldr	r3, [pc, #16]	; c6c <register_fini+0x1c>
+ c58:	e3530000 	cmp	r3, #0
+ c5c:	159f000c 	ldrne	r0, [pc, #12]	; c70 <register_fini+0x20>
+ c60:	1bffff49 	blne	98c <atexit>
+ c64:	e8bd4008 	pop	{r3, lr}
+ c68:	e12fff1e 	bx	lr
+ c6c:	00004c3c 	.word	0x00004c3c
+ c70:	00000c74 	.word	0x00000c74
+
+00000c74 <__libc_fini_array>:
+ c74:	e92d4038 	push	{r3, r4, r5, lr}
+ c78:	e59f5030 	ldr	r5, [pc, #48]	; cb0 <__libc_fini_array+0x3c>
+ c7c:	e59f4030 	ldr	r4, [pc, #48]	; cb4 <__libc_fini_array+0x40>
+ c80:	e0654004 	rsb	r4, r5, r4
+ c84:	e1b04144 	asrs	r4, r4, #2
+ c88:	10855104 	addne	r5, r5, r4, lsl #2
+ c8c:	0a000004 	beq	ca4 <__libc_fini_array+0x30>
+ c90:	e5353004 	ldr	r3, [r5, #-4]!
+ c94:	e1a0e00f 	mov	lr, pc
+ c98:	e12fff13 	bx	r3
+ c9c:	e2544001 	subs	r4, r4, #1
+ ca0:	1afffffa 	bne	c90 <__libc_fini_array+0x1c>
+ ca4:	eb000fe4 	bl	4c3c <__libc_fini>
+ ca8:	e8bd4038 	pop	{r3, r4, r5, lr}
+ cac:	e12fff1e 	bx	lr
+ cb0:	00004c54 	.word	0x00004c54
+ cb4:	00004c58 	.word	0x00004c58
+
+00000cb8 <__cs3_premain>:
+ cb8:	e92d4008 	push	{r3, lr}
+ cbc:	eb000017 	bl	d20 <__libc_init_array>
+ cc0:	e59f3030 	ldr	r3, [pc, #48]	; cf8 <__cs3_premain+0x40>
+ cc4:	e3530000 	cmp	r3, #0
+ cc8:	15930000 	ldrne	r0, [r3]
+ ccc:	01a00003 	moveq	r0, r3
+ cd0:	e59f3024 	ldr	r3, [pc, #36]	; cfc <__cs3_premain+0x44>
+ cd4:	e3530000 	cmp	r3, #0
+ cd8:	15931000 	ldrne	r1, [r3]
+ cdc:	01a01003 	moveq	r1, r3
+ ce0:	e3a02000 	mov	r2, #0
+ ce4:	ebfffd5c 	bl	25c <main>
+ ce8:	e59f3010 	ldr	r3, [pc, #16]	; d00 <__cs3_premain+0x48>
+ cec:	e3530000 	cmp	r3, #0
+ cf0:	1bffff2d 	blne	9ac <exit>
+ cf4:	eafffffe 	b	cf4 <__cs3_premain+0x3c>
+	...
+ d00:	000009ac 	.word	0x000009ac
+
+00000d04 <_exit>:
+ d04:	e52de004 	push	{lr}		; (str lr, [sp, #-4]!)
+ d08:	e3a00018 	mov	r0, #24
+ d0c:	e59f1004 	ldr	r1, [pc, #4]	; d18 <_exit+0x14>
+ d10:	ef123456 	svc	0x00123456
+ d14:	eafffffe 	b	d14 <_exit+0x10>
+ d18:	00020026 	.word	0x00020026
+
+00000d1c <__cs3_isr_interrupt>:
+ d1c:	eafffffe 	b	d1c <__cs3_isr_interrupt>
+
+00000d20 <__libc_init_array>:
+ d20:	e92d4070 	push	{r4, r5, r6, lr}
+ d24:	e59f506c 	ldr	r5, [pc, #108]	; d98 <__libc_init_array+0x78>
+ d28:	e59f606c 	ldr	r6, [pc, #108]	; d9c <__libc_init_array+0x7c>
+ d2c:	e0656006 	rsb	r6, r5, r6
+ d30:	e1b06146 	asrs	r6, r6, #2
+ d34:	12455004 	subne	r5, r5, #4
+ d38:	13a04000 	movne	r4, #0
+ d3c:	0a000005 	beq	d58 <__libc_init_array+0x38>
+ d40:	e5b53004 	ldr	r3, [r5, #4]!
+ d44:	e2844001 	add	r4, r4, #1
+ d48:	e1a0e00f 	mov	lr, pc
+ d4c:	e12fff13 	bx	r3
+ d50:	e1560004 	cmp	r6, r4
+ d54:	1afffff9 	bne	d40 <__libc_init_array+0x20>
+ d58:	e59f5040 	ldr	r5, [pc, #64]	; da0 <__libc_init_array+0x80>
+ d5c:	e59f6040 	ldr	r6, [pc, #64]	; da4 <__libc_init_array+0x84>
+ d60:	e0656006 	rsb	r6, r5, r6
+ d64:	eb000fac 	bl	4c1c <_init>
+ d68:	e1b06146 	asrs	r6, r6, #2
+ d6c:	12455004 	subne	r5, r5, #4
+ d70:	13a04000 	movne	r4, #0
+ d74:	0a000005 	beq	d90 <__libc_init_array+0x70>
+ d78:	e5b53004 	ldr	r3, [r5, #4]!
+ d7c:	e2844001 	add	r4, r4, #1
+ d80:	e1a0e00f 	mov	lr, pc
+ d84:	e12fff13 	bx	r3
+ d88:	e1560004 	cmp	r6, r4
+ d8c:	1afffff9 	bne	d78 <__libc_init_array+0x58>
+ d90:	e8bd4070 	pop	{r4, r5, r6, lr}
+ d94:	e12fff1e 	bx	lr
+ d98:	00004c34 	.word	0x00004c34
+ d9c:	00004c34 	.word	0x00004c34
+ da0:	00004c34 	.word	0x00004c34
+ da4:	00004c3c 	.word	0x00004c3c
+
+Disassembly of section .rodata:
+
+00000dac <ding_pcm>:
+	...
+     db4:	fffe0001 fffe0002 00000001 fffd0001     ................
+     dc4:	fffe0003 00000001 0001ffff 00000000     ................
+     dd4:	00000000 0002ffff 0003fffe 0002fffd     ................
+     de4:	0002fffe 0002fffe ffffffff fffc0003     ................
+     df4:	ffff0003 00000000 fffe0001 fffe0002     ................
+     e04:	ffff0002 00000000 0002ffff 0002fffe     ................
+     e14:	0001fffe fffe0001 fffe0002 fffe0002     ................
+     e24:	fffc0003 fffd0004 00010001 0002fffe     ................
+     e34:	0000ffff 00010000 0003fffe 0002fffd     ................
+     e44:	0001ffff 0000ffff ffff0001 ffff0001     ................
+     e54:	00010000 0001ffff 0001ffff 0002fffe     ................
+     e64:	fffe0000 fffc0003 fffd0004 ffff0002     ................
+     e74:	00010000 0003fffe 0002fffd 0001ffff     ................
+     e84:	0000ffff ffff0001 ffff0001 00010000     ................
+     e94:	0001ffff 0001ffff 0001ffff 0003fffe     ................
+     ea4:	0002fffd fffe0000 fffd0003 fffd0003     ................
+     eb4:	fffb0004 fffe0004 ffff0001 00010000     ................
+     ec4:	0001ffff ffffffff fffe0003 ffff0001     ................
+     ed4:	00010000 ffff0000 fffe0001 fffe0003     ................
+     ee4:	00010000 0000ffff fffd0002 ffff0002     ................
+     ef4:	ffff0001 ffff0001 ffff0001 00000001     ................
+     f04:	0002ffff 0002fffe ffffffff fffe0002     ................
+     f14:	fffe0002 ffff0002 00010000 0002fffe     ................
+     f24:	0000ffff fffe0001 fffe0002 00000001     ................
+     f34:	0002ffff 0001fffe fffd0001 fffb0004     ................
+     f44:	fffb0005 fffb0005 fffb0005 fffc0005     ................
+     f54:	fffd0003 fffd0003 fffe0003 00000001     ................
+     f64:	00000000 ffff0001 ffff0002 ffff0001     ................
+     f74:	fffe0001 fffe0002 fffd0003 fffc0003     ................
+     f84:	fffb0006 fffc0004 ffff0003 00000000     ................
+     f94:	fffe0001 fffe0002 00020000 0003fffc     ................
+     fa4:	0004fffd 0004fffb 0003fffd 0002fffd     ................
+     fb4:	ffff0000 ffff0000 fffd0002 fffc0003     ................
+     fc4:	fffc0004 ffff0002 00010001 0002fffe     ................
+     fd4:	0001fffe 0001fffe 0001ffff 0001ffff     ................
+     fe4:	0003fffe fffffffe ffff0001 00010000     ................
+     ff4:	0003fffe 0000fffe ffff0001 ffff0001     ................
+    1004:	00020000 0000fffe 00000000 00000000     ................
+    1014:	00020000 00010000 0001ffff 0001ffff     ................
+    1024:	00010000 0001ffff fffd0002 ffff0003     ................
+    1034:	00020001 0004ffff 0002fffd fffe0001     ................
+    1044:	fffc0004 00000003 00000000 fffd0001     ................
+    1054:	fffd0003 00000002 0001fffe 0001ffff     ................
+    1064:	0000ffff ffffffff fffe0001 00000000     ................
+    1074:	ffff0001 ffff0002 00000002 0002ffff     ................
+    1084:	0003fffe 0001fffe 00020000 0003fffe     ................
+    1094:	0001fffe ffff0000 00000001 fffeffff     ................
+    10a4:	ffff0002 ffff0001 0001fffe 0001ffff     ................
+    10b4:	fffeffff fffc0002 fffc0003 00000001     ................
+    10c4:	0002fffd 0002fffe 0001ffff 0006fffc     ................
+    10d4:	0004fffa fffeffff fffb0005 fffc0006     ................
+    10e4:	ffff0005 00020000 0003fffc fffeffff     ................
+    10f4:	fffb0003 fffd0004 ffff0000 fffb0002     ................
+    1104:	fffa0004 fffe0002 0002fffe 0001fffd     ................
+    1114:	0001fffe fffffffe 0002fffe ffff0001     ................
+    1124:	00020001 0002fffd fffc0003 fffb0005     ................
+    1134:	fffd0005 fffd0003 fffe0002 00020002     ................
+    1144:	00000001 ffff0003 fffd0001 00000002     ................
+    1154:	fffc0002 fffc0005 fffc0004 fffe0004     ................
+    1164:	ffff0004 00000001 00000000 00020000     ................
+    1174:	0002fffd 00010001 ffff0001 0000ffff     ................
+    1184:	0001ffff 0000fffe 00010002 fffe0001     ................
+    1194:	ffff0001 00000000 ffff0002 fffffffd     ................
+    11a4:	fffc0004 fffc0004 fffc0005 ffff0003     ................
+    11b4:	fffe0000 00030000 0003fffa 0001fffc     ................
+    11c4:	0001fffe 0002fffd fffffffe 0004fffc     ................
+    11d4:	ffffffff fffe0001 ffff0003 fffd0000     ................
+    11e4:	fffc0000 00000001 0001ffff 0003ffff     ................
+    11f4:	0004ffff 0001fffe fffb0001 fffe0004     ................
+    1204:	00010000 fffe0000 00010001 00000001     ................
+    1214:	fffe0001 fffb0004 fffe0004 00030000     ................
+    1224:	0003fffd 0000fffe ffffffff ffffffff     ................
+    1234:	fffe0000 00010001 fffdffff fffd0003     ................
+    1244:	ffff0000 00000001 0002ffff fffffffe     ................
+    1254:	fffcffff fffc0004 fffe0004 ffff0002     ................
+    1264:	0000ffff fffffffe ffff0001 fffb0002     ................
+    1274:	fffc0003 fffd0002 fffd0002 0001fffe     ................
+    1284:	00010001 00020001 0000ffff ffff0002     ................
+    1294:	0002ffff 0002fffd ffff0000 0003fffe     ................
+    12a4:	0006fffb 0002fffa 0004fffb 0000fffa     ................
+    12b4:	fffe0002 fffe0002 00030000 0001ffff     ................
+    12c4:	fffd0000 ffff0002 00000001 0001fffe     ................
+    12d4:	0000ffff fffffffe 0000ffff ffffffff     ................
+    12e4:	fffd0002 fffd0000 fffd0001 ffff0002     ................
+    12f4:	00010001 0004fffd fffefffc fffe0001     ................
+    1304:	fffe0000 0002ffff 00000000 ffff0001     ................
+    1314:	ffff0003 00000003 fffd0001 ffff0000     ................
+    1324:	ffff0001 fffe0001 fffe0001 ffff0004     ................
+    1334:	ffff0001 0002fffe ffff0000 fffe0000     ................
+    1344:	00000000 00010000 fffe0000 00000000     ................
+    1354:	ffff0000 fffdffff fffd0003 fffe0001     ................
+    1364:	fffc0001 00000001 0001fffc 0000fffe     ................
+    1374:	fffd0003 ffff0002 fffc0001 fffe0003     ................
+    1384:	00030000 0003fffc 0004fffd fffbfffc     ................
+    1394:	fffe0004 00000002 fffc0007 fffffffe     ................
+    13a4:	00010001 00030005 ffff0001 fffd0005     ................
+    13b4:	fff60007 00010003 fffa0004 00050000     ................
+    13c4:	00010004 fffd0001 fffe0009 0001fffe     ................
+    13d4:	000bfff7 000afff5 fffafff9 0007fffb     ................
+    13e4:	0005fffc 0007fffa 0001fff4 ff73000c     ..............s.
+    13f4:	ff77ff92 feed001c ffdcffaa 0031ffa5     ..w...........1.
+    1404:	ffc3ff34 ffc3ff52 fffbfed8 ff25ff90     4...R.........%.
+    1414:	fee3ff6d fea2ffa0 ff21ffed ffa4ff4f     m.........!.O...
+    1424:	ffa8ff7a ffffff48 ff1cff71 ff7f0004     z...H...q.......
+    1434:	ff9bff7d ff9fff74 ff7aff7c 0017fe8e     }...t...|.z.....
+    1444:	ff90ffaf 000aff52 ff59fff6 ffbfff78     ....R.....Y.x...
+    1454:	fe940004 ff7a0028 ff76ff91 ff55ffa7     ....(.z...v...U.
+    1464:	ff29ffcf 0063ffba ff15ff38 0002000d     ..)...c.8.......
+    1474:	ff41ff79 0046ffac 001cfe81 0027fee4     y.A...F.......'.
+    1484:	ff78ff8a ffabff4a ffbcfeff ff40ff8a     ..x.J.........@.
+    1494:	ffd10019 ff22ff7e ff3dfefc fe8900c9     ....~."...=.....
+    14a4:	fee2ff31 fe700128 fec30010 fd8a01fc     1...(.p.........
+    14b4:	fe97002a feac0096 ff4bff9f 0068fed0     *.........K...h.
+    14c4:	00d0fe72 00b5fef7 01cbfe16 01affcde     r...............
+    14d4:	02dafce4 0418fbfc 04e9faf5 0387fa28     ............(...
+    14e4:	04fefbb4 02a3f9f1 00cefe21 06fcfdbc     ........!.......
+    14f4:	d05e0844 03ff2fce db35f405 ecaf24e3     D.^../....5..$..
+    1504:	0b090e47 1f19ddf7 ff7dede2 dba41697     G.........}.....
+    1514:	02af1c27 51d8c562 2028c22d f05af44d     '...b..Q-.( M.Z.
+    1524:	da0134ee 448bde82 d11fe894 f80128e8     .4.....D.....(..
+    1534:	e83e1416 3378ef2e db36e1a7 c92940e8     ..>...x3..6..@).
+    1544:	f75c1eb1 23f8edba e5a1f612 026b1b0d     ..\....#......k.
+    1554:	0e00e66f 205eec3a d6d7fb38 f2db3b1e     o...:.^ 8....;..
+    1564:	2e16d3f4 0bc8e386 f72bf625 fab61d46     ........%.+.F...
+    1574:	2965df74 ef52ee17 d258228b 03891ee3     t.e)..R.."X.....
+    1584:	3273d544 f100f084 da9a1f25 eb7421d8     D.s2....%....!t.
+    1594:	2fffe53f ed27e949 e1b92cc4 fdc30e49     ?../I.'..,..I...
+    15a4:	2771e62c f56ce12e dee1255c 0dbf0e51     ,.q'..l.\%..Q...
+    15b4:	1d0be2a9 f4c9eca1 e7a82350 310bea56     ........P#..V..1
+    15c4:	2173d49c e5cef4eb dee23117 2b8ee6d7     ..s!.....1.....+
+    15d4:	f663eadb e21e1a3f e4e52cb6 3651e55c     ..c.?....,..\.Q6
+    15e4:	ebc2dcf8 db1f2b6b ef9d218e 3079ebd2     ....k+...!....y0
+    15f4:	eb06e567 e563231b 0d4e02b5 2ff8dd34     g....#c...N.4../
+    1604:	e76cecdd df56324f 0f8ffa29 2809e36e     ..l.O2V.)...n..(
+    1614:	f748e21c de392d2b 24baf853 0e3cdc2a     ..H.+-9.S..$*.<.
+    1624:	e9c7fc03 e1272ce9 30a6f544 0e40d45e     .....,'.D..0^.@.
+    1634:	dde70974 dbe32b54 31ebf471 ff24dc63     t...T+..q..1c.$.
+    1644:	d5da2474 ecc52192 36b3e6a6 fe07d1a5     t$...!.....6....
+    1654:	d3932e19 f7f91aa9 2daaecd4 f32fd822     ...........-"./.
+    1664:	dcbc2c34 16fc037a 2ac8deb1 ecb8e72e     4,..z......*....
+    1674:	dd272c24 23f3f55a 1f25db40 e3c3fcde     $,'.Z..#@.%.....
+    1684:	e84c2c55 1f26ec9e 0886e41a dee10be8     U,L...&.........
+    1694:	e4cf3293 22ceeffb fc2ce714 dab71793     .2....."..,.....
+    16a4:	f9f31cd1 3240e914 ffa8dc7c cdcd23e9     ......@2|....#..
+    16b4:	0556192a 3df0d1eb fd93daab d47d2ae2     *.V....=.....*}.
+    16c4:	0a8d0ff0 333cd37f e5cbe4a3 cfbf40b1     ......<3.....@..
+    16d4:	22d504d2 244ad2fd e32af1af cfc9342f     ..."..J$..*./4..
+    16e4:	1ea8074b 162bdc93 dbc40bc2 ec5c234f     K.....+.....O#\.
+    16f4:	273bead4 0eb3daa4 e18b12da edfa23ae     ..;'.........#..
+    1704:	2425ed70 fa36e276 e2f81cf2 0a630c40     p.%$v.6.....@.c.
+    1714:	23ffe8fb fd0ce394 d5071f89 11460a4a     ...#........J.F.
+    1724:	1fb3e064 f392f6e0 df5e2360 146fffcc     d.......`#^...o.
+    1734:	1dc5d95c e31afc20 db863639 26d5fdfe     \... ...96.....&
+    1744:	1830ce84 dfd4042e e07427ec 28c1ffe8     ..0......'t....(
+    1754:	1895cf49 cd4315b2 ee2326b3 263eee49     I.....C..&#.I.>&
+    1764:	10cddbbc da601544 f215223c 23e4ea2c     ....D.`.<"..,..#
+    1774:	012bdf29 e4d61a60 0c9f0a5b 1b48e660     ).+.`...[...`.H.
+    1784:	f86fec5e d9491cf2 13f20c21 1895e136     ^.o...I.!...6...
+    1794:	f1ecfcde e4bc18ff 10af01f8 164fe1df     ..............O.
+    17a4:	ea940220 e81122a6 1ddbf8a9 0bcfdc07      ...."..........
+    17b4:	e5600965 e9f821b9 229bfb7e 0b87d975     e.`..!..~.."u...
+    17c4:	d8a713b0 f83e1aba 23a8ee0f 07ffe298     ......>....#....
+    17d4:	d95815da fc1c1a02 229ce47b fcabe966     ..X.....{.."f...
+    17e4:	e3dd1d80 0a6e0944 1922e5a7 f544f03a     ....D.n...".:.D.
+    17f4:	e5a01c8c 18b90246 11ece192 ecea01e3     ....F...........
+    1804:	ecd91540 1382fd0c 09adeb49 e8230d19     @.......I.....#.
+    1814:	f30318f4 17b0f0af ffdbeba6 e82211a6     ..............".
+    1824:	f6c617a2 1b5bf4b4 0275e482 e9250f9c     ......[...u...%.
+    1834:	036b0bed 1adcef8f 0418eb4d e0cf10aa     ..k.....M.......
+    1844:	001310dd 1cd3e917 fe49f018 e9cf158a     ..........I.....
+    1854:	0265090d 115aedab f569f58d eaf21a10     ..e...Z...i.....
+    1864:	14a40147 09c8e76c ec2e0508 f119136e     G...l.......n...
+    1874:	1384fd60 0524ed30 e6d0105d 01c20cb7     `...0.$.].......
+    1884:	148feaac fbf6f50b ed2a1305 03e90ab2     ..........*.....
+    1894:	1609eb22 f92af10e effc12d8 0d7101e3     ".....*.......q.
+    18a4:	0faaee62 f9b9f757 eb180f2f 063207e6     b...W.../.....2.
+    18b4:	1162eecd f5b9fe07 efe71053 01cc0482     ..b.....S.......
+    18c4:	0c3ff236 f546fdec efad162a 0bcc0103     6.?...F.*.......
+    18d4:	0727ee75 f73f009f fa9b092d 0e64fce0     u.'...?.-.....d.
+    18e4:	0529f1c7 ef8706d3 037b0638 109eef99     ..).....8.{.....
+    18f4:	fc0afa71 f6ef0c1d 066900b6 0b96ee65     q.........i.e...
+    1904:	efb400ae f57d1506 0d87fc40 0162f235     ......}.@...5.b.
+    1914:	ee7d06a2 f8640f71 1009f8eb 010ff4a9     ..}.q.d.........
+    1924:	f0230b8b fe93082f 0b94f536 033ef57b     ..#./...6...{.>.
+    1934:	f5dc0777 fe3e0961 0bd4f46f 0242f406     w...a.>.o.....B.
+    1944:	f7270486 ff4607ff 0c13f809 00cef4d5     ..'...F.........
+    1954:	f3450589 0147057f 084af8d9 fbe5fd91     ..E...G...J.....
+    1964:	f4030ab4 042301df 0408f55e f47e06cd     ......#.^.....~.
+    1974:	fb650cc2 08a8fac6 ff2ef5ab f4180817     ..e.............
+    1984:	04650676 0dbdf356 fb55f939 f5e00a48     v.e.V...9.U.H...
+    1994:	08bdfe1c 08e4f2f9 f99bfee3 f86c0c53     ............S.l.
+    19a4:	0952fba6 0397f28a f60703a0 fc620a69     ..R.........i.b.
+    19b4:	06b4fd37 0163f61b f41a04de fd260930     7.....c.....0.&.
+    19c4:	08acfb37 0104f933 f5a804bf fafc08c6     7...3...........
+    19d4:	0980fa13 fe91f9ad f82808c1 018b030e     ..........(.....
+    19e4:	09f6f44a ff0cf6f5 f5af09c4 061e046f     J...........o...
+    19f4:	0903f2a5 f963fc31 f8440859 0634008c     ....1.c.Y.D...4.
+    1a04:	080cf58f f4df0157 f7f80d29 07dbfafd     ....W...).......
+    1a14:	01c7f6e0 f85e059e fc6c0818 0767fa28     ......^...l.(.g.
+    1a24:	fd4df706 f4b70a79 055c0536 0746f531     ..M.y...6.\.1.F.
+    1a34:	fcdbfc06 f7e8050a 04aa02c9 07f5f4a3     ................
+    1a44:	f830ffd5 fc460954 0641f987 0482f6e7     ..0.T.F...A.....
+    1a54:	f963ff51 f7ad0d2b 08e3fcc1 ffecf47b     Q.c.+.......{...
+    1a64:	f5b006cd ff350707 0932fbdb 02bcf51c     ......5...2.....
+    1a74:	f13606a4 ffae0a0a 0b60f4ac fce1fb28     ..6.......`.(...
+    1a84:	f89007da ffdf0409 09fdf576 fa0df9b3     ........v.......
+    1a94:	f78e0db3 07efff43 0196f683 fbf0ff7e     ....C.......~...
+    1aa4:	faca0607 0788ffb0 02b6f628 f55d04ae     ........(.....].
+    1ab4:	00950685 05d7f83e 0085fbeb f8f403af     ....>...........
+    1ac4:	fdae0833 09f5f5a0 f9bafa8d f9850b0c     3...............
+    1ad4:	04f80107 0680f6eb fa64fa3a f43b0c59     ........:.d.Y.;.
+    1ae4:	0a3a0240 074af154 f4b103f1 faa209ed     @.:.T.J.........
+    1af4:	06ebfca3 0881f398 f3210222 fbf50f71     ........".!.q...
+    1b04:	0ba6f60b fdddf6af f91b054f fdba0824     ........O...$...
+    1b14:	0b29faa9 fe5cf4b7 f3cf0956 04b30441     ..)...\.V...A...
+    1b24:	05fbf6f2 fd1cfee3 f86a057f 011c03e8     ..........j.....
+    1b34:	0891f40a f657fefd fdd70b9d 0599fb58     ......W.....X...
+    1b44:	01eaf8c4 f8aeff80 fb350ad2 0d75fb22     ..........5.".u.
+    1b54:	ff92f3dc f2bf0941 00fc0685 0906f82e     ....A...........
+    1b64:	0225f711 f044080b 03320abf 0db4ee21     ..%...D...2.!...
+    1b74:	f7dbfb57 f5d00d03 04060598 0ccbf2ae     W...............
+    1b84:	f698f957 f34810ca 0de7fe39 046ff0c1     W.....H.9.....o.
+    1b94:	f5a60463 f8dc09b3 0a0afe21 0609f16b     c.......!...k...
+    1ba4:	f0560731 02250b52 091bf3ff fca9fada     1.V.R.%.........
+    1bb4:	f6440646 0069091e 0e72f45c f82ef829     F.D...i.\.r.)...
+    1bc4:	f51f0d07 0809004a 0802f535 faadfc60     ....J...5...`...
+    1bd4:	f2a30b70 0ac90395 0ac3ec16 f135034e     p...........N.5.
+    1be4:	f9780e8f 089cfe3e 08d9f138 ef3c0192     ..x.>...8.....<.
+    1bf4:	f9591355 13c9f562 fef1f0b2 ee330be3     U.Y.b.........3.
+    1c04:	fe6c0bf5 1225f4e5 000eef9e ea461025     ..l...%.....%.F.
+    1c14:	091508d9 0ecdebcc f795fb68 f0c30f3b     ........h...;...
+    1c24:	07e106fb 10aceba9 f089fcb0 f50c1349     ............I...
+    1c34:	0ea6fbfd 060cf0b5 f1a202e6 f51d10ed     ................
+    1c44:	121bfb7e 04f1ec18 ec910ac9 ff1e0cf7     ~...............
+    1c54:	0f0ef62c 02dcf18f ebb709b7 01440f9f     ,.............D.
+    1c64:	151bee91 fa3bf3dd ed940fe1 044f093f     ......;.....?.O.
+    1c74:	1310ef51 f7d1f4ac ea28152d 0d7505ae     Q.......-.(...u.
+    1c84:	0fade910 f0c9fe3b efcb14ed 106301c7     ....;.........c.
+    1c94:	0f33e68d e93803c2 f5961838 16c9f5ef     ..3...8.8.......
+    1ca4:	05eeeab6 e8e30a46 fb81138c 18d2f155     ....F.......U...
+    1cb4:	fef8eb10 e63b1341 047e0d81 14e9ed5c     ....A.;...~.\...
+    1cc4:	fa6ef2ef e8f212b8 08b20a7c 152fe8fb     ..n.....|...../.
+    1cd4:	f2dcf93d ecbb15d1 0c52036e 10bce9ed     =.......n.R.....
+    1ce4:	f138fbb3 ee4817ac 127eff34 0c5ae6d1     ..8...H.4.~...Z.
+    1cf4:	ec0f041a f3a21686 158dfb0b 0af4e691     ................
+    1d04:	e5560929 f8b5181c 1a5ff115 022cea43     ).V......._.C.,.
+    1d14:	e4f60fae ffd21334 1bc8eb65 fa7aed32     ....4...e...2.z.
+    1d24:	e39c1838 0a380d4b 17ffe5fa f290f59c     8...K.8.........
+    1d34:	e80e1992 1129064a 14c8e378 ea0cfe7f     ....J.).x.......
+    1d44:	edef1b50 156bfc80 0e1be571 e8ec04a3     P.....k.q.......
+    1d54:	f38d198d 187ef71f 0739e687 e66b0c08     ......~...9...k.
+    1d64:	fb8f1583 1884f280 02c6e9e5 e4140eb1     ................
+    1d74:	ff81137d 1aacec6f fb8def09 e4ff144a     }...o.......J...
+    1d84:	06190e06 1a20e866 f5b7f1d1 e4d81a97     ....f. .........
+    1d94:	0f0808fd 16a9e356 edbef9da e9851c3e     ....V.......>...
+    1da4:	14da0226 1283e11c e5a9026c f0b51da6     &.......l.......
+    1db4:	1bf7f70d 0a69e41c e3900b31 f8031929     ......i.1...)...
+    1dc4:	1ca2f0a6 0194e769 e34712e4 0234134c     ....i.....G.L.4.
+    1dd4:	1a56eada f9fdeecc e4dc14bf 083c0e38     ..V.........8.<.
+    1de4:	191de825 f373f518 e9111767 0ce506f7     %.....s.g.......
+    1df4:	149ce7a1 f08dfa8a ead0198d 128b019f     ................
+    1e04:	1124e3c3 ea8c0157 f0b21a3e 16defc2d     ..$.W...>...-...
+    1e14:	0ce9e41d e5320703 f6ab1a60 1c45f295     ......2.`.....E.
+    1e24:	03dee731 e2ac1098 fe561580 1c5eec90     1.........V...^.
+    1e34:	fbf1eba2 e2ff1759 09140eb2 1886e5ed     ....Y...........
+    1e44:	f34ef4d1 e83a190d 0f38079f 1558e4ff     ..N...:...8...X.
+    1e54:	ec7bfbdd ee071964 1460fe6d 0d8be771     ..{.d...m.`.q...
+    1e64:	ea5f027b f291172a 168ef962 0855e7a0     {._.*...b.....U.
+    1e74:	e7fb09b0 fa3f1543 1620f45a 02e5eb1f     ....C.?.Z. .....
+    1e84:	e68b0d14 ff881306 18bdee72 fb8eeea1     ........r.......
+    1e94:	e76e1280 05830d36 185aeaf5 f667f2c5     ..n.6.....Z...g.
+    1ea4:	e7d917a8 0e280702 136fe65f eef3fc5a     ......(._.o.Z...
+    1eb4:	ed3d1867 130400cc 0ebbe573 e84602ee     g.=.....s.....F.
+    1ec4:	f4801900 17caf7b9 065de91d e7640a4b     ..........].K.d.
+    1ed4:	fba61454 18dcf203 ff18ec52 e81d10fd     T.......R.......
+    1ee4:	042c0d79 148bee1f f95af340 ea781222     y.,.....@.Z.".x.
+    1ef4:	099809b4 1245eacc f315f955 eec21364     ......E.U...d...
+    1f04:	0d5403c9 0efaec15 f024fd0a f05c1570     ..T.......$.p.\.
+    1f14:	121ffe3e 0a1ae9da ecfe03f2 f6bd1437     >...........7...
+    1f24:	146cf924 05aaea1a e85a0a5e fe2d1257     $.l.....^.Z.W.-.
+    1f34:	1710f083 fd2cef12 e82f100c 04c50e1a     ......,.../.....
+    1f44:	164cec61 f553f522 eb67154c 0cb0052e     a.L.".S.L.g.....
+    1f54:	106fea46 f0d2fc5b efd31515 115fffc8     F.o.[........._.
+    1f64:	0b4de93d ec2302f4 f7491365 13e5f976     =.M...#.e.I.v...
+    1f74:	05aaec94 ea30085a fc3511e8 1573f3af     ....Z.0...5...s.
+    1f84:	ff27ef93 eaf40da3 01b20d7a 1506efbe     ..'.....z.......
+    1f94:	f9b4f2b4 ea501228 09660980 128aebb5     ....(.P...f.....
+    1fa4:	f434f811 ec9b146e 0e2b043f 1073e9c6     ..4.n...?.+...s.
+    1fb4:	ede2fe7a f17015e9 13e9fcae 0a0ce8bc     z.....p.........
+    1fc4:	e97f05c9 f72715c0 183df533 032fea6b     ......'.3.=.k./.
+    1fd4:	e7540d54 ffe91280 1825ef87 fb4eef68     T.T.......%.h.N.
+    1fe4:	e74d130f 07af0c8e 1697ea53 f445f608     ..M.....S.....E.
+    1ff4:	ea0515b8 0df7060b 131ce7f8 ee55fc27     ............'.U.
+    2004:	ee5c17df 12cffeeb 0e4fe784 e9eb027e     ..\.......O.~...
+    2014:	f31f17ef 177ef928 086ce78f e6240939     ....(.~...l.9.$.
+    2024:	f98d15da 1a67f308 0267e984 e336105f     ......g...g._.6.
+    2034:	008a1396 1bcdeb9c fa10ee49 e4251600     ........I.....%.
+    2044:	08cf0e78 1afce647 f188f46b e65f1ba7     x...G...k....._.
+    2054:	122505fd 15e2e306 eaf3fcb7 eb0d1cbe     ..%.............
+    2064:	1837fdff 1019e248 e4a305f2 f2f21bdf     ..7.H...........
+    2074:	1bc5f5ce 092ee39a e0f80d25 f8fb19c1     ........%.......
+    2084:	1f7fee60 0058e739 e05c13da 01d714fe     `...9.X...\.....
+    2094:	1fa3e88a f90cebc3 df051a9d 0b0d0f7c     ............|...
+    20a4:	1dfce284 f12df326 e2381d46 11a50872     ....&.-.F.8.r...
+    20b4:	1abadf27 e868fa79 e7c221e7 1a04ff5a     '...y.h..!..Z...
+    20c4:	139fde6e e30d034c ecb92175 2085f6ef     n...L...u!..... 
+    20d4:	0cb9de09 dd900dd5 f7911d9d 227ced7b     ............{.|"
+    20e4:	03d9e29f da7215bc ffca1ad7 2456e511     ......r.......V$
+    20f4:	f8ebe85e dc921c6c 09b711d5 2313e05f     ^...l......._..#
+    2104:	f0adef2f dd4122cf 139f0ab2 1de6dbbe     /...."A.........
+    2114:	e863f925 e36523cc 1a2f028c 19ced970     %.c..#e.../.p...
+    2124:	e07f01be e97b2626 2195f7fb 116cdaa7     ....&&{....!..l.
+    2134:	dbeb0a3d f08723ef 272eef7c 077edcaf     =....#..|..'..~.
+    2144:	d769150e fc4b1ebf 26b2e6a0 ff04e226     ..i...K....&&...
+    2154:	d62c1ccb 06e019af 27cade07 f2a5eae5     ..,........'....
+    2164:	da9a2329 0fdf0f93 23fadab8 e9fcf27c     )#.........#|...
+    2174:	dd1a283f 1aee05a6 1d54d6b6 e1fcfe57     ?(........T.W...
+    2184:	e3ef2797 20b2fd92 178ad58b d981086c     .'..... ....l...
+    2194:	ed8d28a9 275df170 0ceed92f d6ca10de     .(..p.]'/.......
+    21a4:	f58a2485 2ba8e8f8 01f7dc63 d44b1c47     .$.....+c...G.K.
+    21b4:	02081d53 29e7e12e f953e33a d4272296     S......):.S.."'.
+    21c4:	0c9e173f 28f0d895 ecb0ee44 da1b2768     ?......(D...h'..
+    21d4:	15080ca6 240ed695 e468f609 ddc42bf5     .......$..h..+..
+    21e4:	202e019c 1b00d445 de0a02ea e6be2981     ... E........)..
+    21f4:	255ef8b9 1462d401 d60b0de5 f16e286e     ..^%..b.....n(n.
+    2204:	2982ec08 08bbda0d d489165a fa4323c5     ...)....Z....#C.
+    2214:	2d92e333 fcfdde82 d3402122 072f1a0b     3..-...."!@.../.
+    2224:	29fedcb9 f49ce6b4 d3da268b 124613c0     ...).....&....F.
+    2234:	2763d4cc e8fff21b da6029d9 196f0916     ..c'.....)`...o.
+    2244:	2293d3c2 e049fb1d e0392db3 2372fcc0     ..."..I..-9...r#
+    2254:	1821d3b7 dab507b9 e90f2a3d 2804f4f0     ..!.....=*.....(
+    2264:	1066d439 d5281140 fb8721ff 1af5ef0f     9.f.@.(..!......
+    2274:	0777e100 ddf91248 00c61db3 279ae273     ..w.H.......s..'
+    2284:	f40ae80b e1a41970 038a120c 2117eb06     ....p..........!
+    2294:	f922e9fb db2a1c5a 10370e14 2068da1b     ..".Z.*...7...h 
+    22a4:	ea2bf788 e1f627f9 176d0353 1654d8fb     ..+..'..S.m...T.
+    22b4:	e278ffc2 ecfb27c5 219ff8f0 0a0ddcbb     ..x..'.....!....
+    22c4:	debc0b1b f4e21da8 2165f33f 05e9e2ff     ........?.e!....
+    22d4:	df671329 fddc1611 1b39ead8 ffebea71     ).g.......9.q...
+    22e4:	e4e214cc 020b146f 1ba3e879 fb48e88f     ....o...y.....H.
+    22f4:	e4111781 09021207 1be1e75f f68decd7     ........_.......
+    2304:	e0bc19e5 0fd30d0d 1ae1e07a edbcfa14     ........z.......
+    2314:	e4e11eca 1302046c 15e6ddc3 e5840211     ....l...........
+    2324:	ed6d2468 1c00f7dd 090bde9e e2120d5a     h$m.........Z...
+    2334:	f9b11cc7 1dd2f0e7 0231e415 df961201     ..........1.....
+    2344:	032315bb 1cc8e916 fb1bef11 e5681537     ..#.........7.h.
+    2354:	06c50d13 18f9e648 f6dff264 e9c919ce     ....H...d.......
+    2364:	0cc907e9 1174e598 f213f772 ebb318df     ......t.r.......
+    2374:	103706b2 1216e572 eba4fdcc ed9818e3     ..7.r...........
+    2384:	1363ff9c 1097e518 e8410467 f2c91b77     ..c.....g.A.w...
+    2394:	16adf66b 0873e43c e5f80c6d fadf19df     k...<.s.m.......
+    23a4:	1947f05a ff92e6f5 e319132d 05ef132f     Z.G.....-.../...
+    23b4:	192bea24 f858f04c e676152c 09f20b77     $.+.L.X.,.v.w...
+    23c4:	177de64d f3a0f7ce ec5617cb 0c9b04e5     M.}.......V.....
+    23d4:	10fee626 f18afb6c ef96191b 101c0227     &...l.......'...
+    23e4:	0d00e5bb ee7effed f395168c 1119fee4     ......~.........
+    23f4:	0b07e91d eab30459 f6461695 14c2f6fe     ....Y.....F.....
+    2404:	0690e9b1 e9a20b07 fa1415a5 16f8f06d     ............m...
+    2414:	ff53eb83 e79d139e 05540fe0 14d4ea70     ..S.......T.p...
+    2424:	f894f23a e9c21448 0bf90a9f 1295e731     :...H.......1...
+    2434:	f0e4faf3 f024159b 0e090032 0d2ee8f6     ......$.2.......
+    2444:	f0310135 f5051568 0f82fb70 0721ea33     5.1.h...p...3.!.
+    2454:	ef4e05b5 fa8f1247 0f81f9c7 0492ed6c     ..N.G.......l...
+    2464:	ec670782 fd16113f 1137f504 01daf04d     ..g.?.....7.M...
+    2474:	edec0aff fdd80f20 12e2f0f0 fe0af148     .... .......H...
+    2484:	ecca11cd 047c0bf1 1040ebe8 f807f570     ......|...@.p...
+    2494:	ee4713bb 0a8e0863 0ee6e8a2 f042fd37     ..G.c.......7.B.
+    24a4:	f387139e 0ea4fe50 0b0feb62 ef2d0384     ....P...b.....-.
+    24b4:	f85f1258 0facf715 03d1edc3 f08c09d1     X._.............
+    24c4:	feb50e98 0db2f530 ff21f1ae f09f0ac3     ....0.....!.....
+    24d4:	028d0bf8 0cc7f367 fbd1f706 f19d0bca     ....g...........
+    24e4:	02a8084f 0d1af1e5 fa4ef8ce f2e20eba     O.........N.....
+    24f4:	05ee0521 0af4eef7 f770fb98 f51a108b     !.........p.....
+    2504:	0ad700f0 09a1ed11 f21b0031 f86a10db     ........1.....j.
+    2514:	0e57fbeb 05ffeef5 efc5065b fc120f31     ..W.....[...1...
+    2524:	0e15f579 0006f2bf f1990b8d 019f0bb0     y...............
+    2534:	0c52f1d8 fad1f619 f2f20d51 06a206ef     ..R.....Q.......
+    2544:	0a31f164 f7e5fbc5 f5ab0c33 081601dd     d.1.....3.......
+    2554:	0910f17a f660ffae f8220d71 081afdc3     z.....`.q.".....
+    2564:	062cf199 f55501e5 fa920eaf 0a75fb8b     ..,...U.......u.
+    2574:	031cf0f1 f31404c0 fd350cac 0c27f8b0     ..........5...'.
+    2584:	014ff354 f1b7081e 00370a73 0ca4f387     T.O.....s.7.....
+    2594:	fc3df6fe f38e0c50 040606b2 0aa8f0fe     ..=.P...........
+    25a4:	f878fa61 f6190ea8 094301ab 0783f03e     a.x.......C.>...
+    25b4:	f41b0100 f9ee0d8e 0a6cfcf2 04aaf26f     ..........l.o...
+    25c4:	f38c04a9 fd9f0bb1 0a70f83f 002cf549     ........?.p.I.,.
+    25d4:	f4a507af 006b09cf 093ef66c fd79f6b7     ......k.l.>...y.
+    25e4:	f5e608cf 03740790 095cf552 fb87f941     ......t.R.\.A...
+    25f4:	f57a09e4 050104ed 09d9f257 f82efca5     ..z.....W.......
+    2604:	f6450d2c 079900f8 07c1f133 f588000d     ,.E.....3.......
+    2614:	f94f0e9d 0afefccd 0437f0cf f2570526     ..O.......7.&.W.
+    2624:	fdff0d0c 0c61f798 ffc3f3ef f1b9095b     ......a.....[...
+    2634:	022c09bd 0be7f35c fb75f841 f4610bc8     ..,.\...A.u...a.
+    2644:	04f40596 094af1ce f85ffbf8 f6be0d13     ......J..._.....
+    2654:	084901fb 06fbf1a1 f5f3ff0d f8b80c6c     ..I.........l...
+    2664:	0985ff20 06a7f1c1 f4050278 fb080cb5      .......x.......
+    2674:	0a7afb57 03edf220 f2e1056b fe1e0d42     W.z. ...k...B...
+    2684:	0bfcf6d5 ffe7f2ce f1590994 01730b23     ..........Y.#.s.
+    2694:	0d79f340 fbf9f628 f14c0d7f 056507b0     @.y.(.....L...e.
+    26a4:	0cc4eff3 f7cefac5 f3e60faa 08cb026e     ............n...
+    26b4:	099cee14 f347ff77 f82310a4 0cacfcb7     ....w.G...#.....
+    26c4:	05f3ef56 f19903a1 fba00e99 0dd0f909     V...............
+    26d4:	01f1f1e1 f0720840 ff650bda 0d71f55e     ....@.r...e.^.q.
+    26e4:	feedf44c f1720b11 02160abe 0d12f20b     L.....r.........
+    26f4:	fb1bf626 f1f00d66 057508a2 0da4efda     &...f.....u.....
+    2704:	f7f1f911 f1a80fd8 09380465 0cebed35     ........e.8.5...
+    2714:	f3e9fd57 f42812c2 0c59ff24 09f7ebd9     W.....(.$.Y.....
+    2724:	f0140334 f8b512ff 1023f910 0444ed20     4.........#. .D.
+    2734:	ed9b08df fdde10dd 111ff3b2 fed8f13e     ............>...
+    2744:	ed5a0d40 02f80bde 1054effc fb13f5da     @.Z.......T.....
+    2754:	f03b0fb3 062a07d2 0e45ee15 f76af92f     ..;...*...E./.j.
+    2764:	f25e114f 08fe0426 0cd8ed65 f35bfcea     O.^.&...e.....[.
+    2774:	f3331218 0cde0001 0a5cebdc efe701cf     ..3.......\.....
+    2784:	f68f13a0 0fd3fabd 076aeb71 ed510778     ........q.j.x.Q.
+    2794:	fac41343 1226f461 01d8ed2b ec210c52     C...a.&.+...R.!.
+    27a4:	002f106a 138deff5 fbd8f183 ebc410e0     j./.............
+    27b4:	06350b2e 127aec4e f692f70d ee061403     ..5.N.z.........
+    27c4:	09f10545 0fbbe9fc f2befcd9 f25014d1     E.............P.
+    27d4:	0cbe0030 0b4eea08 efa70111 f63d1428     0.....N.....(.=.
+    27e4:	0fddfb78 0802eb67 ed9c0651 f8ef12ea     x...g...Q.......
+    27f4:	1179f619 04c3ecde ebfa0ad2 fd3411a9     ..y...........4.
+    2804:	13f7f119 ff51ef44 eb0c0fbf 02800f5c     ....D.Q.....\...
+    2814:	14b0ec92 f903f267 eadb1408 08750a5f     ....g......._.u.
+    2824:	1354e8c4 f3a6f8b5 ed1516d1 0d960390     ..T.............
+    2834:	1020e6fd ef06ffb1 f219174b 10d0fc51     .. .....K...Q...
+    2844:	0b1ee7c3 ec5d0517 f78b15cc 12bdf71f     ......].........
+    2854:	0502eab7 eb550a35 fc1512ce 1409f299     ....5.U.........
+    2864:	0126ee60 ea920e3f ffb60fee 1466ee1e     `.&.?.........f.
+    2874:	fc83f1ab eb3611c2 04960c20 142fea8c     ......6. ...../.
+    2884:	f6f7f59b ec7415bf 0a8c06ff 12c5e824     ......t.....$...
+    2894:	f1aefb57 ee201816 0f9700cd 0f96e68e     W..... .........
+    28a4:	ecef0223 f2ec1863 12f6f8e5 0960e817     #...c.........`.
+    28b4:	ea85087c f914173e 154bf2ea 0314eabc     |...>.....K.....
+    28c4:	e9d20dae fe7b12a4 15fbef89 fdebef1d     ......{.........
+    28d4:	ea291172 03220d79 1479ebac f926f431     r.).y."...y.1.&.
+    28e4:	ebef146b 075908b0 12e0e8f5 f4d1f830     k.....Y.....0...
+    28f4:	ee0f1723 0ba503a7 0fcde846 f013fd91     #.......F.......
+    2904:	f0e11792 1042fdd4 0cece7b6 ec0103e5     ......B.........
+    2914:	f4ac1792 13f5f756 0874e852 ea1c0a0b     ....V...R.t.....
+    2924:	f98715be 16caf128 00bfeb74 e8be1053     ....(...t...S...
+    2934:	005d1156 16c2ecb7 fb8cf073 e98914b3     V.].....s.......
+    2944:	06a70b79 143fe94b f5ebf6f7 ec2c15fc     y...K.?.......,.
+    2954:	0a20056b 11f0e7cf f27efc70 ef58178e     k. .....p.~...X.
+    2964:	0dc6fff5 0df4e85c ef540082 f2b916a3     ....\.....T.....
+    2974:	117dfb58 0a4ce8fc ec9706ba f6de1539     X.}...L.....9...
+    2984:	1417f583 0608eba0 ea750bbe fba61366     ..........u.f...
+    2994:	15aeef89 ffefee6e e96411dc 01b50e74     ....n.....d.t...
+    29a4:	1606eb8b f999f227 ea7a15d9 084d08ef     ....'.....z...M.
+    29b4:	1351e8e8 f467f98c ed3416e0 0c6902e4     ..Q...g...4...i.
+    29c4:	109ae841 f0a7ff5f f1471766 1003fc21     A..._...f.G.!...
+    29d4:	0b90e99d ef290462 f50615a8 128cf81d     ....b.).........
+    29e4:	074feb12 ec7409dc f9f012f9 13edf39d     ..O...t.........
+    29f4:	0359edb8 eb8f0ddb fe39105e 14f1eec8     ..Y.....^.9.....
+    2a04:	fdf8f1be ebf01219 02a80b30 1358ec39     ........0...9.X.
+    2a14:	f8dbf544 ec88157c 0941068b 1186e9be     D...|.....A.....
+    2a24:	f350fc2d efb01580 0d450056 0ec0e91d     -.P.....V.E.....
+    2a34:	ef800249 f38915fc 10d5f8ff 095aea74     I...........t.Z.
+    2a44:	eddd074e f76c13e0 1257f567 0439ece8     N.....l.g.W...9.
+    2a54:	ec950ca3 fd251038 12c4f1b4 0036f093     ....8.%.......6.
+    2a64:	ec680f15 010d0bb0 1276ee73 fbbdf57a     ..h.....s.v.z...
+    2a74:	edeb11d2 04760798 112cec83 f7a8f89f     ......v...,.....
+    2a84:	eeee1449 09d302ed 0e8fead3 f3d2fe89     I...............
+    2a94:	f1a7140f 0d91fe12 0b3eeb12 ef39042d     ..........>.-.9.
+    2aa4:	f5a21373 108bf779 06f1ed9a ee9e093f     s...y.......?...
+    2ab4:	fa25108a 11f1f3a7 014eefca eddb0deb     ..%.......N.....
+    2ac4:	00200c89 10ddf083 fd5bf434 ee1b0f7d     .. .....4.[.}...
+    2ad4:	03c4087b 1019ee6c f910f95b f085113f     {...l...[...?...
+    2ae4:	0712032d 0eb9ee28 f66afc92 f1b71272     -...(.....j.r...
+    2af4:	0ab3ff52 0b02ed8b f38201bd f4ad1136     R...........6...
+    2b04:	0d3afbf1 083feddd f0d9063d f93b1016     ..:...?.=.....;.
+    2b14:	0f5df626 03b8f155 ef720a08 fccc0cc0     &.].U.....r.....
+    2b24:	105ff2c4 ff14f3b0 efba0e97 01a4084a     .._.........J...
+    2b34:	0ecff091 fbd0f7b3 f06e0fa5 062b0489     ..........n...+.
+    2b44:	0cf1eeb0 f73bfd90 f2f40fbd 08b6ffaf     ......;.........
+    2b54:	0b19efac f52900ba f5720fb2 0b78fb3e     ......)...r.>.x.
+    2b64:	06cef0e2 f35104d6 f88c0d98 0ce5f879     ......Q.....y...
+    2b74:	0417f14d f123086f fcd70c0a 0d92f55c     M...o.#.....\...
+    2b84:	0138f4b9 f13c0af6 ffe808cf 0ecff2fe     ..8...<.........
+    2b94:	fc90f7c1 f1ec0def 043803ff 0c2af197     ..........8...*.
+    2ba4:	f9a0fbf8 f2c40ead 07de00a7 09bbf0c1     ................
+    2bb4:	f5e300c2 f6d80dad 09cffcf2 076cf1bc     ..............l.
+    2bc4:	f3be0406 f8fb0c75 0c4bf829 02eef3d0     ....u...).K.....
+    2bd4:	f3dc0799 fc37097a 0c0df6a7 0035f55e     ....z.7.....^.5.
+    2be4:	f3580a6b 003f06f6 0bdff43b fd42f911     k.X...?.;.....B.
+    2bf4:	f3450b11 02f9050d 0b6ef2e5 fa18fc8f     ..E.......n.....
+    2c04:	f4ec0ce3 05770050 0901f30c f84cff74     ....P.w.....t.L.
+    2c14:	f68b0ca3 0972fd46 0624f233 f553041c     ....F.r.3.$...S.
+    2c24:	f9950b02 0a33f9a8 0419f467 f3ac073e     ......3.g...>...
+    2c34:	fd35092d 0c04f605 ffa5f7a6 f49909b2     -.5.............
+    2c44:	ffd605b0 0ad9f594 fcd1f995 f4480ba6     ..............H.
+    2c54:	040302b1 0901f3fc fa8afddb f5e40b54     ............T...
+    2c64:	06aaffce 080cf364 f7980118 f8920b1a     ....d...........
+    2c74:	0802fbc5 05aff469 f6710425 f9e50ab8     ....i...%.q.....
+    2c84:	0a66f9bb 0291f5b7 f5ac0756 fda607b5     ..f.....V.......
+    2c94:	0a1cf7dd 0064f7df f4720939 014c05f4     ......d.9.r...L.
+    2ca4:	0a8df4bd fc6dfb5b f5c10b29 03ef027b     ....[.m.)...{...
+    2cb4:	09b0f3ce f95ffdec f66e0c13 0720fe1b     ......_...n... .
+    2cc4:	0640f447 f77b0224 f94c0a4f 0916fc18     G.@.$.{.O.L.....
+    2cd4:	0485f479 f5370595 fc2708ae 09e4f8b3     y.....7...'.....
+    2ce4:	01e2f71b f4ec0753 fe4a076d 0a86f677     ....S...m.J.w...
+    2cf4:	fe95f84f f5420a3e 01e003f3 097ff5a0     O...>.B.........
+    2d04:	fc2bfaf6 f4960ae7 04b501a2 08bbf35f     ..+........._...
+    2d14:	f904ff68 f6db0b56 072afe09 0709f388     h...V.....*.....
+    2d24:	f6a501d0 f9220bde 09e7fa41 0337f4d6     ......".A.....7.
+    2d34:	f5d505da fc020974 0b32f826 011bf601     ....t...&.2.....
+    2d44:	f37a0986 00160729 0ac7f53f fddaf9aa     ..z.)...?.......
+    2d54:	f43d0a62 025d041b 0a6cf31d f9f0fc72     b.=...]...l.r...
+    2d64:	f6350c51 05fafff3 0911f359 f888fedc     Q.5.....Y.......
+    2d74:	f5e70cfe 0912fdb6 06cbf2b8 f5ad03bb     ................
+    2d84:	f94e0b51 0a2afa72 0481f3bc f3b106cd     Q.N.r.*.........
+    2d94:	fc160b06 0bcbf641 00e6f5dd f3620924     ....A.......$.b.
+    2da4:	ff140821 0cb5f495 fdbdf78f f2980c92     !...............
+    2db4:	03c5047d 0ae5f2bd fa7bfc0e f3bf0ce5     }.........{.....
+    2dc4:	06af01a4 09e7f133 f6c8ffdd f6cb0d54     ....3.......T...
+    2dd4:	095dfd33 072bf236 f4da02d9 f8530d7b     3.].6.+.....{.S.
+    2de4:	0c45f976 0409f264 f30c0769 fc360af1     v.E.d...i.....6.
+    2df4:	0cbff711 01c2f459 f12d0a46 ffa60929     ....Y...F.-.)...
+    2e04:	0d86f3b2 fd70f798 f2290c46 02b0068b     ......p.F.).....
+    2e14:	0d67f1e4 fa16f9f7 f2460efb 070201ad     ..g.......F.....
+    2e24:	0b20f05a f7b0fe9c f3460ef9 0a80fee3     Z. .......F.....
+    2e34:	097bef28 f37502e5 f74d0e92 0c19fa0b     (.{...u...M.....
+    2e44:	061ef14d f1d10628 fa270d8a 0ec1f5e2     M...(.....'.....
+    2e54:	0178f357 f0af0aa4 fe6a0a50 0e97f385     W.x.....P.j.....
+    2e64:	fedef55f efc10d5f 0328070a 0e5df06b     _..._.....(.k.].
+    2e74:	fa52fa00 f0dd0eac 061403fa 0df3ef20     ..R......... ...
+    2e84:	f662fcbd f24c10dc 0a82ff48 0b11ef5a     ..b...L.H...Z...
+    2e94:	f4350160 f4c01095 0d6efbac 0848ee88     `.5.......n...H.
+    2ea4:	f10505cc f8bf0eeb 0eecf7d5 0498f125     ............%...
+    2eb4:	eec30944 fc3e0d3c 109ef38d ffb4f36f     D...<.>.....o...
+    2ec4:	ef1a0d07 00b70972 1042f0c7 fc54f68f     ....r.....B...T.
+    2ed4:	ee9b1024 064005ec 0f18ee5a f873fc0c     $.....@.Z.....s.
+    2ee4:	f0bd10d3 0917020f 0d2aed1f f3a6ff7d     ..........*.}...
+    2ef4:	f329120b 0c87fcbf 0a07ede6 f13d041f     ..)...........=.
+    2f04:	f6071117 104cf940 0652eed5 eec508e5     ....@.L...R.....
+    2f14:	fb120e51 1087f4f8 02f5f09e ecd80c01     Q...............
+    2f24:	fed90cb9 1253f0c4 fcfbf4b1 ed890fa8     ......S.........
+    2f34:	030d07f6 1163eee8 f981f7e9 edac11f0     ......c.........
+    2f44:	088e039a 0eebecf8 f5ccfe22 f06f120c     ........".....o.
+    2f54:	0c080026 0d98ebd5 f137021f f4b7121c     &.........7.....
+    2f64:	0f09fa8d 08c7ee53 ef4b06b8 f76b10dd     ....S.....K...k.
+    2f74:	11adf6a3 0453ee9c ed570bbb fced0dca     ......S...W.....
+    2f84:	11fcf2d6 010ef20c eb8b0e0a 01620b41     ............A.b.
+    2f94:	12c9ef0e fb99f69a ed5d1093 0547073c     ..........].<.G.
+    2fa4:	121bed0c f746fa2e edd71365 0abb020c     ......F.e.......
+    2fb4:	0e8aec75 f379ff9c f1401226 0e40fd91     u.....y.&.@...@.
+    2fc4:	0c36ebbf ef1104ce f57e11dc 1046f8ca     ..6.......~...F.
+    2fd4:	07beede8 ed490840 f8a71034 12cdf474     ....@.I.4...t...
+    2fe4:	032af023 ec4b0c7d fe750c83 12e3f1a7     #.*.}.K...u.....
+    2ff4:	fe73f387 eb190f23 03d00923 123aedc4     ..s.#...#.....:.
+    3004:	f97bf939 ed381127 07b204d4 114bec8a     9.{.'.8.......K.
+    3014:	f4ebfb73 eef012bc 0c6d007a 0d16ece4     s.......z.m.....
+    3024:	f1d40188 f2a611c5 100dfb60 0aa3ec6c     ........`...l...
+    3034:	edb706b7 f71d114d 10f1f74c 063aef54     ....M...L...T.:.
+    3044:	ebfc09a0 fc090efb 138df2ee 0079f1cc     ..............y.
+    3054:	ec230ddc 00a40aac 12cef0a0 fd05f53d     ..#.........=...
+    3064:	eb671063 05670729 1129edcb f763fae1     c.g.).g...)...c.
+    3074:	ef1910ec 094402c5 0fbaec8f f322fe8b     ......D.......".
+    3084:	f1881244 0d1dfe2b 0be0ed31 f05e02f0     D...+...1.....^.
+    3094:	f41b1111 1049fa5e 088eedd4 ed8e0837     ....^.I.....7...
+    30a4:	f9af0ef0 1181f5a2 03c8f0fc ec8a0ad7     ................
+    30b4:	fdf00d25 1309f1b7 fe11f430 ec950ead     %.......0.......
+    30c4:	02d00912 1275f050 fa76f79b ed141053     ....P.u...v.S...
+    30d4:	080f04f3 0fe3ee34 f5defcbb f0060fe8     ....4...........
+    30e4:	0a6b018c 0e2bed84 f1c90080 f3cd1067     ..k...+.....g...
+    30f4:	0dc7fc48 09beef9b efdb0485 f7340f64     H...........d.4.
+    3104:	1066f8d7 0556eff6 ed77092e fc8a0c85     ..f...V...w.....
+    3114:	109ef471 01f8f34d ecdc0af5 008f0b50     q...M.......P...
+    3124:	1178f161 fc1cf792 ee4c0dd9 049d06ad     a.x.......L.....
+    3134:	10fbf067 f84bf9c0 ef220fe2 097a02eb     g.....K..."...z.
+    3144:	0d2beeeb f4adfed8 f25c0f39 0c48fefa     ..+.....9.\...H.
+    3154:	0b96ef07 f12b026a f6360ef2 0e13fab9     ....j.+...6.....
+    3164:	0730f1af efe20562 f9c60d5f 1052f7f8     ..0.b..._.....R.
+    3174:	02d3f357 ef0c095e fe720a0d 0fc5f49d     W...^.....r.....
+    3184:	ff73f614 ee1f0b3f 03030810 0f5ef1e5     ..s.?.........^.
+    3194:	fa27f9d3 f1040d1c 05bc041e 0e1af11f     ..'.............
+    31a4:	f715fc15 f2250e12 0a36007b 0ae5f0fb     ......%.{.6.....
+    31b4:	f3ea00d6 f5670d45 0c17fd50 0879f1ba     ....E.g.P.....y.
+    31c4:	f12b04b9 f9b60ca7 0d44f900 0496f45d     ..+.......D.]...
+    31d4:	f0860663 fccd0ac1 0efdf664 ffd0f5ac     c.......d.......
+    31e4:	f06c096d 010907bd 0e18f4a2 fd03f8da     m.l.............
+    31f4:	f0f80b17 04e60542 0ce9f2de f883fcc3     ....B...........
+    3204:	f3a60b7e 075b01a6 0af6f2f1 f5a6ff43     ~.....[.....C...
+    3214:	f5d20c28 0a77fe0b 075bf3d2 f3fb0254     (.....w...[.T...
+    3224:	f92c0a98 0c19fba8 04b5f3e3 f2230585     ..,...........#.
+    3234:	fc7a0987 0ca1f85a 00d5f708 f21e071d     ..z.Z...........
+    3244:	ff830791 0d64f60a fcd7f979 f2f809f0     ......d.y.......
+    3254:	03460437 0babf59b fac6fb24 f43e0a88     7.F.....$.....>.
+    3264:	067f0237 0987f42b f75cff2e f6e20a01     7...+.....\.....
+    3274:	07edff28 0822f4ce f53a012c f91c0a18     (.....".,.:.....
+    3284:	0a8bfbb1 0418f692 f4c503fe fb6a0874     ............t.j.
+    3294:	0af9fa0d 0136f74d f3c9062e 003d067d     ....M.6.....}.=.
+    32a4:	0a9ef79a fe69fa3c f45e0774 02770461     ....<.i.t.^.a.w.
+    32b4:	0a87f5d0 f9f2fc83 f5f908ae 050d00cf     ................
+    32c4:	0861f692 f899fef0 f7100950 082efeba     ..a.....P.......
+    32d4:	0645f633 f6e101ca fa6607d1 0866fcde     3.E.......f...f.
+    32e4:	0446f6ec f49e0371 fcca0784 0a0ef97e     ..F.q.......~...
+    32f4:	0035f9ab f56e0577 ffa8056e 09ecf83d     ..5.w.n.n...=...
+    3304:	fdcafa72 f5820736 02dd02f6 087cf721     r...6.......!.|.
+    3314:	faebfd02 f6a807aa 0518019a 07eef66a     ............j...
+    3324:	f834002a f9400812 06bffe02 054ef7ba     *.4...@.......N.
+    3334:	f76b014d fb1e07dc 08c9fb9c 0246f8a0     M.k...........F.
+    3344:	f66c03d8 fe390623 08affa8b 0084fa1c     ..l.#.9.........
+    3354:	f53b05d2 00fd0423 094bf835 fd11fcdc     ..;.#...5.K.....
+    3364:	f6960695 02df0207 0852f7d2 f9f3fd75     ..........R.u...
+    3374:	f81307d0 0584ff8d 0634f7e0 f8b1007c     ..........4.|...
+    3384:	f9f70770 0718fdab 04d4f7b1 f6e40319     p...............
+    3394:	fcc20667 07d1fb67 022ff965 f5e60479     g...g...e./.y...
+    33a4:	fe5505b8 09cbf93f fe93fadd f6830670     ..U.?.......p...
+    33b4:	01a00372 08cef7eb fc6bfc5e f6750783     r.......^.k...u.
+    33c4:	03fe0194 0777f704 f9abff8e f87b0763     ......w.....c.{.
+    33d4:	05f1ff6c 06b8f72b f70000fc fa6907da     l...+.........i.
+    33e4:	087efc16 0381f7e4 f68603cb fce206e2     ..~.............
+    33f4:	0923faec 0110f898 f4f4058c 00080540     ..#.........@...
+    3404:	0923f84f fe8efb63 f57606e1 02690393     O.#.c.....v...i.
+    3414:	093df6fa faf3fd00 f6cd0834 04a200e4     ..=.....4.......
+    3424:	0867f717 f888ff30 f8330894 076ffe16     ..g.0.....3...o.
+    3434:	05ccf65d f660021f fa3a0854 08e6fb9a     ].....`.T.:.....
+    3444:	03e6f70f f4680422 fd3007d6 0a98f8b3     ....".h...0.....
+    3454:	0060f91d f4380616 ffe30585 0ab8f77a     ..`...8.....z...
+    3464:	fd27fa00 f4060858 033902f5 0a2bf5fb     ..'.X.....9...+.
+    3474:	fa95fd10 f5580913 0620011c 0946f558     ......X... .X.F.
+    3484:	f6d40039 f74c098e 0804fe61 074df436     9.....L.a...6.M.
+    3494:	f632020b f86a097f 0ad1fbfa 02e4f65a     ..2...j.....Z...
+    34a4:	f4d40536 fcf7083a 0beef8dd 0117f729     6...:.......)...
+    34b4:	f32d072b ffdf06d0 0c57f65e fd32f9d7     +.-.....^.W...2.
+    34c4:	f2f10998 02d50513 0bf6f4f9 f9dffbd2     ................
+    34d4:	f4c90a11 065e0138 0a00f412 f6cffee2     ....8.^.........
+    34e4:	f58f0b73 08d9ff40 0866f36b f45501f9     s...@...k.f...U.
+    34f4:	f9170af6 0b82fb90 0556f46a f2d3048f     ........j.V.....
+    3504:	fbcd0a32 0d4df82f 01bcf610 f0b6084d     2.../.M.....M...
+    3514:	fe890919 0de3f698 fe6af79e f1e00941     ..........j.A...
+    3524:	03510598 0d46f365 fa25fab8 f2090b71     ..Q.e.F...%.q...
+    3534:	054603f8 0c69f33e f6bafdc3 f4f20c91     ..F.>.i.........
+    3544:	09b2ff4f 0a0af214 f46600c9 f6850c7c     O.........f.|...
+    3554:	0bc0fd0d 0754f2c5 f0e80465 fb0c0bba     ......T.e.......
+    3564:	0d90f9e6 048ef3db f014077b fdc90ab3     ........{.......
+    3574:	0e66f69f ff4ff59a f0090a36 017e06fb     ..f...O.6.....~.
+    3584:	0eb6f3b5 fb9df83d f0d00ce4 061f04f1     ....=...........
+    3594:	0e55f1e1 f7e4fc1d f20f0d34 084001e2     ..U.....4.....@.
+    35a4:	0bc7f20c f3b1ff43 f5160db3 0c2afd77     ....C.......w.*.
+    35b4:	091cf150 f19502b4 f8370dba 0e98fab7     P.........7.....
+    35c4:	04d0f268 f033069c fbcf0c2b 0ff6f73e     h.....3.+...>...
+    35d4:	01a5f463 eed308ea 00440a25 1053f38a     c.......%.D...S.
+    35e4:	fcf5f688 ef530b7a 03c407da 0fcaf2b0     ....z.S.........
+    35f4:	f95ff946 effc0db3 08130428 0ce1f12a     F._.....(...*...
+    3604:	f4d3fd6a f2f80ea4 0bc9ff7f 0baef006     j...............
+    3614:	f19100c7 f5c50ebf 0df6fc8e 072ef136     ............6...
+    3624:	ef860424 f9ac0dcb 10c3f7f9 03c9f1ca     $...............
+    3634:	ee5d07b9 fddf0bd3 1059f5bd fe75f45c     ..].......Y.\.u.
+    3644:	ee190b27 01ab09d7 10ddf2b5 faa3f6fd     '...............
+    3654:	ef110cd7 061605ef 0f66f0f2 f6b3fad1     ..........f.....
+    3664:	f1250f2c 09e70235 0cf2f017 f391fea9     ,.%.5...........
+    3674:	f3830f2c 0d85fe9e 09f3ef10 f06e0267     ,...........g.n.
+    3684:	f74d0f3b 0f54fa59 0555f16e ee980624     ;.M.Y.T.n.U.$...
+    3694:	fb9c0de9 1152f699 0148f278 ee0409bc     ......R.x.H.....
+    36a4:	ff9d0b79 119ef439 fd09f476 edbe0c1f     y...9...v.......
+    36b4:	03960884 107ef191 f895f8c9 efe80e8c     ......~.........
+    36c4:	081104b1 0e88f06c f518fbdd f26a0fe6     ....l.........j.
+    36d4:	0c010072 0bafefd1 f1e20013 f5330fad     r.............3.
+    36e4:	0e56fd73 086eef92 ef8403c6 f9600e64     s.V...n.....d.`.
+    36f4:	0fdaf98d 0366f19e ee520784 fd130ce7     ......f...R.....
+    3704:	1101f584 ff3ff33f eea30ac2 01fc09d2     ....?.?.........
+    3714:	1053f375 fb54f6a4 ef260d16 059f0704     u.S...T...&.....
+    3724:	0f67f0c2 f75ef9b1 f14e0f0e 097e03a6     ..g...^...N...~.
+    3734:	0d4af01c f3dffd6e f38f0fb6 0cafff55     ..J.n.......U...
+    3744:	09c0efc6 f14a0195 f6f30f56 0eb1fbca     ......J.V.......
+    3754:	05c3f08a ef980503 fb6c0d78 0ffcf803     ........x.l.....
+    3764:	0209f250 eea80822 ff570c12 10aaf4fe     P...".....W.....
+    3774:	fd29f52f eebc0b30 03b208ac 0fecf2c5     /.).0...........
+    3784:	f98bf79b eff90d86 073d058f 0d9df092     ..........=.....
+    3794:	f64dfb45 f2c60e58 0a7701a0 0b15f09d     E.M.X.....w.....
+    37a4:	f2d6ff01 f5020f07 0d76fe25 0796f07b     ........%.v.{...
+    37b4:	f1460303 f8fa0e33 0f49fa11 03aef177     ..F.3.....I.w...
+    37c4:	ef8e061d fcdd0c99 0fb1f6de ff6ef39e     ..............n.
+    37d4:	efe00989 017e0a11 0f74f4e6 fb67f5c0     ......~...t...g.
+    37e4:	f0580ba9 0543075f 0db1f2b0 f841f93e     ..X._.C.....>.A.
+    37f4:	f28e0d68 083f03c2 0b6ff197 f530fced     h.....?...o...0.
+    3804:	f46c0e1c 0bbbffdc 08e7f153 f30300a3     ..l.....S.......
+    3814:	f78f0d78 0d0afcb5 051df24b f1e303fe     x.......K.......
+    3824:	fb490c8f 0e28f8fd 01c8f2be f098073d     ..I...(.....=...
+    3834:	fec30a9f 0e10f70e fe29f5d9 f13e09c0     ..........)...>.
+    3844:	02ec0885 0d87f41c fa7df804 f25e0b94     ..........}...^.
+    3854:	062a04f1 0bb3f2bb f7aefaea f44c0ced     ..*...........L.
+    3864:	0910023e 08e5f243 f4c7fe84 f71e0c70     >...C.......p...
+    3874:	0af2fe9f 0675f2da f34501c2 f9ef0c0e     ......u...E.....
+    3884:	0c58fb44 0325f35e f29404cf fd6b0ad1     D.X.^.%.......k.
+    3894:	0ccdf8ea ffa7f562 f24d0804 0106086f     ....b.....M.o...
+    38a4:	0bf5f5fe fc56f7ac f2f809ac 044205c6     ......V.......B.
+    38b4:	0b4df440 f988fa2e f4ff0b49 073302e2     @.M.....I.....3.
+    38c4:	08c7f40a f749fd7d f67f0b30 08df000b     ....}.I.0.......
+    38d4:	067af3c0 f52100b0 fa240ab9 0a3afd33     ..z...!...$.3.:.
+    38e4:	0351f46f f4790335 fceb09d3 0b96faad     o.Q.5.y.........
+    38f4:	0081f57b f458061d ff680866 0b17f8c9     {.....X.f.h.....
+    3904:	fd4ff76f f45c0824 037305fa 09f5f685     o.O.$.\...s.....
+    3914:	fadef9e6 f56c08c1 0579039f 0858f552     ......l...y.R.X.
+    3924:	f8f7fd0d f7aa09f1 076d00f9 0603f4eb     ..........m.....
+    3934:	f72effc4 fa1309de 08effe3f 0389f54a     ........?...J...
+    3944:	f590028a fcce0888 0961fc22 00d1f65e     ........".a.^...
+    3954:	f54a04ca ff990785 09d4f9d8 fdf8f815     ..J.............
+    3964:	f5f9063d 023e057e 08c6f7e7 fbdcfa16     =...~.>.........
+    3974:	f6a70800 04a20368 0747f75b f9a4fceb     ....h...[.G.....
+    3984:	f8a107c6 06470194 052df6b0 f83cff44     ......G...-.D.<.
+    3994:	fa95083e 0792feb4 0341f729 f7930178     >.......).A.x...
+    39a4:	fd1a078b 0810fc8c 00f1f7de f6cf0413     ................
+    39b4:	001a0642 082bfa75 fe47f960 f6fb0592     B...u.+.`.G.....
+    39c4:	01d604f5 074df972 fbd7fb70 f88b0658     ....r.M.p...X...
+    39d4:	047102cd 066ff8a0 fa24fd0f f9f7071d     ..q...o...$.....
+    39e4:	05de00f0 0423f7b6 f928ff37 fb3d0732     ......#.7.(.2.=.
+    39f4:	06a1fec2 023ff807 f80001a3 fdb606c9     ......?.........
+    3a04:	07b1fc67 ffbcf8b4 f7d90339 ffd00531     g.......9...1...
+    3a14:	074dfb29 fd86fa5a f8920527 0257035c     ).M.Z...'...\.W.
+    3a24:	063dfa0a fc25fc01 f9420635 0431021a     ..=...%.5.B...1.
+    3a34:	0528f894 f9abfe0f faef05cd 05fa002a     ..(.........*...
+    3a44:	0349f8b3 f8c80048 fcaf069a 06abfe1a     ..I.H...........
+    3a54:	00abf8a4 f888028d fece057f 0718fc40     ............@...
+    3a64:	ff2df94a f7c903a3 01d4045f 06acfa81     J.-....._.......
+    3a74:	fc96fb69 f8c40576 03240344 0590f945     i...v...D.$.E...
+    3a84:	faf0fc6d f9f50659 051e008e 0397f93f     m...Y.......?...
+    3a94:	f9dafee7 fb5c0621 064afefc 01e0f863     ....!.\...J.c...
+    3aa4:	f86f018a fe450623 06e6fce3 00a2f94b     ..o.#.E.....K...
+    3ab4:	f7f90329 0013053f 078dfb3e fe1cfa89     )...?...>.......
+    3ac4:	f85004c5 019c03db 0672f9de fc1bfc41     ..P.......r.A...
+    3ad4:	f8c3067b 04330225 0533f8b5 fa70fd8b     {...%.3...3...p.
+    3ae4:	f9f9063e 063afff8 0461f83b f85eff94     >.....:.;.a...^.
+    3af4:	fbb5070c 06cbfdd1 01b2f890 f7cc018c     ................
+    3b04:	fdb40687 07adfc6a ffc8f8c7 f7080409     ....j...........
+    3b14:	00a90543 0778fa24 fd21f9b9 f796059a     C...$.x...!.....
+    3b24:	02b20421 0758f860 fad4fc2d f88b0720     !...`.X.-... ...
+    3b34:	04e701b5 0609f7f5 f994fdf1 f9920827     ............'...
+    3b44:	0756ffdc 0403f6f0 f7cb0057 fb5c0778     ..V.....W...x.\.
+    3b54:	07f8fd91 0216f752 f6730246 fdf10780     ....R...F.s.....
+    3b64:	08a4fb13 ff56f812 f6090513 003d0675     ......V.....u.=.
+    3b74:	098ff8f1 fd28f919 f5be06be 02e80425     ......(.....%...
+    3b84:	07e1f7ba fafcfb6e f6be07ef 0624026f     ....n.......o.$.
+    3b94:	070bf68f f883fd6b f8d108d1 07b40055     ....k.......U...
+    3ba4:	0522f5df f6cfffd0 fa270968 091ffd65     ..".....h.'.e...
+    3bb4:	024cf59b f58702ae fd26085b 0a2dfb07     ..L.....[.&...-.
+    3bc4:	001cf6ea f4fe0556 ffee07a4 0a97f87b     ....V.......{...
+    3bd4:	fd92f856 f506077a 028805a3 0a04f68b     V...z...........
+    3be4:	fa67f9e9 f58a098c 059a0373 084ef5a6     ..g.....s.....N.
+    3bf4:	f87dfc0e f6ee0a0e 0844015f 0652f484     ..}....._.D...R.
+    3c04:	f6a0ffba f9f40a96 09bafe31 045ff497     ........1....._.
+    3c14:	f4a00218 fc1d0ab8 0afefacb 011cf55f     ............_...
+    3c24:	f4070515 fecd091e 0b45f8df fe50f67a     ..........E.z.P.
+    3c34:	f3a607f7 025d070a 0b13f650 fbcbf869     ......].P...i...
+    3c44:	f3f709da 04f00580 0a2cf3ff f8b9fb87     ..........,.....
+    3c54:	f5500b41 07fc01da 0839f41a f6c7fdb0     A.P.......9.....
+    3c64:	f7630c57 0a43ffae 0639f316 f46b016f     W.c...C...9.o.k.
+    3c74:	fa840b97 0b8dfc2d 0326f34f f303043e     ....-...O.&.>...
+    3c84:	fcf10b4a 0bfff8fd ffa3f4bc f31d0763     J...........c...
+    3c94:	00650902 0c6bf69e fd59f689 f2a00a64     ..e...k...Y.d...
+    3ca4:	03e706c2 0b0ef453 fa3ef977 f4040b7d     ....S...w.>.}...
+    3cb4:	064c0430 0a8af2a9 f71cfc27 f60f0c78     0.L.....'...x...
+    3cc4:	0905012b 083cf2bf f540ffe1 f8460d2a     +.....<...@.*.F.
+    3cd4:	0b9ffdaf 04d6f1a5 f36003ae fb230bbe     ..........`...#.
+    3ce4:	0c19fb26 02c6f31c f1f90699 fe870b7d     &...........}...
+    3cf4:	0d39f6fa feecf53f f26408c0 01990908     ..9.?.....d.....
+    3d04:	0cdaf4b4 fbbaf75f f2f80bb8 05290613     ...._.........).
+    3d14:	0b85f30a f8c1fa4d f3ef0c29 07cf036c     ....M...)...l...
+    3d24:	0989f1c2 f5c2fe25 f6d50db0 0a46ff34     ....%.......4.F.
+    3d34:	0778f10e f3ec012a f8dd0db1 0c14fbdd     ..x.*...........
+    3d44:	03b8f1d5 f2410550 fc130c1c 0d2df8b9     ....P.A.......-.
+    3d54:	016bf301 f1a407ec 00060aba 0cfbf598     ..k.............
+    3d64:	fdd0f562 f2170a38 02610830 0ca5f352     b...8...0.a.R...
+    3d74:	fa4ff8bd f2d90cf0 05e804c9 0b03f1f6     ..O.............
+    3d84:	f878fba4 f4740d40 08b801e6 0914f07b     ..x.@.t.....{...
+    3d94:	f4b7ff60 f7430da9 0a82fe0e 06a2f10d     `.....C.........
+    3da4:	f2f00277 f99c0d9e 0c4ffa8c 0368f231     w.........O.1.h.
+    3db4:	f25705ee fd8e0b16 0cb4f771 000bf40d     ..W.....q.......
+    3dc4:	f1710910 00de09eb 0cecf4bf fc4df744     ..q.........D.M.
+    3dd4:	f28a0a8e 03ab077e 0c47f299 f94ef919     ....~.....G...N.
+    3de4:	f3e60d58 06c90338 0a07f193 f6e4fc99     X...8...........
+    3df4:	f5c50d50 093d0073 079ef111 f4a60106     P...s.=.........
+    3e04:	f9110d64 0aa7fd69 05a9f16e f32803eb     d...i...n.....(.
+    3e14:	fb530c76 0c2af9f7 01c3f2f0 f29206cf     v.S...*.........
+    3e24:	fe790ac7 0c79f74c feaaf48a f29909f4     ..y.L.y.........
+    3e34:	026f0858 0b8af489 fc2ff80a f3030b14     X.o......./.....
+    3e44:	04f20606 0aecf21e f8aafaa9 f5320d14     ..............2.
+    3e54:	075e029a 08bff1dd f62ffe5a f7090d3e     ..^.....Z./.>...
+    3e64:	094dfef7 069bf1d6 f4b10187 f9e50c50     ..M.........P...
+    3e74:	0abafb91 047bf2fe f31504d9 fce40bfd     ......{.........
+    3e84:	0b85f801 0094f501 f39b0712 ffea096c     ............l...
+    3e94:	0bf7f6a2 fda6f6d1 f3a50a52 032d073c     ........R...<.-.
+    3ea4:	0b11f455 fb0cf9fc f4790b1e 057d045b     U.........y.[.}.
+    3eb4:	09eaf256 f7dafcac f6f00c69 078600f5     V.......i.......
+    3ec4:	0711f2ea f678ffbd f8e80c63 0928fd72     ......x.c...r.(.
+    3ed4:	04f8f2e1 f4d602e3 fbc20b4c 0a03fa58     ........L...X...
+    3ee4:	02b6f43f f40405d1 fe8a09b8 0a92f7de     ?...............
+    3ef4:	ff5df6bb f47307c7 009a07f1 0a0ff60a     ..]...s.........
+    3f04:	fca7f835 f4f90a59 03ca04c4 0994f44f     5...Y.......O...
+    3f14:	fa78faf8 f66a0b46 055202ef 0838f382     ..x.F.j...R...8.
+    3f24:	f83ffe26 f8770bab 077dff58 05d8f421     &.?...w.X.}.!...
+    3f34:	f74000cc fa4b0af0 092bfc6d 0350f4b0     ..@...K.m.+...P.
+    3f44:	f5f503da fcc40a0e 0963f9ba 00e2f688     ..........c.....
+    3f54:	f5840635 ffab07ec 08d8f7bf fe70f853     5...........S.p.
+    3f64:	f616082a 01db05ff 0971f607 fc3ffa7d     *.........q.}.?.
+    3f74:	f713096a 03fa0348 0775f5d1 fa2efd26     j...H.....u.&...
+    3f84:	f8b809ea 05a600c6 05b7f54c f875ffaa     ........L.....u.
+    3f94:	fabc09d3 06abfdd4 03e1f58c f70901f1     ................
+    3fa4:	fc1a0998 081dfb4d 01bdf6a8 f6ee0470     ....M.......p...
+    3fb4:	feb80794 0895f945 ff58f84f f6e806c8     ....E...O.X.....
+    3fc4:	005405a0 07cef7cf fd7afa73 f80f07eb     ..T.....s.z.....
+    3fd4:	021003b7 0754f67f fad6fcba f8cc085a     ......T.....Z...
+    3fe4:	03fb00cb 054ef653 fa13fefa fa270840     ....S.N.....@.'.
+    3ff4:	05b1fed0 0411f6c4 f8be01a1 fc85079b     ................
+    4004:	069bfcd2 021ff7ab f7db0367 fe320782     ........g.....2.
+    4014:	0714fa94 ffe5f92e f84604e0 ffa904ce     ..........F.....
+    4024:	067df900 fdebfa7d f8e8068c 01b9036f     ..}.}.......o...
+    4034:	0580f813 fcacfcdf fa1d0720 038401b0     ........ .......
+    4044:	04e2f7ec fafefeb5 fb2b07c4 046ffe9c     ..........+...o.
+    4054:	038cf7f3 fa670129 fc2506f8 04f4fd00     ....).g...%.....
+    4064:	01c6f89b f98b0348 fe8a05d5 055cfb74     ....H.......t.\.
+    4074:	0077f9e4 f9d90463 fffa049b 0578fa09     ..w.c.........x.
+    4084:	fe11fbda fa1d058c 01280305 04aff8e4     ..........(.....
+    4094:	fd14fd11 faf905bf 0292005b 0367f8ed     ........[.....g.
+    40a4:	fb79ff1f fbff0626 0330fed1 029cf8bf     ..y.&.....0.....
+    40b4:	fadd0133 fd3605b8 0448fd17 0118fa41     3.....6...H.A...
+    40c4:	facd0267 feb104df 04a5fb50 ff16fa85     g.......P.......
+    40d4:	fa7a0411 002f032f 03cffa0c fe32fc42     ..z././.....B.2.
+    40e4:	fb2d04e5 017901d4 03acf9ac fca8fe75     ..-...y.....u...
+    40f4:	fc0b05c4 026e0003 030df9f7 fbfeffcf     ......n.........
+    4104:	fc8505a3 03dffe08 0124f99d fb1b015f     ..........$._...
+    4114:	fe36044b 03e0fce2 007afa94 faec0389     K.6.......z.....
+    4124:	ffc1037f 03fbfafc fe70fc1e fb3f04bc     ..........p...?.
+    4134:	010a02da 0425fa1d fcc1fd3f fbcf04f5     ......%.?.......
+    4144:	024200c4 02f6f9ae fc9fff2f fcb005b8     ..B...../.......
+    4154:	0313fee2 01abf989 fb4600a9 fdcd0525     ..........F.%...
+    4164:	0360fd4e 0097fa30 fb0501dd ff1104cf     N.`.0...........
+    4174:	0458fb88 ff38fb44 fac8039d 002b037b     ..X.D.8.....{.+.
+    4184:	0470fa6d fdb8fc4b fb3e0551 01c00237     m.p.K...Q.>.7...
+    4194:	03f6f954 fcaefea4 fbaf05fe 033e004e     T...........N.>.
+    41a4:	02fff8d9 fb91ffb3 fd460650 0421fe30     ........P.F.0.!.
+    41b4:	017df99a fa770174 fe2605cb 04c6fcb1     ..}.t.w...&.....
+    41c4:	ffecf9bc fa1b0330 ffc304ac 0538fac5     ....0.........8.
+    41d4:	fef2fb1a f9fa04f9 017003b1 04d9f932     ..........p.2...
+    41e4:	fd26fcbb fa9205c3 02270191 03fff937     ..&.......'.7...
+    41f4:	fbcefe1c fb390699 0419ffa1 0361f876     ......9.....v.a.
+    4204:	fa72008b fcbc0658 04f0fe16 01c5f83a     ..r.X.......:...
+    4214:	f9870280 fdfa05ee 05f2fbbb 0040f996     ..............@.
+    4224:	f8f203e9 ff6d0577 061df9ea fedcfa7e     ....w.m.....~...
+    4234:	f97c05bf 013e035d 05aaf8c3 fce1fc74     ..|.].>.....t...
+    4244:	f91e06c0 02b3023d 0541f7c8 fb24fdb6     ....=.....A...$.
+    4254:	fa980753 04b10003 044ef7e0 fa190058     S.........N.X...
+    4264:	fb3f079e 05f6fd9a 02b4f7dc f937027e     ..?.........~.7.
+    4274:	fd610706 0658fbca 00e2f827 f7fa041b     ..a...X.'.......
+    4284:	ff290627 0710f93e feb2fa3a f7df05c9     '.).>...:.......
+    4294:	0130048c 06fff7e8 fc80fb74 f8e207db     ..0.....t.......
+    42a4:	033702d3 0615f734 fab1fd65 f9410861     ..7.4...e...a.A.
+    42b4:	04af0055 057af655 f974ffef fadb08d9     U...U.z...t.....
+    42c4:	062efdc5 0404f67e f7fb01c6 fc60082b     ....~.......+.`.
+    42d4:	074dfbca 020bf75c f721046d fdfd0719     ..M.\...m.!.....
+    42e4:	07b3fa12 ffa7f7ff f6f60662 00630620     ........b... .c.
+    42f4:	07caf7f3 fd76fa3a f777080e 028503f1     ....:.v...w.....
+    4304:	07f2f66b fb77fbe5 f8010914 04d9017f     k.....w.........
+    4314:	06d7f5d0 f96bfe41 f9470a0f 0673ff4a     ....A.k...G.J.s.
+    4324:	052ff578 f7dd014c faba097b 07aafcfb     x./.L...{.......
+    4334:	0317f5ee f68c0399 fd710921 089cf97e     ........!.q.~...
+    4344:	00dcf748 f62605cf ff42072b 095bf79e     H.....&.+.B...[.
+    4354:	fe6ef8ab f60d0863 01d40566 08cbf6c8     ..n.c...f.......
+    4364:	fc57fb0c f6340936 038902a3 0823f538     ..W.6.4.....8.#.
+    4374:	f9a0fcea f7fb0a5a 05900083 0701f4a7     ....Z...........
+    4384:	f8bcff7c f91a0a80 0795fdb9 04daf4b1     |...............
+    4394:	f6d40290 fb4b09e0 087bfb2c 027ef5f4     ......K.,.{...~.
+    43a4:	f584056b fdc30916 09d7f868 0031f781     k.......h.....1.
+    43b4:	f58606da ffca06a7 0a0bf68c fd38f8f9     ..............8.
+    43c4:	f5cb0941 02bb04cd 08bcf540 fb73fbd2     A.......@.....s.
+    43d4:	f65e0a56 04f301bf 0811f4d0 f8bafe5f     V.^........._...
+    43e4:	f88a0afd 06d7fee7 05f1f466 f6ed00dc     ........f.......
+    43f4:	f9770ac8 0920fc31 0426f519 f6220416     ..w.1. ...&...".
+    4404:	fc4609d3 09f2fa2f 0192f5fd f519060f     ..F./...........
+    4414:	fe2c0800 0a16f7a9 ff27f7b1 f4e907de     ..,.......'.....
+    4424:	00ae0633 09d5f5ce fc7bfa5d f5b309bf     3.......].{.....
+    4434:	03940374 08faf484 f9fbfcd8 f6c70aba     t...............
+    4444:	061e011b 0775f45a f838ff5e f83a0aba     ....Z.u.^.8...:.
+    4454:	077ffe04 05edf41d f68d01f6 fa590a6e     ............n.Y.
+    4464:	08fafb24 0376f54f f54404bb fc9b097d     $...O.v...D.}...
+    4474:	09c3f8ed 00c8f670 f4b20708 ff360798     ....p.........6.
+    4484:	0aa8f6b8 fe1af8aa f4fd08a1 01300527     ............'.0.
+    4494:	0a3af564 fbc6fb11 f6000a47 03ca025d     d.:.....G...]...
+    44a4:	08b2f44f f9e4fd50 f7010a7d 066f0035     O...P...}...5.o.
+    44b4:	068ff3f6 f79a00a3 f8e60a2a 07dffd2d     ........*...-...
+    44c4:	0537f508 f5fa02fe fb5409ae 09b5faa7     ..7.......T.....
+    44d4:	023ff63a f5760563 fd750848 09c1f8a1     :.?.c.v.H.u.....
+    44e4:	002cf756 f56a079b fff5066a 09a5f676     V.,...j.j...v...
+    44f4:	fe00f952 f58a0942 02960464 093af58c     R...B...d.....:.
+    4504:	fb3efc3f f6280a2a 051d0148 07b3f48d     ?.>.*.(.H.......
+    4514:	f934fe89 f7ba0a88 0689fecc 067ef508     ..4...........~.
+    4524:	f73e0156 f9a809c9 0874fc64 0434f589     V.>.....d.t...4.
+    4534:	f5cc03ad fc3908ac 0939fa13 01dff6cc     ......9...9.....
+    4544:	f5ec05e1 fe33072d 09abf88a ff3ff8f0     ....-.3.......?.
+    4554:	f55b07b5 009c04fc 094af70f fcbbface     ..[.......J.....
+    4564:	f670088d 03090307 0874f56e fab2fd69     ..p.....n.t.i...
+    4574:	f7c7096c 0560007d 0717f5d0 f8f5ff7b     l...}.`.....{...
+    4584:	f8d70946 0698fe12 04eff634 f78b02e0     F.......4.......
+    4594:	fb1c0862 0810fc01 02d4f64a f6f0048c     b.......J.......
+    45a4:	fd2b0747 0814f9e2 0074f80c f6c20605     G.+.......t.....
+    45b4:	ff99059d 0822f80f fe6cfa32 f6cf07b1     ......".2.l.....
+    45c4:	0199036b 084ef750 fc99fcb2 f7710826     k...P.N.....&.q.
+    45d4:	03750172 06c8f6c0 fad8feb8 f8710805     r.u...........q.
+    45e4:	0566ff6c 0578f70b f8d400bd fa2c07ac     l.f...x.......,.
+    45f4:	06f8fd46 03c5f785 f84e030a fbf90740     F.........N.@...
+    4604:	07abfb4d 01c6f808 f75004d1 fe1b05af     M.........P.....
+    4614:	0781f9e5 fffdf9de f70d05ef 0034043a     ............:.4.
+    4624:	07b3f8ad fe00fb86 f7ec06da 01ca022f     ............/...
+    4634:	06e8f82b fc09fd94 f8c7079e 03c2005d     +...........]...
+    4644:	05b2f7cd faa4ff58 f9fd0713 0586fe8d     ....X...........
+    4654:	03d5f7c6 f8ea01a3 fb8d0669 062afd1a     ........i.....*.
+    4664:	02e1f8e8 f8980323 fdb104d0 0674fb92     ....#.........t.
+    4674:	0061fa4a f87604a1 ff9d03e5 06b2fa20     J.a...v..... ...
+    4684:	fecdfbe9 f8b00540 01100286 05eef9c6     ....@...........
+    4694:	fce9fd44 f8ed05c1 02e400e4 056df8c2     D.............m.
+    46a4:	fbd2ff4f fa9405be 03b2ff1d 03a0f8e7     O...............
+    46b4:	fb0100e0 fc370555 04bcfdb1 0278f9a9     ....U.7.......x.
+    46c4:	f9920254 fd1d04e2 0517fc84 0122fad7     T.............".
+    46d4:	f9db0305 feb7031a 04d4fb5f ff9ffc25     ........_...%...
+    46e4:	f9e40456 009201b1 0537faef fd96fda0     V.........7.....
+    46f4:	fa7a046b 01980059 0428fa66 fc21ff34     k.z.Y...f.(.4.!.
+    4704:	fb240496 02deff60 03c9faa4 fbce00d0     ..$.`...........
+    4714:	fcaf041f 0424fe05 01fbface fad20210     ......$.........
+    4724:	fded03a7 03dcfcfb 00c4fb9b fa73028a     ..............s.
+    4734:	fecd0282 0479fb83 ff6ffd33 fac503d6     ......y.3.o.....
+    4744:	00000143 0390fb2c fe5afe07 fb34038c     C...,.....Z...4.
+    4754:	01d600c1 033ffb44 fd15ff5a fc17033b     ....D.?.Z...;...
+    4764:	0221ff53 0275fb64 fbef0112 fd2602e7     S.!.d.u.......&.
+    4774:	030bfd99 0185fb50 fba6018f fdb6032c     ....P.......,...
+    4784:	03d7fcfd 0059fcf9 fb290242 ffe1019c     ......Y.B.).....
+    4794:	0384fc1f ff1dfdc9 fb870357 005f00f0     ........W....._.
+    47a4:	0311fc85 fe7efefa fbd40331 01eeff70     ......~.1...p...
+    47b4:	028afbb0 fd45ff5a fd3602d7 0216fe79     ....Z.E...6.y...
+    47c4:	013bfc27 fb960137 fdbb02b7 02c5fde2     '.;.7...........
+    47d4:	0069fc66 fc6801f1 fed2013e 0385fc44     f.i...h.>...D...
+    47e4:	ff93fdbe fb8602f5 00470103 0334fc56     ..........G.V.4.
+    47f4:	ff02fe9a fbcd0365 011effc0 025dfc2d     ....e.......-.].
+    4804:	fd6cff86 fc930354 0299fe1b 01c1fc26     ..l.T.......&...
+    4814:	fcb200c9 fdad0317 02c8fdce 0110fc2e     ................
+    4824:	fc0201ba fe58026c 030bfc99 003cfdc1     ....l.X.......<.
+    4834:	fb9a0304 fffc01d7 0308fbf6 fe94fdaa     ................
+    4844:	fbaf034f 017f0044 0317fbb0 fe00ff6e     O...D.......n...
+    4854:	fc000304 01d8ff46 0212fb57 fc7900a6     ....F...W.....y.
+    4864:	fd34031f 02dafe49 01fdfbc6 fc27018c     ..4.I.........'.
+    4874:	fd9d0314 03cdfd46 002efc38 fb850308     ....F...8.......
+    4884:	ff350238 035ffc52 ff39fcd2 fb59030d     8.5.R._...9...Y.
+    4894:	00410152 0398fb41 fe32fe39 fb7e0395     R.A.A...9.2...~.
+    48a4:	0170005b 02f8fadb fd16ff68 fc5303ee     [.p.....h.....S.
+    48b4:	02a9ff46 0265fb07 fc210127 fceb045b     F.....e.'.!.[...
+    48c4:	03abfdf6 01bbfb1e fbcc01af fe480344     ............D.H.
+    48d4:	0449fcba 00b6fbe7 fa90037b fecd031b     ..I.....{.......
+    48e4:	046cfbfa ff30fce8 fa6603c9 00a40174     ..l...0...f.t...
+    48f4:	0474fa92 fd7dfdbf fab904af 02670060     ..t...}.....`.g.
+    4904:	0398fa4b fcc0ff0c fb78054c 035aff07     K.......L.x...Z.
+    4914:	030df9c9 fb7700ba fc3604f2 0455fd1d     ......w...6...U.
+    4924:	01e5fa6c fa8002a4 fd300482 0558fbdc     l.........0...X.
+    4934:	008cfb3f f9ba0391 fed903b2 054afaee     ?.............J.
+    4944:	ff9afbea f9cc04a6 00b40260 053ff9d2     ........`.....?.
+    4954:	fdabfd5e f9fb05a3 02d7015a 04d8f93f     ^.......Z...?...
+    4964:	fbe4feec fa46057a 03b4ffd8 0441f939     ....z.F.....9.A.
+    4974:	fb0200bc fb850537 049cfe10 0280f8fd     ....7...........
+    4984:	f9870226 fcca0593 05b8fbe6 0193f969     &...........i...
+    4994:	f8eb0383 fe91047a 05c9fb51 ffc3fb33     ....z...Q...3...
+    49a4:	f8cc04f3 00270380 0685f9c9 fe17fbea     ......'.........
+    49b4:	f8dd05d3 020301f3 0570f8e0 fc64fd92     ..........p...d.
+    49c4:	f9780610 03640068 053af83a facbffa4     ..x.h.d.:.:.....
+    49d4:	fa9006ca 04b6ff06 03b2f880 f9650198     ..............e.
+    49e4:	fbdc0629 063efc9f 02f7f8ae f832032e     ).....>.......2.
+    49f4:	fd62059c 06c6fab0 00b1f9d9 f7dd04d3     ..b.............
+    4a04:	ff6d0475 070ef9e3 ff07fba6 f7d905de     u.m.............
+    4a14:	00b802f4 0689f891 fd1ffd0a f86a0630     ............0.j.
+    4a24:	032d014e 05fff775 faccfe6f f9100785     N.-.u...o.......
+    4a34:	04edff78 0566f7f5 fa0c00c9 fa9a06fe     x.....f.........
+    4a44:	05bbfe07 03d6f7e4 f821024b fc75067a     ........K.!.z.u.
+    4a54:	0707fba2 0199f8ba f7b803e4 fdff060c     ................
+    4a64:	07b5fa59 0051f9ae f71b0607 00430486     Y.....Q.......C.
+    4a74:	077df88c fe05fbc8 f7440657 026d0268     ..}.....W.D.h.m.
+    4a84:	0790f818 fc1dfd9b f7f5076f 042a00f3     ........o.....*.
+    4a94:	0663f7a6 fa3cfee8 f90d07cb 059cfeb3     ..c...<.........
+    4aa4:	0502f752 f85e01bc fb460729 06affd1b     R.....^.).F.....
+    4ab4:	03b5f795 f7b00336 fca806ab 0818fb22     ....6......."...
+    4ac4:	0132f91c f6e80524 fecf0591 07f5f905     ..2.$...........
+    4ad4:	ff44fa41 f6b3064b 014b0403 0832f811     A.D.K.....K...2.
+    4ae4:	fd26fc4a f7870758 02670276 078df7b4     J.&.X...v.g.....
+    4af4:	fb13fdd8 f86107a6 04ba0012 0629f6ae     ......a.......).
+    4b04:	f9ccfffa f9780820 066dfe00 04ddf79b     .... .x...m.....
+    4b14:	f83a0242 fb850767 0731fc7a 032af837     B.:.g...z.1.7.*.
+    4b24:	f6c20390 fdad06b3 0800fa9a 00e2f965     ............e...
+    4b34:	f74e056d ff4e04ae 080bf8f3 fe6bfb00     m.N...N.......k.
+    4b44:	f6f6069a 01c203bf 0809f7f5 fc64fc61     ............a.d.
+    4b54:	f7570742 036701a7 06c3f6f8 fa4bfeef     B.W...g.......K.
+    4b64:	f8b907a7 05adffa5 056bf747 f8d4008e     ........G.k.....
+    4b74:	fa250706 06e0fd72 043df7ee f77902e9     ..%.r.....=...y.
+    4b84:	fc080679 07a2fb92 01e9f8a2 f6f2042a     y...........*...
+    4b94:	fe0e05ed 0867f9ef ffaafa2e f6ff0506     ......g.........
+    4ba4:	00160479 07d1f8e0 fd6dfb74 f7730674     y.......t.m.t.s.
+    4bb4:	02a80332 071ff7f9 fba1fd8f f86106db     2.............a.
+    4bc4:	045e00a3 069df787 f9dbff84 f9160731     ..^.........1...
+    4bd4:	059dff4a 0526f82d f8a9015e fb5e06e5     J...-.&.^.....^.
+    4be4:	070bfcf2 02f0f84b f7b402dd fd3505d5     ....K.........5.
+    4bf4:	07abfb79 017ff940 f7610410 ff590550     y...@.....a.P.Y.
+    4c04:	0835fa0e ff82fae1 f74604f7 024302fa     ..5.......F...C.
+
+00004c14 <_global_impure_ptr>:
+    4c14:	00004c80 00000043                       .L..C...
+
+00004c1c <_init>:
+    4c1c:	e1a0c00d 	mov	r12, sp
+    4c20:	e92ddff8 	push	{r3, r4, r5, r6, r7, r8, r9, r10, r11, r12, lr, pc}
+    4c24:	e24cb004 	sub	r11, r12, #4
+    4c28:	e24bd028 	sub	sp, r11, #40	; 0x28
+    4c2c:	e89d6ff0 	ldm	sp, {r4, r5, r6, r7, r8, r9, r10, r11, sp, lr}
+    4c30:	e12fff1e 	bx	lr
+
+00004c34 <__init_array_start>:
+    4c34:	00000c50 	.word	0x00000c50
+
+00004c38 <__frame_dummy_init_array_entry>:
+    4c38:	00000208                                ....
+
+00004c3c <__libc_fini>:
+    4c3c:	e1a0c00d 	mov	r12, sp
+    4c40:	e92ddff8 	push	{r3, r4, r5, r6, r7, r8, r9, r10, r11, r12, lr, pc}
+    4c44:	e24cb004 	sub	r11, r12, #4
+    4c48:	e24bd028 	sub	sp, r11, #40	; 0x28
+    4c4c:	e89d6ff0 	ldm	sp, {r4, r5, r6, r7, r8, r9, r10, r11, sp, lr}
+    4c50:	e12fff1e 	bx	lr
+
+00004c54 <__fini_array_start>:
+    4c54:	000001c4 	.word	0x000001c4
+
+00004c58 <__cs3_regions>:
+    4c58:	00000000 	.word	0x00000000
+    4c5c:	00000040 	.word	0x00000040
+    4c60:	00000040 	.word	0x00000040
+    4c64:	00005070 	.word	0x00005070
+    4c68:	0009c430 	.word	0x0009c430
+
+00004c6c <__cs3_regions_end>:
+    4c6c:	00000000 	.word	0x00000000

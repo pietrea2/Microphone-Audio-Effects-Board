@@ -36,7 +36,8 @@ module DE1_Audio_FinalProject342 (
 /*****************************************************************************
  *                           Parameter Declarations                          *
  *****************************************************************************/
-localparam AUDIO_WIDTH = 16;
+localparam IN_AUDIO_WIDTH = 16;
+localparam OUT_AUDIO_WIDTH = 32;
 
 /*****************************************************************************
  *                             Port Declarations                             *
@@ -47,12 +48,12 @@ localparam AUDIO_WIDTH = 16;
  *                 Internal Wires and Registers Declarations                 *
  *****************************************************************************/
 
-wire [AUDIO_WIDTH-1:0] left_channel_audio_out;
-wire [AUDIO_WIDTH-1:0] right_channel_audio_out;
+wire [OUT_AUDIO_WIDTH-1:0] left_channel_audio_out;
+wire [OUT_AUDIO_WIDTH-1:0] right_channel_audio_out;
 wire write_audio_out;
 
-wire [15:0] STM_AUDIO_IN;
-assign STM_AUDIO_IN = GPIO_0[15:0];
+wire [IN_AUDIO_WIDTH-1:0] STM_AUDIO_IN;
+assign STM_AUDIO_IN = GPIO_0[IN_AUDIO_WIDTH-1:0];
 
 // Internal Registers
 
@@ -84,12 +85,16 @@ always @(posedge CLOCK_50)
 
 assign delay = {SW[3:0], 15'd3000};
 
-wire [AUDIO_WIDTH-1:0] sound = (SW == 0) ? 0 : snd ? 16'd10000 : -16'd10000;
+wire [OUT_AUDIO_WIDTH-1:0] sound = (SW == 0) ? 0 : snd ? 32'd10000000 : -32'd10000000;
 
 
+// sign extended
+wire [OUT_AUDIO_WIDTH-1:0] out_audio;
+assign out_audio = {{16{STM_AUDIO_IN[IN_AUDIO_WIDTH-1]}}, STM_AUDIO_IN};
 
-assign left_channel_audio_out	= STM_AUDIO_IN[15:0] + sound;
-assign right_channel_audio_out = STM_AUDIO_IN[15:0] + sound;
+
+assign left_channel_audio_out	= out_audio + sound;
+assign right_channel_audio_out = out_audio + sound;
 
 //reg enable_wr_audio_out;
 //
@@ -108,7 +113,7 @@ wire slow_clk;
 //defparam c2.CLK_SLOW_FACTOR = 16;
 //assign AUD_BCLK = slow_clk;
 
-assign write_audio_out = STM_AUDIO_WR & STM_AUDIO_READY;
+assign write_audio_out = STM_AUDIO_READY;
 
 /*****************************************************************************
  *                              Internal Modules                             *
@@ -135,8 +140,6 @@ Audio_Controller Audio_Controller (
 	.AUD_DACDAT						(AUD_DACDAT)
 
 );
-defparam Audio_Controller.AUDIO_DATA_WIDTH = AUDIO_WIDTH;
-defparam Audio_Controller.BIT_COUNTER_INIT = 5'd15;
 
 avconf avc (
 	.FPGA_I2C_SCLK					(FPGA_I2C_SCLK),
