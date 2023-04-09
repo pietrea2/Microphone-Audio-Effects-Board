@@ -8,7 +8,7 @@
  */
 void config_interrupt (int, int);
 void hw_write_bits(volatile int *, volatile int, volatile int);
-void MPcore_private_timer_ISR (void);
+//void MPcore_private_timer_ISR (void);
 void audio_ISR (void);
 void keys_ISR(void);
 
@@ -44,9 +44,10 @@ void __attribute__ ((interrupt)) __cs3_isr_irq (void)
 	int address = MPCORE_GIC_CPUIF + ICCIAR; 
 	int int_ID = *((int *) address); 
    
-	if (int_ID == MPCORE_PRIV_TIMER_IRQ)	// check if interrupt is from the private timer
-		MPcore_private_timer_ISR();
-	else if (int_ID == AUDIO_IRQ)				// check if interrupt is from the audio
+	//if (int_ID == MPCORE_PRIV_TIMER_IRQ)	// check if interrupt is from the private timer
+	//	MPcore_private_timer_ISR();
+	//else 
+	if (int_ID == AUDIO_IRQ)				// check if interrupt is from the audio
 		audio_ISR();
 	else if (int_ID == KEYS_IRQ)
 		keys_ISR();
@@ -100,7 +101,7 @@ void config_GIC(void)
 	int address;	// used to calculate register addresses
 
 	/* enable some examples of interrupts */
-  	config_interrupt (MPCORE_PRIV_TIMER_IRQ, CPU0);
+  	//config_interrupt (MPCORE_PRIV_TIMER_IRQ, CPU0);
   	config_interrupt (KEYS_IRQ, CPU0);
   	config_interrupt (AUDIO_IRQ, CPU0);
     

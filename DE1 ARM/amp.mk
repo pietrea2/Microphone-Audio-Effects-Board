@@ -29,8 +29,8 @@ LDFLAGS		:= $(patsubst %, -Wl$(DEFINE_COMMA)%, $(ARCHLDFLAGS)) $(ARCHLDSCRIPT) $
 OCFLAGS		:= -O srec
 
 # Files
-HDRS		:= defines.h globals.h interrupt_ID.h address_map_arm.h
-SRCS		:= audio_interrupt.c exceptions.c MPcore_private_timer_ISR.c audio_ISR.c globals.c
+HDRS		:= defines.h interrupt_ID.h address_map_arm.h # globals.h
+SRCS		:= audio_interrupt.c exceptions.c audio_ISR.c # MPcore_private_timer_ISR.c globals.c
 OBJS		:= $(patsubst %, %.o, $(SRCS))
 
 ############################################

@@ -2,12 +2,10 @@
 #include "globals.h"
 #include "address_map_arm.h"
 
-/* globals used for audio record/playback */
-extern volatile int record, play, buffer_index;
-extern volatile int left_buffer[];
-extern volatile int right_buffer[];
-
 extern void hw_set_bit(volatile int* ptr, int bit, int value);
+
+#define AUDIO_BUF_SIZE 2000			// about 0.25 seconds of buffer (@ 8K samples/sec)
+//#define BUF_THRESHOLD 96		// 75% of 128 word buffer
 
 #define AUDIO_SIZE (3994)
 // audio data for a ding sound
@@ -196,11 +194,13 @@ void keys_ISR(void)
     return;
 }
 
+/* globals used for audio record/playback */
+volatile int buffer_index;
+volatile int left_buffer[AUDIO_BUF_SIZE];
+volatile int right_buffer[AUDIO_BUF_SIZE];
 
-/***************************************************************************************
- * Audio interrupt service routine
-****************************************************************************************/
-void audio_ISR( void )
+
+void audio_ISR(void)
 {
 	volatile int * audio_ptr = (int *) AUDIO_BASE;		// audio port address
   	volatile int * red_LED_ptr = (int *) LED_BASE;		// red LED address
@@ -210,54 +210,30 @@ void audio_ISR( void )
 	
 	int fifospace;
 
-	//if (*(audio_ptr) & 0x100)						// check bit RI of the Control register
-	//{
-	//	if (buffer_index == 0)
-	//		*(red_LED_ptr) = 0x1;					// turn on LEDR[0]
-    //
-	//	fifospace = *(audio_ptr + 1);	 			// read the audio port fifospace register
-	//	// store data until the the audio-in FIFO is empty or the buffer is full
-	//	while ( (fifospace & 0x000000FF) && (buffer_index < BUF_SIZE) )
-	//	{
-	//		left_buffer[buffer_index] = *(audio_ptr + 2); 		
-	//		right_buffer[buffer_index] = *(audio_ptr + 3); 		
-	//		++buffer_index;
-    //
-	//		if (buffer_index == BUF_SIZE)
-	//		{
-	//			// done recording
-	//			record = 0;
-	//			*(red_LED_ptr) = 0x0;				// turn off LEDR
-	//			*(audio_ptr) = 0x0; 					// turn off interrupts
-	//		}
-	//		fifospace = *(audio_ptr + 1);	// read the audio port fifospace register
-	//	}
-	//}
-	if (*(audio_ptr) & 0x200)						// check bit WI of the Control register
-	{
-        if (buffer_index == 0)
-            *(red_LED_ptr) = 0x2;					// turn on LEDR_1
-
-		fifospace = *(audio_ptr + 1);	 			// read the audio port fifospace register
-		// output data until the buffer is empty or the audio-out FIFO is full
-		while ( (fifospace & 0x00FF0000) && (buffer_index < AUDIO_SIZE) )
+	if (*(audio_ptr) & 0x100) // check read (RI)
+	{  
+		fifospace = *(audio_ptr + 1);
+		// store data until the the audio-in FIFO is empty or the buffer is full
+		while ((fifospace & 0x000000FF) && (buffer_index < AUDIO_BUF_SIZE))
 		{
-			*(audio_ptr + 2) = ding_pcm[buffer_index];
-			*(audio_ptr + 3) = ding_pcm[buffer_index];
+			left_buffer[buffer_index] = *(audio_ptr + 2); 		
+			right_buffer[buffer_index] = *(audio_ptr + 3); 		
 			++buffer_index;
+
+			fifospace = *(audio_ptr + 1);
+		}
+	}
+	if (*(audio_ptr) & 0x200) // check write (WI)
+	{
+		fifospace = *(audio_ptr + 1);
+		// output data until the buffer is empty or the audio-out FIFO is full
+		while ((fifospace & 0x00FF0000) && (buffer_index > 0))
+		{
+			*(audio_ptr + 2) = left_buffer[buffer_index];
+			*(audio_ptr + 3) = right_buffer[buffer_index];
+			--buffer_index;
 	
-			if (buffer_index == AUDIO_SIZE)
-			{
-				// done playback
-				play = 0;
-                buffer_index = 0;
-				*(red_LED_ptr) = 0x0;				// turn off LEDR
-                *(audio_ptr) = 0x8;
-				*(audio_ptr) = 0x0; 					// turn off interrupts
-                hw_set_bit(audio_ptr, 1, 1); // enable write audio interrupts
-                return;
-			}
-			fifospace = *(audio_ptr + 1);	// read the audio port fifospace register
+			fifospace = *(audio_ptr + 1);
 		}
 	}
 
