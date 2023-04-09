@@ -9,12 +9,13 @@ void enable_A9_interrupts(void);
 
 /* these globals are written by interrupt service routines; we declare them as
  * volatile to avoid the compiler caching their values, even in registers */
-extern volatile int buffer_index; // used for audio
+extern volatile int iaudiobuf; // used for audio
+extern volatile int inc_freq_mult;
 //extern volatile int timeout; // used to synchronize with the timer
 
 int main(void) {
-    buffer_index = 0; // audio playback
-    //timeout      = 0;
+    iaudiobuf = 0; // audio playback
+    inc_freq_mult = 1;
 
     set_A9_IRQ_stack();            // initialize the stack pointer for IRQ mode
     config_GIC();                  // configure the general interrupt controller
