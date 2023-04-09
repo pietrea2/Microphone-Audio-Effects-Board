@@ -4,12 +4,12 @@
 
 extern void hw_set_bit(volatile int* ptr, int bit, int value);
 
-#define AUDIO_BUF_SIZE 2000			// about 0.25 seconds of buffer (@ 8K samples/sec)
+#define AUDIO_BUF_SIZE (24000)			//
 //#define BUF_THRESHOLD 96		// 75% of 128 word buffer
 
-#define AUDIO_SIZE (3994)
+#define TEST_AUDIO_SIZE (3994)
 // audio data for a ding sound
-static const int ding_pcm[] =
+static const int test_audio[] =
 {
 0x00000000, 0x00000000, 0xFFFE0001, 0xFFFE0002, 0x00000001, 0xFFFD0001, 0xFFFE0003, 0x00000001, 0x0001FFFF, 0x00000000, 0x00000000, 0x0002FFFF, 0x0003FFFE, 0x0002FFFD, 0x0002FFFE, 0x0002FFFE, 0xFFFFFFFF, 0xFFFC0003, 0xFFFF0003, 0x00000000, 0xFFFE0001, 0xFFFE0002, 0xFFFF0002, 0x00000000, 0x0002FFFF,
     0x0002FFFE, 0x0001FFFE, 0xFFFE0001, 0xFFFE0002, 0xFFFE0002, 0xFFFC0003, 0xFFFD0004, 0x00010001, 0x0002FFFE, 0x0000FFFF, 0x00010000, 0x0003FFFE, 0x0002FFFD, 0x0001FFFF, 0x0000FFFF, 0xFFFF0001, 0xFFFF0001, 0x00010000, 0x0001FFFF, 0x0001FFFF, 0x0002FFFE, 0xFFFE0000, 0xFFFC0003, 0xFFFD0004, 0xFFFF0002,
@@ -173,40 +173,55 @@ static const int ding_pcm[] =
     0x069DF787, 0xF9DBFF84, 0xF9160731, 0x059DFF4A, 0x0526F82D, 0xF8A9015E, 0xFB5E06E5, 0x070BFCF2, 0x02F0F84B, 0xF7B402DD, 0xFD3505D5, 0x07ABFB79, 0x017FF940, 0xF7610410, 0xFF590550, 0x0835FA0E, 0xFF82FAE1, 0xF74604F7, 0x024302FA
 };
 
-// testing
+
+/* globals used for audio record/playback */
+volatile int iaudiobuf;
+volatile int inc_freq_mult;
+volatile int left_buffer[AUDIO_BUF_SIZE];
+volatile int right_buffer[AUDIO_BUF_SIZE];
+
+
+
 void keys_ISR(void)
 {
     volatile int* key_ptr = (int*)KEY_BASE;
-    volatile int* red_LED_ptr = (int*)LED_BASE;
+    //volatile int* hex03_ptr = (int*)
 
     int press = *(key_ptr + 3);
-    *(key_ptr + 3) = press;
+    *(key_ptr + 3) = press; // acknowledge
 
     if (press & 0x1)
-        *red_LED_ptr = 0x1;
-    else if (press & 0x2)
-        *red_LED_ptr = 0x2;
-    else if (press & 0x4)
-        *red_LED_ptr = 0x4;
-    else
-        *red_LED_ptr = 0x8;
-
+    {
+        if (inc_freq_mult < 3)
+            inc_freq_mult++;
+    }
+    //else if (press & 0x2)
+    //    *red_LED_ptr = 0x2;
+    //else if (press & 0x4)
+    //    *red_LED_ptr = 0x4;
+    //else
+    //    *red_LED_ptr = 0x8;
     return;
 }
 
-/* globals used for audio record/playback */
-volatile int buffer_index;
-volatile int left_buffer[AUDIO_BUF_SIZE];
-volatile int right_buffer[AUDIO_BUF_SIZE];
+
+
+
+int lowpass(int input)
+{
+    //static int last_sample = 0;
+    //signed int retvalue = (input + (last_sample * 7)) >> 3;
+    //last_sample = retvalue;
+    //return retvalue;
+    return input;
+}
 
 
 void audio_ISR(void)
 {
 	volatile int * audio_ptr = (int *) AUDIO_BASE;		// audio port address
-  	volatile int * red_LED_ptr = (int *) LED_BASE;		// red LED address
+  	volatile int * red_LED_ptr = (int *)LED_BASE;		// red LED address
 
-    // turn off interrupts
-    //hw_set_bit(audio_ptr, 1, 0);
 	
 	int fifospace;
 
@@ -214,11 +229,19 @@ void audio_ISR(void)
 	{  
 		fifospace = *(audio_ptr + 1);
 		// store data until the the audio-in FIFO is empty or the buffer is full
-		while ((fifospace & 0x000000FF) && (buffer_index < AUDIO_BUF_SIZE))
+		while ((fifospace & 0x000000FF) && (iaudiobuf < AUDIO_BUF_SIZE))
 		{
-			left_buffer[buffer_index] = *(audio_ptr + 2); 		
-			right_buffer[buffer_index] = *(audio_ptr + 3); 		
-			++buffer_index;
+            const int repeat = 1;
+
+            int i;
+            int left = *(audio_ptr + 2);
+            int right = *(audio_ptr + 3);
+            for (i = 0; i < repeat; ++i)
+            {               
+                left_buffer[iaudiobuf] = left;
+                right_buffer[iaudiobuf] = right;
+                ++iaudiobuf;
+            }
 
 			fifospace = *(audio_ptr + 1);
 		}
@@ -227,11 +250,11 @@ void audio_ISR(void)
 	{
 		fifospace = *(audio_ptr + 1);
 		// output data until the buffer is empty or the audio-out FIFO is full
-		while ((fifospace & 0x00FF0000) && (buffer_index > 0))
+		while ((fifospace & 0x00FF0000) && (iaudiobuf > 0))
 		{
-			*(audio_ptr + 2) = left_buffer[buffer_index];
-			*(audio_ptr + 3) = right_buffer[buffer_index];
-			--buffer_index;
+            *(audio_ptr + 2) = left_buffer[iaudiobuf];
+            *(audio_ptr + 3) = right_buffer[iaudiobuf];
+            iaudiobuf -= inc_freq_mult;
 	
 			fifospace = *(audio_ptr + 1);
 		}
