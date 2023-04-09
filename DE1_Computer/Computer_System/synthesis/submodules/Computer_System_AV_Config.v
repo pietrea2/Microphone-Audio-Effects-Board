@@ -102,15 +102,15 @@ localparam RESTART_COUNTER	= 'h9;
 localparam AIRS				= 57;	// Auto Init ROM's size
 localparam AIAW				= 5;	// Auto Init ROM's address width 
 
-localparam AUD_LINE_IN_LC	= 9'h01A;
-localparam AUD_LINE_IN_RC	= 9'h01A;
-localparam AUD_LINE_OUT_LC	= 9'h07B;
-localparam AUD_LINE_OUT_RC	= 9'h07B;
-localparam AUD_ADC_PATH		= 9'd157;
+localparam AUD_LINE_IN_LC	= 9'h018; //9'h01A;
+localparam AUD_LINE_IN_RC	= 9'h018; //9'h01A;
+localparam AUD_LINE_OUT_LC	= 9'h077; //9'h07B; 
+localparam AUD_LINE_OUT_RC	= 9'h077; //9'h07B;
+localparam AUD_ADC_PATH		= 9'h15;  //d157;
 localparam AUD_DAC_PATH		= 9'h006;
 localparam AUD_POWER			= 9'h000;
 localparam AUD_DATA_FORMAT	= 9'd77;
-localparam AUD_SAMPLE_CTRL	= 9'd0; // 9'd12
+localparam AUD_SAMPLE_CTRL	= 9'd0;   //9'd12
 localparam AUD_SET_ACTIVE	= 9'h001;
 
 // Serial Bus Controller parameters

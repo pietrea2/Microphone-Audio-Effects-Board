@@ -1,6 +1,6 @@
 Flow report for DE1_SoC_Computer
-Fri Dec  3 15:06:50 2021
-Quartus Prime Version 21.1.0 Build 842 10/21/2021 SJ Standard Edition
+Sun Apr  9 01:17:45 2023
+Quartus Prime Version 22.1std.1 Build 917 02/14/2023 SC Lite Edition
 
 
 ---------------------
@@ -21,7 +21,7 @@ Quartus Prime Version 21.1.0 Build 842 10/21/2021 SJ Standard Edition
 ----------------
 ; Legal Notice ;
 ----------------
-Copyright (C) 2021  Intel Corporation. All rights reserved.
+Copyright (C) 2023  Intel Corporation. All rights reserved.
 Your use of Intel Corporation's design tools, logic functions 
 and other software and tools, and any partner logic 
 functions, and any output files from any of the foregoing 
@@ -38,29 +38,29 @@ https://fpgasoftware.intel.com/eula.
 
 
 
-+-----------------------------------------------------------------------------------+
-; Flow Summary                                                                      ;
-+---------------------------------+-------------------------------------------------+
-; Flow Status                     ; Successful - Fri Dec  3 15:02:34 2021           ;
-; Quartus Prime Version           ; 21.1.0 Build 842 10/21/2021 SJ Standard Edition ;
-; Revision Name                   ; DE1_SoC_Computer                                ;
-; Top-level Entity Name           ; DE1_SoC_Computer                                ;
-; Family                          ; Cyclone V                                       ;
-; Device                          ; 5CSEMA5F31C6                                    ;
-; Timing Models                   ; Final                                           ;
-; Logic utilization (in ALMs)     ; 23,497 / 32,070 ( 73 % )                        ;
-; Total registers                 ; 30479                                           ;
-; Total pins                      ; 368 / 457 ( 81 % )                              ;
-; Total virtual pins              ; 0                                               ;
-; Total block memory bits         ; 2,392,090 / 4,065,280 ( 59 % )                  ;
-; Total DSP Blocks                ; 15 / 87 ( 17 % )                                ;
-; Total HSSI RX PCSs              ; 0                                               ;
-; Total HSSI PMA RX Deserializers ; 0                                               ;
-; Total HSSI TX PCSs              ; 0                                               ;
-; Total HSSI PMA TX Serializers   ; 0                                               ;
-; Total PLLs                      ; 3 / 6 ( 50 % )                                  ;
-; Total DLLs                      ; 1 / 4 ( 25 % )                                  ;
-+---------------------------------+-------------------------------------------------+
++----------------------------------------------------------------------------------+
+; Flow Summary                                                                     ;
++---------------------------------+------------------------------------------------+
+; Flow Status                     ; Successful - Sun Apr  9 01:16:00 2023          ;
+; Quartus Prime Version           ; 22.1std.1 Build 917 02/14/2023 SC Lite Edition ;
+; Revision Name                   ; DE1_SoC_Computer                               ;
+; Top-level Entity Name           ; DE1_SoC_Computer                               ;
+; Family                          ; Cyclone V                                      ;
+; Device                          ; 5CSEMA5F31C6                                   ;
+; Timing Models                   ; Final                                          ;
+; Logic utilization (in ALMs)     ; 23,615 / 32,070 ( 74 % )                       ;
+; Total registers                 ; 30601                                          ;
+; Total pins                      ; 368 / 457 ( 81 % )                             ;
+; Total virtual pins              ; 0                                              ;
+; Total block memory bits         ; 2,392,090 / 4,065,280 ( 59 % )                 ;
+; Total DSP Blocks                ; 15 / 87 ( 17 % )                               ;
+; Total HSSI RX PCSs              ; 0                                              ;
+; Total HSSI PMA RX Deserializers ; 0                                              ;
+; Total HSSI TX PCSs              ; 0                                              ;
+; Total HSSI PMA TX Serializers   ; 0                                              ;
+; Total PLLs                      ; 3 / 6 ( 50 % )                                 ;
+; Total DLLs                      ; 1 / 4 ( 25 % )                                 ;
++---------------------------------+------------------------------------------------+
 
 
 +-----------------------------------------+
@@ -68,7 +68,7 @@ https://fpgasoftware.intel.com/eula.
 +-------------------+---------------------+
 ; Option            ; Setting             ;
 +-------------------+---------------------+
-; Start date & time ; 12/03/2021 14:25:00 ;
+; Start date & time ; 04/09/2023 00:38:03 ;
 ; Main task         ; Compilation         ;
 ; Revision Name     ; DE1_SoC_Computer    ;
 +-------------------+---------------------+
@@ -79,7 +79,7 @@ https://fpgasoftware.intel.com/eula.
 +--------------------------------------+-------------------------------------------------------------------------------+---------------+------------------------------------------+------------+
 ; Assignment Name                      ; Value                                                                         ; Default Value ; Entity Name                              ; Section Id ;
 +--------------------------------------+-------------------------------------------------------------------------------+---------------+------------------------------------------+------------+
-; COMPILER_SIGNATURE_ID                ; 35490517683634.163855949904929                                                ; --            ; --                                       ; --         ;
+; COMPILER_SIGNATURE_ID                ; 1096212298750.168101507627120                                                 ; --            ; --                                       ; --         ;
 ; FITTER_EFFORT                        ; Standard Fit                                                                  ; Auto Fit      ; --                                       ; --         ;
 ; HPS_ISW_FILE                         ; Computer_System/synthesis/submodules/sequencer/system.pre.h                   ; --            ; Computer_System_ARM_A9_HPS_hps_io_border ; --         ;
 ; HPS_ISW_FILE                         ; Computer_System/synthesis/submodules/sequencer/sequencer_auto_inst_init.pre.c ; --            ; Computer_System_ARM_A9_HPS_hps_io_border ; --         ;
@@ -138,24 +138,24 @@ https://fpgasoftware.intel.com/eula.
 +----------------------+--------------+-------------------------+---------------------+------------------------------------+
 ; Module Name          ; Elapsed Time ; Average Processors Used ; Peak Virtual Memory ; Total CPU Time (on all processors) ;
 +----------------------+--------------+-------------------------+---------------------+------------------------------------+
-; Analysis & Synthesis ; 00:04:32     ; 1.2                     ; 2061 MB             ; 00:06:05                           ;
-; Fitter               ; 00:27:29     ; 1.2                     ; 3829 MB             ; 00:44:07                           ;
-; Assembler            ; 00:00:45     ; 1.0                     ; 1039 MB             ; 00:00:45                           ;
-; Timing Analyzer      ; 00:04:13     ; 1.6                     ; 2314 MB             ; 00:06:30                           ;
-; Total                ; 00:36:59     ; --                      ; --                  ; 00:57:27                           ;
+; Analysis & Synthesis ; 00:04:24     ; 4.4                     ; 6603 MB             ; 00:11:29                           ;
+; Fitter               ; 00:27:03     ; 1.7                     ; 9733 MB             ; 00:31:02                           ;
+; Assembler            ; 00:00:38     ; 1.0                     ; 5354 MB             ; 00:00:18                           ;
+; Timing Analyzer      ; 00:01:43     ; 4.1                     ; 6666 MB             ; 00:04:35                           ;
+; Total                ; 00:33:48     ; --                      ; --                  ; 00:47:24                           ;
 +----------------------+--------------+-------------------------+---------------------+------------------------------------+
 
 
-+--------------------------------------------------------------------------------------------+
-; Flow OS Summary                                                                            ;
-+----------------------+----------------------+----------------+------------+----------------+
-; Module Name          ; Machine Hostname     ; OS Name        ; OS Version ; Processor type ;
-+----------------------+----------------------+----------------+------------+----------------+
-; Analysis & Synthesis ; altera-Inspiron-5558 ; Ubuntu 14.04.4 ; 14         ; x86_64         ;
-; Fitter               ; altera-Inspiron-5558 ; Ubuntu 14.04.4 ; 14         ; x86_64         ;
-; Assembler            ; altera-Inspiron-5558 ; Ubuntu 14.04.4 ; 14         ; x86_64         ;
-; Timing Analyzer      ; altera-Inspiron-5558 ; Ubuntu 14.04.4 ; 14         ; x86_64         ;
-+----------------------+----------------------+----------------+------------+----------------+
++------------------------------------------------------------------------------------+
+; Flow OS Summary                                                                    ;
++----------------------+------------------+------------+------------+----------------+
+; Module Name          ; Machine Hostname ; OS Name    ; OS Version ; Processor type ;
++----------------------+------------------+------------+------------+----------------+
+; Analysis & Synthesis ; adamp            ; Windows 10 ; 10.0       ; x86_64         ;
+; Fitter               ; adamp            ; Windows 10 ; 10.0       ; x86_64         ;
+; Assembler            ; adamp            ; Windows 10 ; 10.0       ; x86_64         ;
+; Timing Analyzer      ; adamp            ; Windows 10 ; 10.0       ; x86_64         ;
++----------------------+------------------+------------+------------+----------------+
 
 
 ------------

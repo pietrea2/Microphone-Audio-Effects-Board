@@ -76,7 +76,7 @@ Disassembly of section .text:
  120:	00004fa8 	.word	0x00004fa8
 
 00000124 <__cs3_heap_start_ptr>:
- 124:	00008e50 	.word	0x00008e50
+ 124:	00062bd0 	.word	0x00062bd0
 
 00000128 <_start>:
  128:	e51fd000 	ldr	sp, [pc, #-0]	; 130 <_start+0x8>
@@ -783,8 +783,8 @@ void audio_ISR(void)
  760:	e5932000 	ldr	r2, [r3]
  764:	e51b300c 	ldr	r3, [r11, #-12]
  768:	e593100c 	ldr	r1, [r3, #12]
- 76c:	e3063f10 	movw	r3, #28432	; 0x6f10
- 770:	e3403000 	movt	r3, #0
+ 76c:	e3033dd0 	movw	r3, #15824	; 0x3dd0
+ 770:	e3403003 	movt	r3, #3
  774:	e7831102 	str	r1, [r3, r2, lsl #2]
 			++buffer_index;
  778:	e3043fcc 	movw	r3, #20428	; 0x4fcc
@@ -794,11 +794,7 @@ void audio_ISR(void)
  788:	e3043fcc 	movw	r3, #20428	; 0x4fcc
  78c:	e3403000 	movt	r3, #0
  790:	e5832000 	str	r2, [r3]
-			//	//record = 0;
-			//	//*(red_LED_ptr) = 0x0;
-            //    // acknowledge and re-enable interrupts
-			//	*(audio_ptr) |= 0x1;
-			//}
+
 			fifospace = *(audio_ptr + 1);
  794:	e51b300c 	ldr	r3, [r11, #-12]
  798:	e5933004 	ldr	r3, [r3, #4]
@@ -816,11 +812,11 @@ void audio_ISR(void)
  7b0:	e3043fcc 	movw	r3, #20428	; 0x4fcc
  7b4:	e3403000 	movt	r3, #0
  7b8:	e5932000 	ldr	r2, [r3]
- 7bc:	e30037cf 	movw	r3, #1999	; 0x7cf
+ 7bc:	e30b3b7f 	movw	r3, #47999	; 0xbb7f
  7c0:	e1520003 	cmp	r2, r3
  7c4:	daffffdb 	ble	738 <audio_ISR+0x48>
-			//	*(audio_ptr) |= 0x1;
-			//}
+			++buffer_index;
+
 			fifospace = *(audio_ptr + 1);
 		}
 	}
@@ -855,8 +851,8 @@ void audio_ISR(void)
  818:	e3043fcc 	movw	r3, #20428	; 0x4fcc
  81c:	e3403000 	movt	r3, #0
  820:	e5931000 	ldr	r1, [r3]
- 824:	e3063f10 	movw	r3, #28432	; 0x6f10
- 828:	e3403000 	movt	r3, #0
+ 824:	e3033dd0 	movw	r3, #15824	; 0x3dd0
+ 828:	e3403003 	movt	r3, #3
  82c:	e7933101 	ldr	r3, [r3, r1, lsl #2]
  830:	e5823000 	str	r3, [r2]
 			--buffer_index;
@@ -867,11 +863,7 @@ void audio_ISR(void)
  844:	e3043fcc 	movw	r3, #20428	; 0x4fcc
  848:	e3403000 	movt	r3, #0
  84c:	e5832000 	str	r2, [r3]
-            //    //buffer_index = 0;
-            //    // acknowledge and re-enable interrupts
-			//	*(audio_ptr) |= 0x2;
-            //    return;
-			//}
+	
 			fifospace = *(audio_ptr + 1);
  850:	e51b300c 	ldr	r3, [r11, #-12]
  854:	e5933004 	ldr	r3, [r3, #4]
@@ -2221,4 +2213,4 @@ Disassembly of section .rodata:
     4b60:	00000040 	.word	0x00000040
     4b64:	00000040 	.word	0x00000040
     4b68:	00004f70 	.word	0x00004f70
-    4b6c:	00003ea0 	.word	0x00003ea0
+    4b6c:	0005dc20 	.word	0x0005dc20

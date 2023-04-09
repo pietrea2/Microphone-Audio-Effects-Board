@@ -4,7 +4,7 @@
 
 extern void hw_set_bit(volatile int* ptr, int bit, int value);
 
-#define AUDIO_BUF_SIZE 2000			// about 0.25 seconds of buffer (@ 8K samples/sec)
+#define AUDIO_BUF_SIZE 48000			// about 0.25 seconds of buffer (@ 8K samples/sec)
 //#define BUF_THRESHOLD 96		// 75% of 128 word buffer
 
 #define AUDIO_SIZE (3994)
