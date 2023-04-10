@@ -1,157 +1,123 @@
+//
+// - defines exception vectors for the A9 processor
+// - provides utils + GIC initialization code
+//
+
 #include "interrupt_ID.h"
 #include "defines.h"
 #include "address_map_arm.h"
 
-/* This file:
- * 1. defines exception vectors for the A9 processor
- * 2. provides code that initializes the generic interrupt controller
- */
-void config_interrupt (int, int);
-void hw_write_bits(volatile int *, volatile int, volatile int);
-//void MPcore_private_timer_ISR (void);
-void audio_ISR (void);
-void keys_ISR(void);
 
-// Define the exception handlers here 
-void __attribute__ ((interrupt)) __cs3_reset (void)
+void __attribute__((interrupt)) __cs3_reset(void)
 {
-    while(1);
+    while (1);
 }
 
-void __attribute__ ((interrupt)) __cs3_isr_undef (void)
+void __attribute__((interrupt)) __cs3_isr_undef(void)
 {
-    while(1);
+    while (1);
 }
 
-void __attribute__ ((interrupt)) __cs3_isr_swi (void)
+void __attribute__((interrupt)) __cs3_isr_swi(void)
 {
-    while(1);
+    while (1);
 }
 
-void __attribute__ ((interrupt)) __cs3_isr_pabort (void)
+void __attribute__((interrupt)) __cs3_isr_pabort(void)
 {
-    while(1);
+    while (1);
 }
 
-void __attribute__ ((interrupt)) __cs3_isr_dabort (void)
+void __attribute__((interrupt)) __cs3_isr_dabort(void)
 {
-    while(1);
+    while (1);
 }
 
-void __attribute__ ((interrupt)) __cs3_isr_irq (void)
+// using_gic.pdf
+void __attribute__((interrupt)) __cs3_isr_irq(void)
 {
-	// Read the ICCIAR from the processor interface 
-	int address = MPCORE_GIC_CPUIF + ICCIAR; 
-	int int_ID = *((int *) address); 
-   
-	//if (int_ID == MPCORE_PRIV_TIMER_IRQ)	// check if interrupt is from the private timer
-	//	MPcore_private_timer_ISR();
-	//else 
-	if (int_ID == AUDIO_IRQ)				// check if interrupt is from the audio
-		audio_ISR();
-	else if (int_ID == KEYS_IRQ)
-		keys_ISR();
-	else
-		while (1);									// if unexpected, then halt
+    int address = MPCORE_GIC_CPUIF + ICCIAR;
+    int int_ID = *((int*)address);
 
-	// Write to the End of Interrupt Register (ICCEOIR)
-	address = MPCORE_GIC_CPUIF + ICCEOIR;
-	*((int *) address) = int_ID;
+    if (int_ID == AUDIO_IRQ)
+        audio_ISR();
+    else if (int_ID == KEYS_IRQ)
+        keys_ISR();
+    else
+        while (1);
 
-	return;
+    // acknowledge interrupt
+    address = MPCORE_GIC_CPUIF + ICCEOIR;
+    *((int*)address) = int_ID;
+
+    return;
 }
 
-void __attribute__ ((interrupt)) __cs3_isr_fiq (void)
+void __attribute__((interrupt)) __cs3_isr_fiq(void)
 {
-    while(1);
+    while (1);
 }
 
-/* 
- * Initialize the banked stack pointer register for IRQ mode
-*/
-void set_A9_IRQ_stack(void)
-{
-	int stack, mode;
-	stack = A9_ONCHIP_END - 7;		// top of A9 onchip memory, aligned to 8 bytes
-	/* change processor to IRQ mode with interrupts disabled */
-	mode = INT_DISABLE | IRQ_MODE;
-	asm("msr cpsr, %[ps]" : : [ps] "r" (mode));
-	/* set banked stack pointer */
-	asm("mov sp, %[ps]" : : [ps] "r" (stack));
 
-	/* go back to SVC mode before executing subroutine return! */
-	mode = INT_DISABLE | SVC_MODE;
-	asm("msr cpsr, %[ps]" : : [ps] "r" (mode));
+void enable_irq(void)
+{
+    int status;
+    asm("mrs %[ps], cpsr" : [ps] "=r"(status) :);
+    write_bits(&status, ~CPSR_IRQ_MASK, 0);
+    asm("msr cpsr, %[ps]" : : [ps] "r"(status));
 }
 
-/* 
- * Turn on interrupts in the ARM processor
-*/
-void enable_A9_interrupts(void)
+void disable_irq(void)
 {
-	int status = SVC_MODE | INT_ENABLE;
-	asm("msr cpsr,%[ps]" : : [ps]"r"(status));
+    int status;
+    asm("mrs %[ps], cpsr" : [ps] "=r"(status) : );
+    write_bits(&status, ~CPSR_IRQ_MASK, CPSR_IRQ_MASK);
+    asm("msr cpsr, %[ps]" : : [ps] "r"(status));
 }
 
-/* 
- * Configure the Generic Interrupt Controller (GIC)
-*/
-void config_GIC(void)
+
+// using_gic.pdf
+void config_interrupt(int int_ID, int CPU_targets)
 {
-	int address;	// used to calculate register addresses
+    int intr_bit, addr;
 
-	/* enable some examples of interrupts */
-  	//config_interrupt (MPCORE_PRIV_TIMER_IRQ, CPU0);
-  	config_interrupt (KEYS_IRQ, CPU0);
-  	config_interrupt (AUDIO_IRQ, CPU0);
-    
-  	// Set Interrupt Priority Mask Register (ICCPMR). Enable interrupts for lowest priority 
-	address = MPCORE_GIC_CPUIF + ICCPMR;
-  	*((int *) address) = 0xFFFF;       
+    // Set interrupt CPU targets (ICDIPTRn).
+    // reg offset = ICPIPTR + integer_div(N, 4) * 4
+    // interrupt bit = (N mod 4) * 8
+    intr_bit = (int_ID & 0x3) << 3;
+    addr = MPCORE_GIC_DIST + ICDIPTR + ((int_ID >> 2) << 2);
+    write_bits((volatile int*)addr, ~(0xff << intr_bit), CPU_targets << intr_bit);
 
-  	// Set CPU Interface Control Register (ICCICR). Enable signaling of interrupts
-	address = MPCORE_GIC_CPUIF + ICCICR;
-	*((int *) address) = ENABLE;
-
-	// Configure the Distributor Control Register (ICDDCR) to send pending interrupts to CPUs 
-	address = MPCORE_GIC_DIST + ICDDCR;
-	*((int *) address) = ENABLE;   
+    // Set interrupt enable (ICDISERn).
+    // reg offset = ICDISER + integer_div(N, 32) * 4
+    // interrupt bit = N mod 32
+    intr_bit = int_ID & 0x1f;
+    addr = MPCORE_GIC_DIST + ICDISER + ((int_ID >> 5) << 2);
+    write_bits((volatile int*)addr, ~(0x1 << intr_bit), 0x1 << intr_bit);
 }
 
-/* 
- * Configure registers in the GIC for individual interrupt IDs.
-*/
-void config_interrupt (int int_ID, int CPU_target)
-{
-	int n, addr_offset, value, address;
-	/* Set Interrupt Processor Targets Register (ICDIPTRn) to cpu0. 
-	 * n = integer_div(int_ID / 4) * 4
-	 * addr_offet = #ICDIPTR + n
-	 * value = CPU_target << ((int_ID & 0x3) * 8)
-	 */
-	n = (int_ID >> 2) << 2;
-	addr_offset = ICDIPTR + n;
-	value = CPU_target << ((int_ID & 0x3) << 3);
-	
-	/* Now that we know the register address and value, we need to set the correct bits in 
-	 * the GIC register, without changing the other bits */
-	address = MPCORE_GIC_DIST + addr_offset;
-	hw_write_bits((int *) address, 0xff << ((int_ID & 0x3) << 3), value);  
-    
-	/* Set Interrupt Set-Enable Registers (ICDISERn). 
-	 * n = (integer_div(in_ID / 32) * 4
-	 * addr_offset = 0x100 + n
-	 * value = enable << (int_ID & 0x1F) */
-	n = (int_ID >> 5) << 2; 
-	addr_offset = ICDISER + n;
-	value = 0x1 << (int_ID & 0x1f);
-	/* Now that we know the register address and value, we need to set the correct bits in 
-	 * the GIC register, without changing the other bits */
-	address = MPCORE_GIC_DIST + addr_offset;
-	hw_write_bits((int *) address, 0x1 << (int_ID & 0x1f), value);    
-}
+// using_gic.pdf
+void init_interrupts(void)
+{  
+    int stack, mode, addr;
 
-void hw_write_bits(volatile int * addr, volatile int unmask, volatile int value)
-{     
-    *addr = ((~unmask) & *addr) | value;
+    // Initialize banked stack pointer for IRQ mode
+    stack = A9_ONCHIP_END - 7;
+    mode = CPSR_IRQ_DISABLE | IRQ_MODE;
+    asm("msr cpsr, %[ps]" : : [ps] "r" (mode));
+    asm("mov sp, %[ps]" : : [ps] "r" (stack));
+    mode = CPSR_IRQ_DISABLE | SVC_MODE;
+    asm("msr cpsr, %[ps]" : : [ps] "r" (mode));
+
+    // enable interrupts for all priorities
+    addr = MPCORE_GIC_CPUIF + ICCPMR;
+    *((int*)addr) = 0xFFFF;
+
+    // enable interrupt signalling from CPU interface
+    addr = MPCORE_GIC_CPUIF + ICCICR;
+    *((int*)addr) = ENABLE;
+
+    // enable interrupt distributor
+    addr = MPCORE_GIC_DIST + ICDDCR;
+    *((int*)addr) = ENABLE;
 }

@@ -1,17 +1,16 @@
 #include "stdint.h"
-#include "globals.h"
+#include "defines.h"
+#include "interrupt_ID.h"
 #include "address_map_arm.h"
 
-extern void hw_set_bit(volatile int* ptr, int bit, int value);
 
-#define AUDIO_BUF_SIZE (24000)			//
-//#define BUF_THRESHOLD 96		// 75% of 128 word buffer
+#define AUDIO_BUF_SIZE (24000)
 
 #define TEST_AUDIO_SIZE (3994)
-// audio data for a ding sound
-static const int test_audio[] =
+// ding sound at 8k samples/s
+static const int test_audio_8khz[] =
 {
-0x00000000, 0x00000000, 0xFFFE0001, 0xFFFE0002, 0x00000001, 0xFFFD0001, 0xFFFE0003, 0x00000001, 0x0001FFFF, 0x00000000, 0x00000000, 0x0002FFFF, 0x0003FFFE, 0x0002FFFD, 0x0002FFFE, 0x0002FFFE, 0xFFFFFFFF, 0xFFFC0003, 0xFFFF0003, 0x00000000, 0xFFFE0001, 0xFFFE0002, 0xFFFF0002, 0x00000000, 0x0002FFFF,
+    0x00000000, 0x00000000, 0xFFFE0001, 0xFFFE0002, 0x00000001, 0xFFFD0001, 0xFFFE0003, 0x00000001, 0x0001FFFF, 0x00000000, 0x00000000, 0x0002FFFF, 0x0003FFFE, 0x0002FFFD, 0x0002FFFE, 0x0002FFFE, 0xFFFFFFFF, 0xFFFC0003, 0xFFFF0003, 0x00000000, 0xFFFE0001, 0xFFFE0002, 0xFFFF0002, 0x00000000, 0x0002FFFF,
     0x0002FFFE, 0x0001FFFE, 0xFFFE0001, 0xFFFE0002, 0xFFFE0002, 0xFFFC0003, 0xFFFD0004, 0x00010001, 0x0002FFFE, 0x0000FFFF, 0x00010000, 0x0003FFFE, 0x0002FFFD, 0x0001FFFF, 0x0000FFFF, 0xFFFF0001, 0xFFFF0001, 0x00010000, 0x0001FFFF, 0x0001FFFF, 0x0002FFFE, 0xFFFE0000, 0xFFFC0003, 0xFFFD0004, 0xFFFF0002,
     0x00010000, 0x0003FFFE, 0x0002FFFD, 0x0001FFFF, 0x0000FFFF, 0xFFFF0001, 0xFFFF0001, 0x00010000, 0x0001FFFF, 0x0001FFFF, 0x0001FFFF, 0x0003FFFE, 0x0002FFFD, 0xFFFE0000, 0xFFFD0003, 0xFFFD0003, 0xFFFB0004, 0xFFFE0004, 0xFFFF0001, 0x00010000, 0x0001FFFF, 0xFFFFFFFF, 0xFFFE0003, 0xFFFF0001, 0x00010000,
     0xFFFF0000, 0xFFFE0001, 0xFFFE0003, 0x00010000, 0x0000FFFF, 0xFFFD0002, 0xFFFF0002, 0xFFFF0001, 0xFFFF0001, 0xFFFF0001, 0x00000001, 0x0002FFFF, 0x0002FFFE, 0xFFFFFFFF, 0xFFFE0002, 0xFFFE0002, 0xFFFF0002, 0x00010000, 0x0002FFFE, 0x0000FFFF, 0xFFFE0001, 0xFFFE0002, 0x00000001, 0x0002FFFF, 0x0001FFFE,
@@ -174,21 +173,39 @@ static const int test_audio[] =
 };
 
 
-/* globals used for audio record/playback */
-volatile int iaudiobuf;
-volatile int inc_freq_mult;
-volatile int left_buffer[AUDIO_BUF_SIZE];
-volatile int right_buffer[AUDIO_BUF_SIZE];
+static volatile int iaudiobuf;
+static volatile int inc_freq_mult;
+static volatile int left_buffer[AUDIO_BUF_SIZE];
+static volatile int right_buffer[AUDIO_BUF_SIZE];
 
+
+void config_audio_demo(void)
+{
+    volatile int* audio_ptr = (int*)AUDIO_BASE;
+    volatile int* KEY_ptr = (int*)KEY_BASE;
+
+    config_interrupt(KEYS_IRQ, CPU0);
+    config_interrupt(AUDIO_IRQ, CPU0);
+
+    // enable audio interrupts
+    *audio_ptr = 0x3;
+    // enable all KEY interrupts
+    *(KEY_ptr + 2) = 0xF;
+
+    iaudiobuf = 0;
+    inc_freq_mult = 1;
+}
 
 
 void keys_ISR(void)
 {
+    disable_irq();
+
     volatile int* key_ptr = (int*)KEY_BASE;
     //volatile int* hex03_ptr = (int*)
 
     int press = *(key_ptr + 3);
-    *(key_ptr + 3) = press; // acknowledge
+    *(key_ptr + 3) = press;
 
     if (press & 0x1)
     {
@@ -201,38 +218,37 @@ void keys_ISR(void)
     //    *red_LED_ptr = 0x4;
     //else
     //    *red_LED_ptr = 0x8;
+
+    enable_irq();
     return;
 }
 
 
-
-
 int lowpass(int input)
 {
-    //static int last_sample = 0;
-    //signed int retvalue = (input + (last_sample * 7)) >> 3;
-    //last_sample = retvalue;
-    //return retvalue;
-    return input;
+    static int last_sample = 0;
+    signed int retvalue = (input + (last_sample * 7)) >> 3;
+    last_sample = retvalue;
+    return retvalue;
 }
 
 
 void audio_ISR(void)
 {
-	volatile int * audio_ptr = (int *) AUDIO_BASE;		// audio port address
-  	volatile int * red_LED_ptr = (int *)LED_BASE;		// red LED address
+    disable_irq();
 
-	
+	volatile int* audio_ptr = (int *)AUDIO_BASE;
+
 	int fifospace;
 
-	if (*(audio_ptr) & 0x100) // check read (RI)
+	if (*(audio_ptr) & 0x100) // check read interrupt
 	{  
 		fifospace = *(audio_ptr + 1);
-		// store data until the the audio-in FIFO is empty or the buffer is full
+		// read until buffer is full or audio-in FIFO is empty
 		while ((fifospace & 0x000000FF) && (iaudiobuf < AUDIO_BUF_SIZE))
 		{
             const int repeat = 1;
-
+    
             int i;
             int left = *(audio_ptr + 2);
             int right = *(audio_ptr + 3);
@@ -242,25 +258,24 @@ void audio_ISR(void)
                 right_buffer[iaudiobuf] = right;
                 ++iaudiobuf;
             }
-
+    
 			fifospace = *(audio_ptr + 1);
 		}
 	}
-	if (*(audio_ptr) & 0x200) // check write (WI)
+	if (*(audio_ptr) & 0x200) // check write interrupt
 	{
 		fifospace = *(audio_ptr + 1);
-		// output data until the buffer is empty or the audio-out FIFO is full
+		// output until buffer is empty or audio-out FIFO is full
 		while ((fifospace & 0x00FF0000) && (iaudiobuf > 0))
 		{
             *(audio_ptr + 2) = left_buffer[iaudiobuf];
             *(audio_ptr + 3) = right_buffer[iaudiobuf];
             iaudiobuf -= inc_freq_mult;
-	
+
 			fifospace = *(audio_ptr + 1);
 		}
 	}
 
-    // turn interrupts back on
-    //hw_set_bit(audio_ptr, 1, 1);
+    enable_irq();
 	return;
 }

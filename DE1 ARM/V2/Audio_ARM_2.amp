@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?><intel_fpga_monitor_program_project version="1.0">
     <architecture>ARM Cortex-A9</architecture>
     <system>
-        <sample_system_title>DE1-SoC Computer for ARM Cortex-A9</sample_system_title>
+        <system_info filepath="true">../../DE1_Computer/Computer_System.sopcinfo</system_info>
+        <system_sof filepath="true">../../DE1_Computer/DE1_SoC_Computer_time_limited.sof</system_sof>
         <board>DE1-SoC</board>
         <cable>DE-SoC [USB-1]</cable>
         <processor>ARM_A9_HPS_arm_a9_0</processor>
@@ -11,12 +12,12 @@
     <program>
         <type>C Program</type>
         <source_files>
-            <source_file filepath="true">audio_demo.c</source_file>
-            <source_file filepath="true">exceptions.c</source_file>
-            <source_file filepath="true">main.c</source_file>
+            <source_file filepath="true">../audio_ISR.c</source_file>
+            <source_file filepath="true">../audio_interrupt.c</source_file>
+            <source_file filepath="true">../exceptions.c</source_file>
         </source_files>
         <options>
-            <compiler_flags>-g -O1</compiler_flags>
+            <compiler_flags>-g -O0</compiler_flags>
         </options>
         <linker_sections type="Exceptions">
             <linker_section name=".vectors">

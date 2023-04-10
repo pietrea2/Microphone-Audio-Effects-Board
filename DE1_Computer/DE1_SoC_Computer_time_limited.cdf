@@ -6,7 +6,7 @@ JedecChain;
 	P ActionCode(Ign)
 		Device PartName(SOCVHPS) MfrSpec(OpMask(0));
 	P ActionCode(Cfg)
-		Device PartName(5CSEMA5F31) Path("C:/adam/winter 2023/ECE342/project/ece342-final-project/DE1_Computer/") File("DE1_SoC_Computer.sof") MfrSpec(OpMask(1));
+		Device PartName(5CSEMA5F31) Path("C:/Users/Owner/STM32CubeIDE/workspace_1.12.0/FinalProject342/DE1_Computer/") File("DE1_SoC_Computer_time_limited.sof") MfrSpec(OpMask(1));
 
 ChainEnd;
 
