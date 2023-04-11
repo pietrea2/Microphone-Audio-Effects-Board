@@ -16,7 +16,7 @@
             <source_file filepath="true">main.c</source_file>
         </source_files>
         <options>
-            <compiler_flags>-g -O1</compiler_flags>
+            <compiler_flags>-g -O3</compiler_flags>
         </options>
         <linker_sections type="Exceptions">
             <linker_section name=".vectors">

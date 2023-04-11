@@ -17,7 +17,7 @@ OC		:= arm-altera-eabi-objcopy.exe
 RM		:= rm -f
 
 # Flags
-USERCCFLAGS	:= -g -O1
+USERCCFLAGS	:= -g -O3
 USERLDFLAGS	:= 
 ARCHASFLAGS	:= -mfloat-abi=soft -march=armv7-a -mcpu=cortex-a9 --gstabs -I "$$GNU_ARM_TOOL_ROOTDIR/arm-altera-eabi/include/"
 ARCHCCFLAGS	:= -mfloat-abi=soft -march=armv7-a -mtune=cortex-a9 -mcpu=cortex-a9

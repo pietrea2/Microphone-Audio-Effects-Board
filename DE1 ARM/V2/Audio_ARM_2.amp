@@ -12,12 +12,12 @@
     <program>
         <type>C Program</type>
         <source_files>
-            <source_file filepath="true">../audio_ISR.c</source_file>
-            <source_file filepath="true">../audio_interrupt.c</source_file>
+            <source_file filepath="true">../audio_demo.c</source_file>
             <source_file filepath="true">../exceptions.c</source_file>
+            <source_file filepath="true">../main.c</source_file>
         </source_files>
         <options>
-            <compiler_flags>-g -O0</compiler_flags>
+            <compiler_flags>-g -O3</compiler_flags>
         </options>
         <linker_sections type="Exceptions">
             <linker_section name=".vectors">

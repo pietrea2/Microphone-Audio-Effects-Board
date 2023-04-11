@@ -1,5 +1,5 @@
 Assembler report for DE1_SoC_Computer
-Sun Apr  9 01:16:00 2023
+Mon Apr 10 21:16:28 2023
 Quartus Prime Version 22.1std.1 Build 917 02/14/2023 SC Lite Edition
 
 
@@ -39,7 +39,7 @@ https://fpgasoftware.intel.com/eula.
 +---------------------------------------------------------------+
 ; Assembler Summary                                             ;
 +-----------------------+---------------------------------------+
-; Assembler Status      ; Successful - Sun Apr  9 01:16:00 2023 ;
+; Assembler Status      ; Successful - Mon Apr 10 21:16:28 2023 ;
 ; Revision Name         ; DE1_SoC_Computer                      ;
 ; Top-level Entity Name ; DE1_SoC_Computer                      ;
 ; Family                ; Cyclone V                             ;
@@ -79,8 +79,8 @@ https://fpgasoftware.intel.com/eula.
 +----------------+-----------------------------------------------------------------------------------------------------------------+
 ; Option         ; Setting                                                                                                         ;
 +----------------+-----------------------------------------------------------------------------------------------------------------+
-; JTAG usercode  ; 0x0AF203DF                                                                                                      ;
-; Checksum       ; 0x0AF203DF                                                                                                      ;
+; JTAG usercode  ; 0x0AF2492C                                                                                                      ;
+; Checksum       ; 0x0AF2492C                                                                                                      ;
 +----------------+-----------------------------------------------------------------------------------------------------------------+
 
 
@@ -90,7 +90,7 @@ https://fpgasoftware.intel.com/eula.
 Info: *******************************************************************
 Info: Running Quartus Prime Assembler
     Info: Version 22.1std.1 Build 917 02/14/2023 SC Lite Edition
-    Info: Processing started: Sun Apr  9 01:15:22 2023
+    Info: Processing started: Mon Apr 10 21:15:31 2023
 Info: Command: quartus_asm --read_settings_files=off --write_settings_files=off DE1_SoC_Computer -c DE1_SoC_Computer
 Warning (18236): Number of processors has not been specified which may cause overloading on shared machines.  Set the global assignment NUM_PARALLEL_PROCESSORS in your QSF to an appropriate value for best performance.
 Info (115030): Assembler is generating device programming files
@@ -100,9 +100,9 @@ Warning (210039): File C:/adam/winter 2023/ECE342/project/ece342-final-project/D
 Info (210040): SRAM Object File C:/adam/winter 2023/ECE342/project/ece342-final-project/DE1_Computer/DE1_SoC_Computer_time_limited.sof contains time-limited megafunction that supports Intel FPGA IP Evaluation Mode feature -- Vendor: 0x6AF7, Product: 0x00A2
 Info (11878): Hard Processor Subsystem configuration has not changed and a Preloader software update is not required
 Info: Quartus Prime Assembler was successful. 0 errors, 3 warnings
-    Info: Peak virtual memory: 5354 megabytes
-    Info: Processing ended: Sun Apr  9 01:16:01 2023
-    Info: Elapsed time: 00:00:39
-    Info: Total CPU time (on all processors): 00:00:18
+    Info: Peak virtual memory: 5364 megabytes
+    Info: Processing ended: Mon Apr 10 21:16:29 2023
+    Info: Elapsed time: 00:00:58
+    Info: Total CPU time (on all processors): 00:00:31
 
 

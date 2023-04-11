@@ -2,10 +2,13 @@
 #include "defines.h"
 #include "interrupt_ID.h"
 #include "address_map_arm.h"
+#include "sin_LUT.h"
 
 
 #define AUDIO_BUF_SIZE (24000)
+#define SAMPLE_RATE (8000)
 
+#if 0
 #define TEST_AUDIO_SIZE (3994)
 // ding sound at 8k samples/s
 static const int test_audio_8khz[] =
@@ -171,12 +174,25 @@ static const int test_audio_8khz[] =
     0xF8B907A7, 0x05ADFFA5, 0x056BF747, 0xF8D4008E, 0xFA250706, 0x06E0FD72, 0x043DF7EE, 0xF77902E9, 0xFC080679, 0x07A2FB92, 0x01E9F8A2, 0xF6F2042A, 0xFE0E05ED, 0x0867F9EF, 0xFFAAFA2E, 0xF6FF0506, 0x00160479, 0x07D1F8E0, 0xFD6DFB74, 0xF7730674, 0x02A80332, 0x071FF7F9, 0xFBA1FD8F, 0xF86106DB, 0x045E00A3,
     0x069DF787, 0xF9DBFF84, 0xF9160731, 0x059DFF4A, 0x0526F82D, 0xF8A9015E, 0xFB5E06E5, 0x070BFCF2, 0x02F0F84B, 0xF7B402DD, 0xFD3505D5, 0x07ABFB79, 0x017FF940, 0xF7610410, 0xFF590550, 0x0835FA0E, 0xFF82FAE1, 0xF74604F7, 0x024302FA
 };
+#endif
 
+typedef enum e_effect
+{
+    EFF_DEFAULT,
+    EFF_PITCH,
+    EFF_TREMELO,
+    EFF_DELAY,
+    EFF_LOOP
+}
+effect_t;
 
+static volatile int effect;
 static volatile int iaudiobuf;
-static volatile int inc_freq_mult;
+static volatile int lut_counter;
+static volatile int freq_mult;
 static volatile int left_buffer[AUDIO_BUF_SIZE];
 static volatile int right_buffer[AUDIO_BUF_SIZE];
+
 
 
 void config_audio_demo(void)
@@ -193,7 +209,9 @@ void config_audio_demo(void)
     *(KEY_ptr + 2) = 0xF;
 
     iaudiobuf = 0;
-    inc_freq_mult = 1;
+    freq_mult = 1;
+    lut_counter = 0;
+    effect = EFF_DEFAULT;
 }
 
 
@@ -209,15 +227,26 @@ void keys_ISR(void)
 
     if (press & 0x1)
     {
-        if (inc_freq_mult < 3)
-            inc_freq_mult++;
+        if (freq_mult < 5)
+            freq_mult++;
     }
-    //else if (press & 0x2)
-    //    *red_LED_ptr = 0x2;
-    //else if (press & 0x4)
-    //    *red_LED_ptr = 0x4;
-    //else
-    //    *red_LED_ptr = 0x8;
+    else if (press & 0x2){
+       //*red_LED_ptr = 0x2;
+        freq_mult--;
+    }
+    else if (press & 0x4){
+       //*red_LED_ptr = 0x4;
+
+    }
+    else{
+        if (effect == EFF_LOOP)
+            effect = EFF_DEFAULT;
+        else
+            effect++;
+
+        freq_mult = 1;
+        lut_counter = 0;
+    }
 
     enable_irq();
     return;
@@ -247,19 +276,31 @@ void audio_ISR(void)
 		// read until buffer is full or audio-in FIFO is empty
 		while ((fifospace & 0x000000FF) && (iaudiobuf < AUDIO_BUF_SIZE))
 		{
-            const int repeat = 1;
-    
-            int i;
             int left = *(audio_ptr + 2);
             int right = *(audio_ptr + 3);
-            for (i = 0; i < repeat; ++i)
-            {               
+            
+            switch(effect)
+            {
+                case EFF_DEFAULT:
+                case EFF_PITCH:
                 left_buffer[iaudiobuf] = left;
                 right_buffer[iaudiobuf] = right;
                 ++iaudiobuf;
+                break;
+
+                case EFF_TREMELO:
+                left_buffer[iaudiobuf] = (int32_t)((left * (int64_t)sin_LUT[lut_counter]) >> 30);
+                right_buffer[iaudiobuf] = (int32_t)((right * (int64_t)sin_LUT[lut_counter]) >> 30);
+                lut_counter += freq_mult;
+                if (lut_counter >= SAMPLE_RATE) 
+                    lut_counter = 0;
+
+                ++iaudiobuf;
+                break;
             }
-    
+           
 			fifospace = *(audio_ptr + 1);
+
 		}
 	}
 	if (*(audio_ptr) & 0x200) // check write interrupt
@@ -270,7 +311,10 @@ void audio_ISR(void)
 		{
             *(audio_ptr + 2) = left_buffer[iaudiobuf];
             *(audio_ptr + 3) = right_buffer[iaudiobuf];
-            iaudiobuf -= inc_freq_mult;
+
+            if (effect == EFF_PITCH)
+                iaudiobuf -= freq_mult;
+            else --iaudiobuf;
 
 			fifospace = *(audio_ptr + 1);
 		}

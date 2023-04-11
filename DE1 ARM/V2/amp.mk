@@ -17,7 +17,7 @@ OC		:= arm-altera-eabi-objcopy.exe
 RM		:= rm -f
 
 # Flags
-USERCCFLAGS	:= -g -O0
+USERCCFLAGS	:= -g -O3
 USERLDFLAGS	:= 
 ARCHASFLAGS	:= -mfloat-abi=soft -march=armv7-a -mcpu=cortex-a9 --gstabs -I "$$GNU_ARM_TOOL_ROOTDIR/arm-altera-eabi/include/"
 ARCHCCFLAGS	:= -mfloat-abi=soft -march=armv7-a -mtune=cortex-a9 -mcpu=cortex-a9
@@ -30,7 +30,7 @@ OCFLAGS		:= -O srec
 
 # Files
 HDRS		:=
-SRCS		:= ../audio_ISR.c ../audio_interrupt.c ../exceptions.c
+SRCS		:= ../audio_demo.c ../exceptions.c ../main.c
 OBJS		:= $(patsubst %, %.o, $(SRCS))
 
 ############################################
@@ -52,7 +52,7 @@ SYS_FLAG_JTAG_INST		:= --instance
 SYS_FLAG_NII_HALT		:= --stop
 
 # Files
-SYS_FILE_SOF			:= "C:/Users/Owner/STM32CubeIDE/workspace_1.12.0/FinalProject342/DE1_Computer/DE1_SoC_Computer_time_limited.sof"
+SYS_FILE_SOF			:= "C:/adam/winter 2023/ECE342/project/ece342-final-project/DE1_Computer2/DE1_SoC_Computer_time_limited.sof"
 SYS_SCRIPT_JTAG_ID		:= --script="C:/intelFPGA_lite/22.1std/University_Program/Monitor_Program/bin/jtag_instance_check.tcl"
 SYS_FILE_ARM_PL			:= --preloader "C:/intelFPGA_lite/22.1std/University_Program/Monitor_Program/arm_tools/u-boot-spl.de1-soc.srec"
 SYS_FLAG_ARM_PL_ADDR	:= --preloaderaddr 0xffff13a0
@@ -60,13 +60,13 @@ SYS_FLAG_ARM_PL_ADDR	:= --preloaderaddr 0xffff13a0
 ############################################
 # Compilation Targets
 
-COMPILE: audio_ISR.srec
+COMPILE: audio_demo.srec
 
-audio_ISR.srec: audio_ISR.axf
+audio_demo.srec: audio_demo.axf
 	$(RM) $@
 	$(OC) $(OCFLAGS) $< $@
 
-audio_ISR.axf: $(OBJS)
+audio_demo.axf: $(OBJS)
 	$(RM) $@
 	$(CC) $(OBJS) $(LDFLAGS) -o $@
 
@@ -79,7 +79,7 @@ audio_ISR.axf: $(OBJS)
 	$(AS) $(ASFLAGS) $< -o $@
 
 CLEAN: 
-	$(RM) audio_ISR.srec audio_ISR.axf $(OBJS)
+	$(RM) audio_demo.srec audio_demo.axf $(OBJS)
 
 ############################################
 # System Targets

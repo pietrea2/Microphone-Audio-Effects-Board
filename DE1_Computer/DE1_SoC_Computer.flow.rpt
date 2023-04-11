@@ -1,5 +1,5 @@
 Flow report for DE1_SoC_Computer
-Sun Apr  9 01:17:45 2023
+Mon Apr 10 21:19:10 2023
 Quartus Prime Version 22.1std.1 Build 917 02/14/2023 SC Lite Edition
 
 
@@ -41,7 +41,7 @@ https://fpgasoftware.intel.com/eula.
 +----------------------------------------------------------------------------------+
 ; Flow Summary                                                                     ;
 +---------------------------------+------------------------------------------------+
-; Flow Status                     ; Successful - Sun Apr  9 01:16:00 2023          ;
+; Flow Status                     ; Successful - Mon Apr 10 21:16:28 2023          ;
 ; Quartus Prime Version           ; 22.1std.1 Build 917 02/14/2023 SC Lite Edition ;
 ; Revision Name                   ; DE1_SoC_Computer                               ;
 ; Top-level Entity Name           ; DE1_SoC_Computer                               ;
@@ -49,7 +49,7 @@ https://fpgasoftware.intel.com/eula.
 ; Device                          ; 5CSEMA5F31C6                                   ;
 ; Timing Models                   ; Final                                          ;
 ; Logic utilization (in ALMs)     ; 23,615 / 32,070 ( 74 % )                       ;
-; Total registers                 ; 30601                                          ;
+; Total registers                 ; 30551                                          ;
 ; Total pins                      ; 368 / 457 ( 81 % )                             ;
 ; Total virtual pins              ; 0                                              ;
 ; Total block memory bits         ; 2,392,090 / 4,065,280 ( 59 % )                 ;
@@ -68,7 +68,7 @@ https://fpgasoftware.intel.com/eula.
 +-------------------+---------------------+
 ; Option            ; Setting             ;
 +-------------------+---------------------+
-; Start date & time ; 04/09/2023 00:38:03 ;
+; Start date & time ; 04/10/2023 20:31:43 ;
 ; Main task         ; Compilation         ;
 ; Revision Name     ; DE1_SoC_Computer    ;
 +-------------------+---------------------+
@@ -79,7 +79,7 @@ https://fpgasoftware.intel.com/eula.
 +--------------------------------------+-------------------------------------------------------------------------------+---------------+------------------------------------------+------------+
 ; Assignment Name                      ; Value                                                                         ; Default Value ; Entity Name                              ; Section Id ;
 +--------------------------------------+-------------------------------------------------------------------------------+---------------+------------------------------------------+------------+
-; COMPILER_SIGNATURE_ID                ; 1096212298750.168101507627120                                                 ; --            ; --                                       ; --         ;
+; COMPILER_SIGNATURE_ID                ; 1096212298750.168117309425268                                                 ; --            ; --                                       ; --         ;
 ; FITTER_EFFORT                        ; Standard Fit                                                                  ; Auto Fit      ; --                                       ; --         ;
 ; HPS_ISW_FILE                         ; Computer_System/synthesis/submodules/sequencer/system.pre.h                   ; --            ; Computer_System_ARM_A9_HPS_hps_io_border ; --         ;
 ; HPS_ISW_FILE                         ; Computer_System/synthesis/submodules/sequencer/sequencer_auto_inst_init.pre.c ; --            ; Computer_System_ARM_A9_HPS_hps_io_border ; --         ;
@@ -138,11 +138,11 @@ https://fpgasoftware.intel.com/eula.
 +----------------------+--------------+-------------------------+---------------------+------------------------------------+
 ; Module Name          ; Elapsed Time ; Average Processors Used ; Peak Virtual Memory ; Total CPU Time (on all processors) ;
 +----------------------+--------------+-------------------------+---------------------+------------------------------------+
-; Analysis & Synthesis ; 00:04:24     ; 4.4                     ; 6603 MB             ; 00:11:29                           ;
-; Fitter               ; 00:27:03     ; 1.7                     ; 9733 MB             ; 00:31:02                           ;
-; Assembler            ; 00:00:38     ; 1.0                     ; 5354 MB             ; 00:00:18                           ;
-; Timing Analyzer      ; 00:01:43     ; 4.1                     ; 6666 MB             ; 00:04:35                           ;
-; Total                ; 00:33:48     ; --                      ; --                  ; 00:47:24                           ;
+; Analysis & Synthesis ; 00:05:51     ; 3.6                     ; 6589 MB             ; 00:13:10                           ;
+; Fitter               ; 00:32:29     ; 1.4                     ; 9714 MB             ; 00:43:01                           ;
+; Assembler            ; 00:00:57     ; 1.0                     ; 5364 MB             ; 00:00:30                           ;
+; Timing Analyzer      ; 00:02:38     ; 3.3                     ; 6658 MB             ; 00:04:48                           ;
+; Total                ; 00:41:55     ; --                      ; --                  ; 01:01:29                           ;
 +----------------------+--------------+-------------------------+---------------------+------------------------------------+
 
 
