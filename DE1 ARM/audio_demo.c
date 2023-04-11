@@ -220,7 +220,8 @@ void keys_ISR(void)
     disable_irq();
 
     volatile int* key_ptr = (int*)KEY_BASE;
-    //volatile int* hex03_ptr = (int*)
+    volatile int* hex30_ptr = (int*)HEX3_HEX0_BASE;
+    volatile int* hex54_ptr = (int*)HEX5_HEX4_BASE;
 
     int press = *(key_ptr + 3);
     *(key_ptr + 3) = press;
@@ -228,14 +229,15 @@ void keys_ISR(void)
     if (press & 0x1)
     {
         if (freq_mult < 5)
+            *hex30_ptr = *hex30_ptr | 0x00000979; //HI
             freq_mult++;
     }
     else if (press & 0x2){
-       //*red_LED_ptr = 0x2;
+        *hex30_ptr = *hex30_ptr | 0x00004723; //LO
         freq_mult--;
     }
     else if (press & 0x4){
-       //*red_LED_ptr = 0x4;
+      
 
     }
     else{
@@ -246,6 +248,29 @@ void keys_ISR(void)
 
         freq_mult = 1;
         lut_counter = 0;
+    }
+
+
+
+    if(effect == EFF_DEFAULT){ //dEF
+        *hex54_ptr = 0x00002106;
+        *hex30_ptr = 0x0E000000;
+    }
+    else if(effect == EFF_PITCH){ //Pch
+        *hex54_ptr = 0x00000C27;
+        *hex30_ptr = 0x0B000000;
+    }
+    else if(effect == EFF_TREMELO){ //TRE
+        *hex54_ptr = 0x00007808;
+        *hex30_ptr = 0x06000000;
+    }
+    else if(effect == EFF_TREMELO){ //dEL
+        *hex54_ptr = 0x00002106;
+        *hex30_ptr = 0x47000000;
+    }
+    else if(effect == EFF_TREMELO){ //LOOP
+        *hex54_ptr = 0x00004740;
+        *hex30_ptr = 0x400C0000;
     }
 
     enable_irq();
