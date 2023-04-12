@@ -183,19 +183,6 @@ static const int test_audio_8khz[] =
 };
 #endif
 
-int lowpass(int input)
-{
-    static int last_sample = 0;
-    signed int retvalue = (input + (last_sample * 7)) >> 3;
-    last_sample = retvalue;
-    return retvalue;
-}
-
-static inline int32_t mul_int_fixedpt(int32_t intv, int32_t fixedv)
-{
-    return (int32_t)((intv * (int64_t)fixedv) >> FIXEDPT_FRAC_BITS);
-}
-
 enum eff
 {
     EFF_DEFAULT = 0x1,
@@ -205,28 +192,56 @@ enum eff
     EFF_LOOP = 0x10
 };
 
+enum effloop_state
+{
+    ELOOPST_NONE,
+    ELOOPST_RECORD,
+    ELOOPST_PLAY
+};
+
 static volatile int effect;
-static volatile int iaudiobuf;
-static volatile int idelaybuf;
 static volatile int itremlut;
-static volatile int delaybuf_size;
 static volatile int freq_mult;
+
+static volatile int iaudioinbuf;
+static volatile int iaudiooutbuf;
 static volatile int left_buffer[AUDIO_BUF_SIZE];
 static volatile int right_buffer[AUDIO_BUF_SIZE];
+
+static volatile int idelaybuf;
+static volatile int delaybuf_size;
 static volatile int left_delay_buffer[DELAY_BUF_SIZE_MAX] = {0};
 static volatile int right_delay_buffer[DELAY_BUF_SIZE_MAX] = {0};
-static volatile int loop_var;
-static volatile int iloopbuf;
+
+static volatile int eloop_state;
+static volatile int iloopinbuf;
+static volatile int iloopoutbuf;
 static volatile int left_loop_buffer[SAMPLE_RATE*3] = {0};
 static volatile int right_loop_buffer[SAMPLE_RATE*3] = {0};
-static volatile int length_of_recording;
 
 
 static inline void clear_delay_buffers(int buf_size)
 {
-    memset((void*)left_delay_buffer, 0, buf_size);
-    memset((void*)right_delay_buffer, 0, buf_size);
+    memset((void*)left_delay_buffer, 0, buf_size * sizeof(int));
+    memset((void*)right_delay_buffer, 0, buf_size * sizeof(int));
     idelaybuf = 0;
+}
+
+static inline void clear_loop_buffers(int buf_size)
+{
+    memset((void*)left_loop_buffer, 0, buf_size * sizeof(int));
+    memset((void*)right_loop_buffer, 0, buf_size * sizeof(int));
+    iloopinbuf = 0;
+    iloopoutbuf = 0;
+}
+
+static inline void clean_audio_buffers(void)
+{
+    const int nbytes = (iaudioinbuf - iaudiooutbuf) * sizeof(int);
+    memmove((void*)left_buffer, (void*)(left_buffer + iaudiooutbuf), nbytes);
+    memmove((void*)right_buffer, (void*)(right_buffer + iaudiooutbuf), nbytes);
+    iaudioinbuf -= iaudiooutbuf;
+    iaudiooutbuf = 0;
 }
 
 void config_audio_demo(void)
@@ -245,20 +260,19 @@ void config_audio_demo(void)
     // enable all KEY interrupts
     *(KEY_ptr + 2) = 0xF;
 
-    iaudiobuf = 0;
-    idelaybuf = 0;
-    iloopbuf = 0;
+    iaudioinbuf = 0;
+    iaudiooutbuf = 0;
+    iloopinbuf = 0;
+    iloopoutbuf = 0;
     freq_mult = 1;
     itremlut = 0;
     delaybuf_size = DELAY_BUF_DEFAULT_SIZE;
     effect = EFF_DEFAULT;
+    eloop_state = ELOOPST_NONE;
 
     // dEF
     *hex54_ptr = 0x00005E79;
     *hex30_ptr = 0x71000000;
-
-    loop_var = 0;
-    length_of_recording = 0;
 }
 
 
@@ -295,7 +309,9 @@ void keys_ISR(void)
             break;
 
         case EFF_LOOP:
-            loop_var = 1;
+            eloop_state = ELOOPST_RECORD;
+            iloopinbuf = 0;
+            iloopoutbuf = 0;
             break;
 
         default: break;
@@ -331,7 +347,7 @@ void keys_ISR(void)
             break;
 
         case EFF_LOOP:
-            loop_var = 2;
+            eloop_state = ELOOPST_PLAY;
             break;
 
         default: break;
@@ -351,8 +367,7 @@ void keys_ISR(void)
         else effect <<= 1;
 
         freq_mult = (effect == EFF_TREMELO) ? 3 : 1;
-        itremlut = 0;
-        loop_var = 0;
+        eloop_state = ELOOPST_NONE;
 
         switch (effect)
         {
@@ -369,6 +384,8 @@ void keys_ISR(void)
         case EFF_TREMELO: // trE
             *hex54_ptr = 0x00007850;
             *hex30_ptr = 0x79000000;
+
+            itremlut = 0;
             break;
 
         case EFF_DELAY: // ECHO
@@ -382,12 +399,32 @@ void keys_ISR(void)
         case EFF_LOOP: // LOOP
             *hex54_ptr = 0x0000383F;
             *hex30_ptr = 0x3F730000;
+
+            clear_loop_buffers();
             break;
 
         default: break;
         }
     }
 }
+
+int lowpass(int input)
+{
+    static int last_sample = 0;
+    signed int retvalue = (input + (last_sample * 7)) >> 3;
+    last_sample = retvalue;
+    return retvalue;
+}
+
+#define mul_int_fixedpt(intv, fixedv) \
+((int32_t)(((intv) * (int64_t)(fixedv)) >> FIXEDPT_FRAC_BITS))
+
+#define add_delay_samples(old, new) \
+(((old) >> 1) + ((new) >> 1))
+
+// 0.75*old + 0.25*new (sounds better)
+#define add_loop_samples(old, new) \
+((3 * (old) + (new)) >> 2)
 
 
 void audio_ISR(void)
@@ -400,9 +437,17 @@ void audio_ISR(void)
 	{  
 		fifospace = *(audio_ptr + 1);
 
-		// read until buffer is full or audio-in FIFO is empty
-        while ((fifospace & 0x000000FF) && (iaudiobuf < AUDIO_BUF_SIZE))
+		// read until audio-in FIFO is empty
+        while ((fifospace & 0x000000FF))
         {
+            // remove already written samples if necessary
+            if (iaudioinbuf == AUDIO_BUF_SIZE - 1)
+                clean_audio_buffers();
+
+            // if there's still no space, buffer is full
+            if (iaudioinbuf == AUDIO_BUF_SIZE - 1)
+                break;
+
             int left = *(audio_ptr + 2);
             int right = *(audio_ptr + 3);
 
@@ -410,93 +455,90 @@ void audio_ISR(void)
             {
             case EFF_DEFAULT:
             case EFF_PITCH:
-                left_buffer[iaudiobuf] = left;
-                right_buffer[iaudiobuf] = right;
-                ++iaudiobuf;
+                left_buffer[iaudioinbuf] = left;
+                right_buffer[iaudioinbuf] = right;
+                ++iaudioinbuf;
                 break;
 
             case EFF_DELAY:
                 if (idelaybuf == delaybuf_size)
                     idelaybuf = 0;
 
-                left_buffer[iaudiobuf] = (left >> 1) + (left_delay_buffer[idelaybuf] >> 1);
-                right_buffer[iaudiobuf] = (right >> 1) + (right_delay_buffer[idelaybuf] >> 1);
+                left_buffer[iaudioinbuf] = add_delay_samples(left, left_delay_buffer[idelaybuf]);
+                right_buffer[iaudioinbuf] = add_delay_samples(right, right_delay_buffer[idelaybuf]);
 
-                // buffer some samples for next cycle
+                // record samples for next cycle
                 left_delay_buffer[idelaybuf] = left;
                 right_delay_buffer[idelaybuf] = right;
 
                 ++idelaybuf;
-                ++iaudiobuf;
+                ++iaudioinbuf;
                 break;
 
             case EFF_TREMELO:
-                left_buffer[iaudiobuf] = mul_int_fixedpt(left, sin_LUT[itremlut]);
-                right_buffer[iaudiobuf] = mul_int_fixedpt(right, sin_LUT[itremlut]);
+                left_buffer[iaudioinbuf] = mul_int_fixedpt(left, sin_LUT[itremlut]);
+                right_buffer[iaudioinbuf] = mul_int_fixedpt(right, sin_LUT[itremlut]);
 
                 itremlut += freq_mult;
                 if (itremlut >= SAMPLE_RATE)
                     itremlut = 0;
 
-                ++iaudiobuf;
+                ++iaudioinbuf;
                 break;
 
             case EFF_LOOP:
-                left_buffer[iaudiobuf] = left;
-                right_buffer[iaudiobuf] = right;
+                if (eloop_state == ELOOPST_RECORD)
+                {
+                    if (iloopinbuf == SAMPLE_RATE * 3)
+                        iloopinbuf = 0;
 
-                ++iaudiobuf;
-
-                if (iloopbuf == SAMPLE_RATE * 3)
-                    iloopbuf = 0;
-                
-                if(loop_var == 1){
-                    length_of_recording = 0;
-
-                    left_loop_buffer[iloopbuf] = left;
-                    left_loop_buffer[iloopbuf] = right;
-                    ++iloopbuf;
-                    //iaudiobuf = 1;
+                    left_loop_buffer[iloopinbuf] = add_loop_samples(left_loop_buffer[iloopinbuf], left);
+                    right_loop_buffer[iloopinbuf] = add_loop_samples(right_loop_buffer[iloopinbuf], right);
+                    ++iloopinbuf;
                 }
-                
-                
                 break;
             }
 
             fifospace = *(audio_ptr + 1);
         }
     }
+
 	if (*(audio_ptr) & 0x200) // check write interrupt
 	{
 		fifospace = *(audio_ptr + 1);
-		// write until buffer is empty or audio-out FIFO is full
-		while ((fifospace & 0x00FF0000) && (iaudiobuf > 0))
-		{
-            if(loop_var == 2){
 
-                if(iloopbuf > length_of_recording){
-                    length_of_recording = iloopbuf;
-                }
-                
-                if(iloopbuf == 0){
-                    iloopbuf = length_of_recording;
-                }
-                *(audio_ptr + 2) = left_loop_buffer[iloopbuf];
-                *(audio_ptr + 3) = right_loop_buffer[iloopbuf];
-                --iloopbuf;
-                //--iaudiobuf;
+        if (effect == EFF_LOOP && eloop_state == ELOOPST_PLAY)
+        {
+            while ((fifospace & 0x00FF0000))
+            {
+                if (iloopoutbuf >= iloopinbuf)
+                    iloopoutbuf = 0;
+
+                *(audio_ptr + 2) = left_loop_buffer[iloopoutbuf];
+                *(audio_ptr + 3) = right_loop_buffer[iloopoutbuf];
+                ++iloopoutbuf;
+
+                fifospace = *(audio_ptr + 1);
             }
-            else{
-                *(audio_ptr + 2) = left_buffer[iaudiobuf];
-                *(audio_ptr + 3) = right_buffer[iaudiobuf];
+        }
+        else
+        {
+            // write until buffer is empty or audio-out FIFO is full
+            while ((fifospace & 0x00FF0000) && iaudiooutbuf < iaudioinbuf)
+            {
+                *(audio_ptr + 2) = left_buffer[iaudiooutbuf];
+                *(audio_ptr + 3) = right_buffer[iaudiooutbuf];
 
                 if (effect == EFF_PITCH)
-                    iaudiobuf -= freq_mult;
-                else --iaudiobuf;
-            }
-            
+                {
+                    iaudiooutbuf += freq_mult;
+                    if (iaudiooutbuf > iaudioinbuf)
+                        iaudiooutbuf = iaudioinbuf;
+                }
+                else ++iaudiooutbuf;
 
-			fifospace = *(audio_ptr + 1);
-		}
+                fifospace = *(audio_ptr + 1);
+            }
+        }
 	}
 }
