@@ -202,6 +202,7 @@ enum effloop_state
 static volatile int effect;
 static volatile int itremlut;
 static volatile int freq_mult;
+static volatile int pitch_counter;
 
 static volatile int iaudioinbuf;
 static volatile int iaudiooutbuf;
@@ -270,6 +271,8 @@ void config_audio_demo(void)
     effect = EFF_DEFAULT;
     eloop_state = ELOOPST_NONE;
 
+    pitch_counter = 0;
+
     // dEF
     *hex54_ptr = 0x00005E79;
     *hex30_ptr = 0x71000000;
@@ -289,7 +292,7 @@ void keys_ISR(void)
     {
         switch (effect)
         {
-        case EFF_PITCH:
+        case EFF_PITCH:            
         case EFF_TREMELO:
         {
             const int max_freq_mult = effect == EFF_PITCH ?
@@ -297,6 +300,20 @@ void keys_ISR(void)
 
             if (freq_mult < max_freq_mult)
                 ++freq_mult;
+
+            *hex30_ptr &= 0xFFFF0000; // clear 
+
+            int level = effect == EFF_TREMELO ? freq_mult - 2 : freq_mult;
+            switch (level)
+            {
+                case 2:
+                    *hex30_ptr |= 0x00007606; //H1
+                    break;
+                case 3:
+                    *hex30_ptr |= 0x0000765B; //H2
+                    break;
+                default: break;
+            }
         }
         break;
 
@@ -306,36 +323,56 @@ void keys_ISR(void)
             delaybuf_size <<= 1;
             if (delaybuf_size > DELAY_BUF_SIZE_MAX)
                 delaybuf_size = DELAY_BUF_SIZE_MAX;
+
+            *hex30_ptr &= 0xFFFF0000; // clear 
+            *hex30_ptr |= 0x00007606; // HI
             break;
 
         case EFF_LOOP:
             eloop_state = ELOOPST_RECORD;
             iloopinbuf = 0;
             iloopoutbuf = 0;
+
+            *hex30_ptr &= 0xFFFF0000; // clear 
+            *hex30_ptr |= 0x00005039; // rC
             break;
 
         default: break;
         }
 
-        *hex30_ptr &= 0xFFFF0000; // clear 
-        *hex30_ptr |= 0x00007606; // HI
+        // *hex30_ptr &= 0xFFFF0000; // clear 
+        // *hex30_ptr |= 0x00007606; // HI
     }
     else if ((press & KEY1_MASK) && effect != EFF_DEFAULT)
     {
         switch (effect)
         {
         case EFF_PITCH:
+            
             if (freq_mult > -PITCH_MAX_FREQ_MULT) 
             {
                 --freq_mult;
                 // skip over 0
                 if (freq_mult == 0) --freq_mult;
             }
+
+            switch (freq_mult)
+            {
+                case 2:
+                    *hex30_ptr |= 0x00007606; //H1
+                    break;
+                case 3:
+                    *hex30_ptr |= 0x0000765B; //H2
+                    break;
+                default: break;
+            }
             break;
 
         case EFF_TREMELO:
             if (freq_mult > 1)
                 --freq_mult;
+            *hex30_ptr &= 0xFFFF0000; // clear 
+            *hex30_ptr |= 0x0000383F; // LO
             break;
 
         case EFF_DELAY:
@@ -344,17 +381,21 @@ void keys_ISR(void)
             delaybuf_size >>= 1;
             if (delaybuf_size < DELAY_BUF_SIZE_MIN)
                 delaybuf_size = DELAY_BUF_SIZE_MIN;
+            *hex30_ptr &= 0xFFFF0000; // clear 
+            *hex30_ptr |= 0x0000383F; // LO
             break;
 
         case EFF_LOOP:
             eloop_state = ELOOPST_PLAY;
+            *hex30_ptr &= 0xFFFF0000; // clear 
+            *hex30_ptr |= 0x00007338; // PL
             break;
 
         default: break;
         }
 
-        *hex30_ptr &= 0xFFFF0000; // clear 
-        *hex30_ptr |= 0x0000383F; // LO
+        // *hex30_ptr &= 0xFFFF0000; // clear 
+        // *hex30_ptr |= 0x0000383F; // LO
     }
     else if (press & KEY2_MASK) {
 
@@ -368,6 +409,7 @@ void keys_ISR(void)
 
         freq_mult = (effect == EFF_TREMELO) ? 3 : 1;
         eloop_state = ELOOPST_NONE;
+        pitch_counter = 0;
 
         switch (effect)
         {
@@ -400,7 +442,7 @@ void keys_ISR(void)
             *hex54_ptr = 0x0000383F;
             *hex30_ptr = 0x3F730000;
 
-            clear_loop_buffers();
+            clear_loop_buffers(SAMPLE_RATE*3);
             break;
 
         default: break;
