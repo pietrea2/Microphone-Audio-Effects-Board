@@ -1,3 +1,7 @@
+# ARM
+*.objdump
+*.axf
+*.srec
 
 # Visual studio
 .vs/
