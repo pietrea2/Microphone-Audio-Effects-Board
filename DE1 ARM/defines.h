@@ -15,6 +15,11 @@
 #define	UNDEF_MODE              0b11011
 #define	SYS_MODE                0b11111
 
+#define KEY0_MASK               0x1
+#define KEY1_MASK               0x2
+#define KEY2_MASK               0x4
+#define KEY3_MASK               0x8
+
 #define CPSR_IRQ_MASK           0b10000000     
 #define	CPSR_IRQ_ENABLE         0b01000000
 #define	CPSR_IRQ_DISABLE        0b11000000

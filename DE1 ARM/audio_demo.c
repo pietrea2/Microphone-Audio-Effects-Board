@@ -1,5 +1,6 @@
 #include "stdint.h"
 #include "defines.h"
+#include "string.h"
 #include "interrupt_ID.h"
 #include "address_map_arm.h"
 #include "sin_LUT.h"
@@ -7,7 +8,9 @@
 
 #define SAMPLE_RATE (8000)
 #define AUDIO_BUF_SIZE (512)
-#define DELAY_BUF_SIZE (SAMPLE_RATE/3)
+#define DELAY_BUF_DEFAULT_SIZE (SAMPLE_RATE / 3) // ~0.33 sec
+#define DELAY_BUF_SIZE_MAX (2 * SAMPLE_RATE) // 2 sec
+#define DELAY_BUF_SIZE_MIN (SAMPLE_RATE / 6) // 1/6th sec 
 #define PITCH_MAX_FREQ_MULT (3)
 #define TREMELO_MAX_FREQ_MULT (5)
 #define FIXEDPT_FRAC_BITS (30)
@@ -205,13 +208,21 @@ enum eff
 static volatile int effect;
 static volatile int iaudiobuf;
 static volatile int idelaybuf;
-static volatile int lut_counter;
+static volatile int itremlut;
+static volatile int delaybuf_size;
 static volatile int freq_mult;
 static volatile int left_buffer[AUDIO_BUF_SIZE];
 static volatile int right_buffer[AUDIO_BUF_SIZE];
-static volatile int left_delay_buffer[DELAY_BUF_SIZE] = {0};
-static volatile int right_delay_buffer[DELAY_BUF_SIZE] = {0};
+static volatile int left_delay_buffer[DELAY_BUF_SIZE_MAX] = {0};
+static volatile int right_delay_buffer[DELAY_BUF_SIZE_MAX] = {0};
 
+
+static inline void clear_delay_buffers(int buf_size)
+{
+    memset((void*)left_delay_buffer, 0, buf_size);
+    memset((void*)right_delay_buffer, 0, buf_size);
+    idelaybuf = 0;
+}
 
 void config_audio_demo(void)
 {
@@ -232,7 +243,8 @@ void config_audio_demo(void)
     iaudiobuf = 0;
     idelaybuf = 0;
     freq_mult = 1;
-    lut_counter = 0;
+    itremlut = 0;
+    delaybuf_size = DELAY_BUF_DEFAULT_SIZE;
     effect = EFF_DEFAULT;
 
     // dEF
@@ -250,35 +262,81 @@ void keys_ISR(void)
     int press = *(key_ptr + 3);
     *(key_ptr + 3) = press;
 
-    if ((press & 0x1) && effect != EFF_DEFAULT)
+    if ((press & KEY0_MASK) && effect != EFF_DEFAULT)
     {
-        const int max_freq_mult = effect == EFF_PITCH ?
-            PITCH_MAX_FREQ_MULT : TREMELO_MAX_FREQ_MULT;
-
-        if (freq_mult < max_freq_mult)
+        switch (effect)
         {
-            *hex30_ptr &= 0xFFFF0000; // clear 
-            *hex30_ptr |= 0x00007606; // HI
-            ++freq_mult;
+        case EFF_PITCH:
+        case EFF_TREMELO:
+        {
+            const int max_freq_mult = effect == EFF_PITCH ?
+                PITCH_MAX_FREQ_MULT : TREMELO_MAX_FREQ_MULT;
+
+            if (freq_mult < max_freq_mult)
+                ++freq_mult;
         }
+        break;
+
+        case EFF_DELAY:
+            clear_delay_buffers(delaybuf_size);
+
+            delaybuf_size <<= 1;
+            if (delaybuf_size > DELAY_BUF_SIZE_MAX)
+                delaybuf_size = DELAY_BUF_SIZE_MAX;
+            break;
+
+        case EFF_LOOP: break;
+
+        default: break;
+        }
+
+        *hex30_ptr &= 0xFFFF0000; // clear 
+        *hex30_ptr |= 0x00007606; // HI
     }
-    else if ((press & 0x2) && effect != EFF_DEFAULT)
+    else if ((press & KEY1_MASK) && effect != EFF_DEFAULT)
     {
+        switch (effect)
+        {
+        case EFF_PITCH:
+            if (freq_mult > -PITCH_MAX_FREQ_MULT) 
+            {
+                --freq_mult;
+                // skip over 0
+                if (freq_mult == 0) --freq_mult;
+            }
+            break;
+
+        case EFF_TREMELO:
+            if (freq_mult > 1)
+                --freq_mult;
+            break;
+
+        case EFF_DELAY:
+            clear_delay_buffers(delaybuf_size);
+
+            delaybuf_size >>= 1;
+            if (delaybuf_size < DELAY_BUF_SIZE_MIN)
+                delaybuf_size = DELAY_BUF_SIZE_MIN;
+            break;
+
+        default: break;
+        }
+
         *hex30_ptr &= 0xFFFF0000; // clear 
         *hex30_ptr |= 0x0000383F; // LO
-        --freq_mult;
     }
-    else if (press & 0x4) {
-      
+    else if (press & KEY2_MASK) {
+
 
     }
-    else{
+    else if (press & KEY3_MASK)
+    {
         if (effect == EFF_LOOP)
             effect = EFF_DEFAULT;
         else effect <<= 1;
 
-        freq_mult = 1;
-        lut_counter = 0;
+        freq_mult = (effect == EFF_TREMELO) ? 3 : 1;
+        itremlut = 0;
 
         switch (effect)
         {
@@ -300,6 +358,9 @@ void keys_ISR(void)
         case EFF_DELAY: // ECHO
             *hex54_ptr = 0x00007939;
             *hex30_ptr = 0x763F0000;
+
+            clear_delay_buffers(delaybuf_size);
+            delaybuf_size = DELAY_BUF_DEFAULT_SIZE;
             break;
 
         case EFF_LOOP: // LOOP
@@ -339,7 +400,7 @@ void audio_ISR(void)
                 break;
 
             case EFF_DELAY:
-                if (idelaybuf == DELAY_BUF_SIZE)
+                if (idelaybuf == delaybuf_size)
                     idelaybuf = 0;
 
                 left_buffer[iaudiobuf] = (left >> 1) + (left_delay_buffer[idelaybuf] >> 1);
@@ -354,12 +415,12 @@ void audio_ISR(void)
                 break;
 
             case EFF_TREMELO:
-                left_buffer[iaudiobuf] = mul_int_fixedpt(left, sin_LUT[lut_counter]);
-                right_buffer[iaudiobuf] = mul_int_fixedpt(right, sin_LUT[lut_counter]);
+                left_buffer[iaudiobuf] = mul_int_fixedpt(left, sin_LUT[itremlut]);
+                right_buffer[iaudiobuf] = mul_int_fixedpt(right, sin_LUT[itremlut]);
 
-                lut_counter += freq_mult;
-                if (lut_counter >= SAMPLE_RATE)
-                    lut_counter = 0;
+                itremlut += freq_mult;
+                if (itremlut >= SAMPLE_RATE)
+                    itremlut = 0;
 
                 ++iaudiobuf;
                 break;
@@ -388,6 +449,4 @@ void audio_ISR(void)
 			fifospace = *(audio_ptr + 1);
 		}
 	}
-
-	return;
 }
