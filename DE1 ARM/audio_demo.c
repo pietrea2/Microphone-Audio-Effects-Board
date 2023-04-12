@@ -211,6 +211,11 @@ static volatile int left_buffer[AUDIO_BUF_SIZE];
 static volatile int right_buffer[AUDIO_BUF_SIZE];
 static volatile int left_delay_buffer[DELAY_BUF_SIZE] = {0};
 static volatile int right_delay_buffer[DELAY_BUF_SIZE] = {0};
+static volatile int loop_var;
+static volatile int iloopbuf;
+static volatile int left_loop_buffer[SAMPLE_RATE*3] = {0};
+static volatile int right_loop_buffer[SAMPLE_RATE*3] = {0};
+static volatile int length_of_recording;
 
 
 void config_audio_demo(void)
@@ -231,6 +236,7 @@ void config_audio_demo(void)
 
     iaudiobuf = 0;
     idelaybuf = 0;
+    iloopbuf = 0;
     freq_mult = 1;
     lut_counter = 0;
     effect = EFF_DEFAULT;
@@ -238,6 +244,9 @@ void config_audio_demo(void)
     // dEF
     *hex54_ptr = 0x00005E79;
     *hex30_ptr = 0x71000000;
+
+    loop_var = 0;
+    length_of_recording = 0;
 }
 
 
@@ -261,12 +270,19 @@ void keys_ISR(void)
             *hex30_ptr |= 0x00007606; // HI
             ++freq_mult;
         }
+        if(effect == EFF_LOOP){
+            loop_var = 1;
+        }
     }
     else if ((press & 0x2) && effect != EFF_DEFAULT)
     {
         *hex30_ptr &= 0xFFFF0000; // clear 
         *hex30_ptr |= 0x0000383F; // LO
         --freq_mult;
+
+        if(effect == EFF_LOOP){
+            loop_var = 2;
+        }
     }
     else if (press & 0x4) {
       
@@ -279,6 +295,7 @@ void keys_ISR(void)
 
         freq_mult = 1;
         lut_counter = 0;
+        loop_var = 0;
 
         switch (effect)
         {
@@ -365,7 +382,24 @@ void audio_ISR(void)
                 break;
 
             case EFF_LOOP:
+                left_buffer[iaudiobuf] = left;
+                right_buffer[iaudiobuf] = right;
 
+                ++iaudiobuf;
+
+                if (iloopbuf == DELAY_BUF_SIZE)
+                    iloopbuf = 0;
+                
+                if(loop_var == 1){
+                    length_of_recording = 0;
+
+                    left_loop_buffer[iloopbuf] = left;
+                    left_loop_buffer[iloopbuf] = right;
+                    ++iloopbuf;
+                    //iaudiobuf = 1;
+                }
+                
+                
                 break;
             }
 
@@ -378,12 +412,29 @@ void audio_ISR(void)
 		// write until buffer is empty or audio-out FIFO is full
 		while ((fifospace & 0x00FF0000) && (iaudiobuf > 0))
 		{
-            *(audio_ptr + 2) = left_buffer[iaudiobuf];
-            *(audio_ptr + 3) = right_buffer[iaudiobuf];
+            if(loop_var == 2){
 
-            if (effect == EFF_PITCH)
-                iaudiobuf -= freq_mult;
-            else --iaudiobuf;
+                if(iloopbuf > length_of_recording){
+                    length_of_recording = iloopbuf;
+                }
+                
+                if(iloopbuf == 0){
+                    iloopbuf = length_of_recording;
+                }
+                *(audio_ptr + 2) = left_loop_buffer[iloopbuf];
+                *(audio_ptr + 3) = right_loop_buffer[iloopbuf];
+                --iloopbuf;
+                //--iaudiobuf;
+            }
+            else{
+                *(audio_ptr + 2) = left_buffer[iaudiobuf];
+                *(audio_ptr + 3) = right_buffer[iaudiobuf];
+
+                if (effect == EFF_PITCH)
+                    iaudiobuf -= freq_mult;
+                else --iaudiobuf;
+            }
+            
 
 			fifospace = *(audio_ptr + 1);
 		}
