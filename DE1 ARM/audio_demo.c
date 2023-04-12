@@ -3,7 +3,7 @@
 #include "interrupt_ID.h"
 #include "address_map_arm.h"
 #include "sin_LUT.h"
-
+#include "string.h"
 
 #define AUDIO_BUF_SIZE (24000)
 #define SAMPLE_RATE (8000)
@@ -190,8 +190,10 @@ static volatile int effect;
 static volatile int iaudiobuf;
 static volatile int lut_counter;
 static volatile int freq_mult;
-static volatile int left_buffer[AUDIO_BUF_SIZE];
-static volatile int right_buffer[AUDIO_BUF_SIZE];
+static volatile int left_buffer[AUDIO_BUF_SIZE] = {0};
+static volatile int right_buffer[AUDIO_BUF_SIZE] = {0};
+static volatile int left_delay_buffer[AUDIO_BUF_SIZE] = {0};
+static volatile int right_delay_buffer[AUDIO_BUF_SIZE] = {0};
 
 
 
@@ -199,6 +201,11 @@ void config_audio_demo(void)
 {
     volatile int* audio_ptr = (int*)AUDIO_BASE;
     volatile int* KEY_ptr = (int*)KEY_BASE;
+
+    volatile int* hex30_ptr = (int*)HEX3_HEX0_BASE;
+    volatile int* hex54_ptr = (int*)HEX5_HEX4_BASE;
+    *hex54_ptr = ~0x00002106;
+    *hex30_ptr = ~0x0EFFFFFF;
 
     config_interrupt(KEYS_IRQ, CPU0);
     config_interrupt(AUDIO_IRQ, CPU0);
@@ -229,11 +236,12 @@ void keys_ISR(void)
     if (press & 0x1)
     {
         if (freq_mult < 5)
-            *hex30_ptr = *hex30_ptr | 0x00000979; //HI
+
+            *hex30_ptr = ~0xFFFF0979; //HI
             freq_mult++;
     }
     else if (press & 0x2){
-        *hex30_ptr = *hex30_ptr | 0x00004723; //LO
+        *hex30_ptr = ~0xFFFF4723; //LO
         freq_mult--;
     }
     else if (press & 0x4){
@@ -253,24 +261,24 @@ void keys_ISR(void)
 
 
     if(effect == EFF_DEFAULT){ //dEF
-        *hex54_ptr = 0x00002106;
-        *hex30_ptr = 0x0E000000;
+        *hex54_ptr = ~0x00002106;
+        *hex30_ptr |= ~0x0EFFFFFF;
     }
     else if(effect == EFF_PITCH){ //Pch
-        *hex54_ptr = 0x00000C27;
-        *hex30_ptr = 0x0B000000;
+        *hex54_ptr = ~0x00000C27;
+        *hex30_ptr |= ~0x0BFFFFFF;
     }
     else if(effect == EFF_TREMELO){ //TRE
-        *hex54_ptr = 0x00007808;
-        *hex30_ptr = 0x06000000;
+        *hex54_ptr = ~0x00007808;
+        *hex30_ptr |= ~0x06FFFFFF;
     }
-    else if(effect == EFF_TREMELO){ //dEL
-        *hex54_ptr = 0x00002106;
-        *hex30_ptr = 0x47000000;
+    else if(effect == EFF_DELAY){ //dEL
+        *hex54_ptr = ~0x00002106;
+        *hex30_ptr |= ~0x47FFFFFF;
     }
-    else if(effect == EFF_TREMELO){ //LOOP
-        *hex54_ptr = 0x00004740;
-        *hex30_ptr = 0x400C0000;
+    else if(effect == EFF_LOOP){ //LOOP
+        *hex54_ptr = ~0x00004740;
+        *hex30_ptr |= ~0x400CFFFF;
     }
 
     enable_irq();
@@ -299,34 +307,76 @@ void audio_ISR(void)
 	{  
 		fifospace = *(audio_ptr + 1);
 		// read until buffer is full or audio-in FIFO is empty
-		while ((fifospace & 0x000000FF) && (iaudiobuf < AUDIO_BUF_SIZE))
-		{
-            int left = *(audio_ptr + 2);
-            int right = *(audio_ptr + 3);
-            
-            switch(effect)
-            {
-                case EFF_DEFAULT:
-                case EFF_PITCH:
-                left_buffer[iaudiobuf] = left;
-                right_buffer[iaudiobuf] = right;
-                ++iaudiobuf;
-                break;
 
-                case EFF_TREMELO:
-                left_buffer[iaudiobuf] = (int32_t)((left * (int64_t)sin_LUT[lut_counter]) >> 30);
-                right_buffer[iaudiobuf] = (int32_t)((right * (int64_t)sin_LUT[lut_counter]) >> 30);
-                lut_counter += freq_mult;
-                if (lut_counter >= SAMPLE_RATE) 
-                    lut_counter = 0;
+        if(effect == EFF_DELAY){
 
+            while ((fifospace & 0x000000FF) && (iaudiobuf < AUDIO_BUF_SIZE))
+		    {
+                int left = *(audio_ptr + 2);
+                int right = *(audio_ptr + 3);
+
+                //add delay now to current read audio
+                if(iaudiobuf >= 8000){
+
+                    left_buffer[iaudiobuf] = left_delay_buffer[iaudiobuf - 8000];
+                    right_buffer[iaudiobuf] = right_delay_buffer[iaudiobuf - 8000];
+
+                    left_delay_buffer[iaudiobuf] = left;
+                    right_delay_buffer[iaudiobuf] = right;
+                }
+                //read audio up to N samples
+                else{
+                    left_buffer[iaudiobuf] = left;
+                    right_buffer[iaudiobuf] = right;
+
+                    left_delay_buffer[iaudiobuf] = left;
+                    right_delay_buffer[iaudiobuf] = right;
+                }
+                
                 ++iaudiobuf;
-                break;
+                fifospace = *(audio_ptr + 1);
+		    }
+
+            //clear delay buffers
+            int i;
+            for(i=0; i < AUDIO_BUF_SIZE; i++){
+                left_delay_buffer[i] = 0;
+                right_delay_buffer[i] = 0;
             }
-           
-			fifospace = *(audio_ptr + 1);
+            
+            
 
-		}
+        }
+        else{
+            while ((fifospace & 0x000000FF) && (iaudiobuf < AUDIO_BUF_SIZE))
+		    {
+                int left = *(audio_ptr + 2);
+                int right = *(audio_ptr + 3);
+                
+                switch(effect)
+                {
+                    case EFF_DEFAULT:
+                    case EFF_PITCH:
+                    left_buffer[iaudiobuf] = left;
+                    right_buffer[iaudiobuf] = right;
+                    ++iaudiobuf;
+                    break;
+
+                    case EFF_TREMELO:
+                    left_buffer[iaudiobuf] = (int32_t)((left * (int64_t)sin_LUT[lut_counter]) >> 30);
+                    right_buffer[iaudiobuf] = (int32_t)((right * (int64_t)sin_LUT[lut_counter]) >> 30);
+                    lut_counter += freq_mult;
+                    if (lut_counter >= SAMPLE_RATE) 
+                        lut_counter = 0;
+
+                    ++iaudiobuf;
+                    break;
+                }
+            
+                fifospace = *(audio_ptr + 1);
+            }
+        }
+		
 	}
 	if (*(audio_ptr) & 0x200) // check write interrupt
 	{
