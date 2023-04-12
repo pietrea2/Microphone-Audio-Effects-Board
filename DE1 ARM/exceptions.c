@@ -3,6 +3,8 @@
 // - provides utils + GIC initialization code
 //
 
+#include <stdint.h>
+#include <assert.h>
 #include "interrupt_ID.h"
 #include "defines.h"
 #include "address_map_arm.h"
@@ -36,6 +38,9 @@ void __attribute__((interrupt)) __cs3_isr_dabort(void)
 // using_gic.pdf
 void __attribute__((interrupt)) __cs3_isr_irq(void)
 {
+    disable_irq();
+
+    // acknowledge interrupt
     int address = MPCORE_GIC_CPUIF + ICCIAR;
     int int_ID = *((int*)address);
 
@@ -46,10 +51,11 @@ void __attribute__((interrupt)) __cs3_isr_irq(void)
     else
         while (1);
 
-    // acknowledge interrupt
+    // clear interrupt
     address = MPCORE_GIC_CPUIF + ICCEOIR;
     *((int*)address) = int_ID;
 
+    enable_irq();
     return;
 }
 
@@ -70,23 +76,31 @@ void enable_irq(void)
 void disable_irq(void)
 {
     int status;
-    asm("mrs %[ps], cpsr" : [ps] "=r"(status) : );
+    asm("mrs %[ps], cpsr" : [ps] "=r"(status) :);
     write_bits(&status, ~CPSR_IRQ_MASK, CPSR_IRQ_MASK);
     asm("msr cpsr, %[ps]" : : [ps] "r"(status));
 }
 
 
 // using_gic.pdf
-void config_interrupt(int int_ID, int CPU_targets)
+void config_interrupt(int CPU_targets, int int_ID, int int_priority)
 {
-    int intr_bit, addr;
+    int intr_bit, reg_offset, addr;
+
+    assert(int_ID < 1024 && CPU_targets < 256 && int_priority < 256);
 
     // Set interrupt CPU targets (ICDIPTRn).
     // reg offset = ICPIPTR + integer_div(N, 4) * 4
     // interrupt bit = (N mod 4) * 8
     intr_bit = (int_ID & 0x3) << 3;
-    addr = MPCORE_GIC_DIST + ICDIPTR + ((int_ID >> 2) << 2);
+    reg_offset = ((int_ID >> 2) << 2);
+    addr = MPCORE_GIC_DIST + ICDIPTR + reg_offset;
     write_bits((volatile int*)addr, ~(0xff << intr_bit), CPU_targets << intr_bit);
+
+    // Set interrupt priority (ICDIPRn).
+    // reg offset, interrupt bit same as ICDIPTRn
+    addr = MPCORE_GIC_DIST + ICDIPR + reg_offset;
+    write_bits((volatile int*)addr, ~(0xff << intr_bit), int_priority << intr_bit);
 
     // Set interrupt enable (ICDISERn).
     // reg offset = ICDISER + integer_div(N, 32) * 4

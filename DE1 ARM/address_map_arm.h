@@ -66,5 +66,6 @@
 #define ICDDCR                0x00          // offset to distributor control reg
 #define ICDISER               0x100         // offset to interrupt set-enable regs
 #define ICDICER               0x180         // offset to interrupt clear-enable regs
+#define ICDIPR                0x400         // offset to interrupt priority regs
 #define ICDIPTR               0x800         // offset to interrupt processor targets regs
 #define ICDICFR               0xC00         // offset to interrupt configuration regs

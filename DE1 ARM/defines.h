@@ -21,7 +21,7 @@
 
 
 void init_interrupts(void);
-void config_interrupt(int int_ID, int CPU_targets);
+void config_interrupt(int CPU_targets, int int_ID, int int_priority);
 void config_audio_demo(void);
 
 void enable_irq(void);
