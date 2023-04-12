@@ -235,9 +235,9 @@ void config_audio_demo(void)
     lut_counter = 0;
     effect = EFF_DEFAULT;
 
-    // default
-    *hex54_ptr = ~0x00002106;
-    *hex30_ptr = ~0x0EFFFFFF;
+    // dEF
+    *hex54_ptr = 0x00005E79;
+    *hex30_ptr = 0x71000000;
 }
 
 
@@ -250,22 +250,25 @@ void keys_ISR(void)
     int press = *(key_ptr + 3);
     *(key_ptr + 3) = press;
 
-    if (press & 0x1)
+    if ((press & 0x1) && effect != EFF_DEFAULT)
     {
         const int max_freq_mult = effect == EFF_PITCH ?
             PITCH_MAX_FREQ_MULT : TREMELO_MAX_FREQ_MULT;
 
         if (freq_mult < max_freq_mult)
         {
-            *hex30_ptr = ~0xFFFF0979; //HI
+            *hex30_ptr &= 0xFFFF0000; // clear 
+            *hex30_ptr |= 0x00007606; // HI
             ++freq_mult;
         }
     }
-    else if (press & 0x2){
-        *hex30_ptr = ~0xFFFF4723; //LO
-        freq_mult--;
+    else if ((press & 0x2) && effect != EFF_DEFAULT)
+    {
+        *hex30_ptr &= 0xFFFF0000; // clear 
+        *hex30_ptr |= 0x0000383F; // LO
+        --freq_mult;
     }
-    else if (press & 0x4){
+    else if (press & 0x4) {
       
 
     }
@@ -276,31 +279,38 @@ void keys_ISR(void)
 
         freq_mult = 1;
         lut_counter = 0;
-    }
 
-    if(effect == EFF_DEFAULT){ //dEF
-        *hex54_ptr = ~0x00002106;
-        *hex30_ptr |= ~0x0EFFFFFF;
-    }
-    else if(effect == EFF_PITCH){ //Pch
-        *hex54_ptr = ~0x00000C27;
-        *hex30_ptr |= ~0x0BFFFFFF;
-    }
-    else if(effect == EFF_TREMELO){ //TRE
-        *hex54_ptr = ~0x00007808;
-        *hex30_ptr |= ~0x06FFFFFF;
-    }
-    else if(effect == EFF_DELAY){ //dEL
-        *hex54_ptr = ~0x00002106;
-        *hex30_ptr |= ~0x47FFFFFF;
-    }
-    else if(effect == EFF_LOOP){ //LOOP
-        *hex54_ptr = ~0x00004740;
-        *hex30_ptr |= ~0x400CFFFF;
+        switch (effect)
+        {
+        case EFF_DEFAULT: // dEF
+            *hex54_ptr = 0x00005E79;
+            *hex30_ptr = 0x71000000;
+            break;
+
+        case EFF_PITCH: // PCH
+            *hex54_ptr = 0x00007339;
+            *hex30_ptr = 0x76000000;
+            break;
+
+        case EFF_TREMELO: // trE
+            *hex54_ptr = 0x00007850;
+            *hex30_ptr = 0x79000000;
+            break;
+
+        case EFF_DELAY: // ECHO
+            *hex54_ptr = 0x00007939;
+            *hex30_ptr = 0x763F0000;
+            break;
+
+        case EFF_LOOP: // LOOP
+            *hex54_ptr = 0x0000383F;
+            *hex30_ptr = 0x3F730000;
+            break;
+
+        default: break;
+        }
     }
 }
-
-
 
 
 void audio_ISR(void)
@@ -352,6 +362,10 @@ void audio_ISR(void)
                     lut_counter = 0;
 
                 ++iaudiobuf;
+                break;
+
+            case EFF_LOOP:
+
                 break;
             }
 
