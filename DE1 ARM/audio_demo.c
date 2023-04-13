@@ -245,6 +245,23 @@ static inline void clean_audio_buffers(void)
     iaudiooutbuf = 0;
 }
 
+static void set_hexlo_from_level(int level)
+{
+    volatile int* hex30_ptr = (int*)HEX3_HEX0_BASE;
+
+    *hex30_ptr &= 0xFFFF0000; // clear 
+
+    switch (level)
+    {
+    case -1: *hex30_ptr |= 0x0000385B; break; // L2
+    case 0:  *hex30_ptr |= 0x00003806; break; // L1
+    case 2:  *hex30_ptr |= 0x00007606; break; // H1
+    case 3:  *hex30_ptr |= 0x0000765B; break; // H2
+    case 4:  *hex30_ptr |= 0x0000764F; break; // H3
+    default: break;
+    }
+}
+
 void config_audio_demo(void)
 {
     volatile int* audio_ptr = (int*)AUDIO_BASE;
@@ -301,19 +318,8 @@ void keys_ISR(void)
             if (freq_mult < max_freq_mult)
                 ++freq_mult;
 
-            *hex30_ptr &= 0xFFFF0000; // clear 
-
-            int level = effect == EFF_TREMELO ? freq_mult - 2 : freq_mult;
-            switch (level)
-            {
-                case 2:
-                    *hex30_ptr |= 0x00007606; //H1
-                    break;
-                case 3:
-                    *hex30_ptr |= 0x0000765B; //H2
-                    break;
-                default: break;
-            }
+            set_hexlo_from_level(effect == EFF_TREMELO ?
+                freq_mult - 2 : freq_mult);
         }
         break;
 
@@ -349,30 +355,17 @@ void keys_ISR(void)
         {
         case EFF_PITCH:
             
-            if (freq_mult > -PITCH_MAX_FREQ_MULT) 
-            {
+            if (freq_mult > 1)
                 --freq_mult;
-                // skip over 0
-                if (freq_mult == 0) --freq_mult;
-            }
 
-            switch (freq_mult)
-            {
-                case 2:
-                    *hex30_ptr |= 0x00007606; //H1
-                    break;
-                case 3:
-                    *hex30_ptr |= 0x0000765B; //H2
-                    break;
-                default: break;
-            }
+            set_hexlo_from_level(freq_mult);
             break;
 
         case EFF_TREMELO:
             if (freq_mult > 1)
                 --freq_mult;
-            *hex30_ptr &= 0xFFFF0000; // clear 
-            *hex30_ptr |= 0x0000383F; // LO
+            
+            set_hexlo_from_level(freq_mult - 2);
             break;
 
         case EFF_DELAY:
@@ -381,6 +374,7 @@ void keys_ISR(void)
             delaybuf_size >>= 1;
             if (delaybuf_size < DELAY_BUF_SIZE_MIN)
                 delaybuf_size = DELAY_BUF_SIZE_MIN;
+
             *hex30_ptr &= 0xFFFF0000; // clear 
             *hex30_ptr |= 0x0000383F; // LO
             break;
@@ -448,14 +442,6 @@ void keys_ISR(void)
         default: break;
         }
     }
-}
-
-int lowpass(int input)
-{
-    static int last_sample = 0;
-    signed int retvalue = (input + (last_sample * 7)) >> 3;
-    last_sample = retvalue;
-    return retvalue;
 }
 
 #define mul_int_fixedpt(intv, fixedv) \
