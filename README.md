@@ -15,6 +15,8 @@ The final version of the project was developed using the following hardware:
 - [Yanmai SF-910 Condenser Microphone](https://www.canadacomputers.com/product_info.php?cPath=35_920_922&item_id=121777&review=all)
 - [Bose Companion 2 Series III Multimedia Speakers](https://www.bose.ca/en/p/speakers/bose-companion-2-series-iii-multimedia-speaker-system/C2III-SPEAKERCOMPUTR.html)
 
+![FPGA Microphone Project](https://github.com/mayawarrier/ece342-final-project/blob/main/Documents%2C%20Manuals%20and%20Proposal/Photos/DE1_mic.jpg)
+
 This project was developed in C for the ARM DE1 SOC FPGA to read data from the microphone and output the audio through speakers.
 
 The **FPGA's audio CODEC [WM8731]**(https://cdn.sparkfun.com/datasheets/Dev/Arduino/Shields/WolfsonWM8731.pdf) was modified for proper sampling rates and settings.
@@ -69,6 +71,8 @@ The initial version of this project was to interface with the [**Pmod MIC3 micro
 With the help of the university lab manager, our team found the Pmod MIC3 microphone was an easy to use module to get started with. It uses **SPI communication** to read audio data from the on-board microphone.
 The module includes its own ADC. Therefore this module provides an easy interface to retrieve audio data using the Nucleo 446ZE.
 
+![Nucleo Microphone Setup](https://github.com/mayawarrier/ece342-final-project/blob/main/Documents%2C%20Manuals%20and%20Proposal/Photos/nucleo_mic.jpg)
+
 #### Version 1.0: Example of reading audio data using the Nucleo 446ZE:
 ```
 Ver 1.0 & 2.0 NUCLEO-F446ZE/Core/Src/main.c
@@ -86,6 +90,8 @@ HAL_GPIO_WritePin(SPI_SNSS_GPIO_Port, SPI_SNSS_Pin, GPIO_PIN_SET);  // NSS1 low
 
 #### Version 2.0: Read audio from Pmod MIC3 using SPI on Nucleo 466ZE, then send data to DE1 SoC FPGA using GPIO pins for playback
 GPIO pins on Nucleo 446ZE and DE1 SOC boards were tested. 16 audio data bits from the Nucleo were connected to the DE1 using available GPIO pins.
+
+![Nucleo and FPGA](https://github.com/mayawarrier/ece342-final-project/blob/main/Documents%2C%20Manuals%20and%20Proposal/Photos/nucleo_de1_gpio.jpg)
 
 - **Problem faced:** Audio was still not audible, and FPGA board doesn’t have a fast enough clock speed to read from Pmod MIC3.
 
