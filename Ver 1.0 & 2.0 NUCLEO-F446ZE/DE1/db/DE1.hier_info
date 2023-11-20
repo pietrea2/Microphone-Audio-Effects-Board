@@ -1,0 +1,236 @@
+|DE1
+CLOCK_50 => clk.IN4
+HEX0[0] <= hex_decoder:hexdec_guess0.segments
+HEX0[1] <= hex_decoder:hexdec_guess0.segments
+HEX0[2] <= hex_decoder:hexdec_guess0.segments
+HEX0[3] <= hex_decoder:hexdec_guess0.segments
+HEX0[4] <= hex_decoder:hexdec_guess0.segments
+HEX0[5] <= hex_decoder:hexdec_guess0.segments
+HEX0[6] <= hex_decoder:hexdec_guess0.segments
+HEX1[0] <= hex_decoder:hexdec_guess1.segments
+HEX1[1] <= hex_decoder:hexdec_guess1.segments
+HEX1[2] <= hex_decoder:hexdec_guess1.segments
+HEX1[3] <= hex_decoder:hexdec_guess1.segments
+HEX1[4] <= hex_decoder:hexdec_guess1.segments
+HEX1[5] <= hex_decoder:hexdec_guess1.segments
+HEX1[6] <= hex_decoder:hexdec_guess1.segments
+HEX2[0] <= <VCC>
+HEX2[1] <= <VCC>
+HEX2[2] <= <VCC>
+HEX2[3] <= <VCC>
+HEX2[4] <= <VCC>
+HEX2[5] <= <VCC>
+HEX2[6] <= <VCC>
+HEX3[0] <= <VCC>
+HEX3[1] <= <VCC>
+HEX3[2] <= <VCC>
+HEX3[3] <= <VCC>
+HEX3[4] <= <VCC>
+HEX3[5] <= <VCC>
+HEX3[6] <= <VCC>
+HEX4[0] <= <VCC>
+HEX4[1] <= <VCC>
+HEX4[2] <= <VCC>
+HEX4[3] <= <VCC>
+HEX4[4] <= <VCC>
+HEX4[5] <= <VCC>
+HEX4[6] <= <VCC>
+HEX5[0] <= <VCC>
+HEX5[1] <= <VCC>
+HEX5[2] <= <VCC>
+HEX5[3] <= <VCC>
+HEX5[4] <= <VCC>
+HEX5[5] <= <VCC>
+HEX5[6] <= <VCC>
+KEY[0] => reset.IN4
+KEY[1] => enter.IN1
+KEY[2] => ~NO_FANOUT~
+KEY[3] => ~NO_FANOUT~
+LEDR[0] <= led_ctrl:ledc_over.port4
+LEDR[1] <= <GND>
+LEDR[2] <= <GND>
+LEDR[3] <= <GND>
+LEDR[4] <= led_ctrl:ledc_equal.port4
+LEDR[5] <= <GND>
+LEDR[6] <= <GND>
+LEDR[7] <= led_ctrl:ledc_under.port4
+LEDR[8] <= <GND>
+LEDR[9] <= <GND>
+SW[0] => guess[0].IN2
+SW[1] => guess[1].IN2
+SW[2] => guess[2].IN2
+SW[3] => guess[3].IN2
+SW[4] => guess[4].IN2
+SW[5] => guess[5].IN2
+SW[6] => guess[6].IN2
+SW[7] => guess[7].IN2
+SW[8] => ~NO_FANOUT~
+SW[9] => ~NO_FANOUT~
+VGA_B[0] <= <GND>
+VGA_B[1] <= <GND>
+VGA_B[2] <= <GND>
+VGA_B[3] <= <GND>
+VGA_B[4] <= <GND>
+VGA_B[5] <= <GND>
+VGA_B[6] <= <GND>
+VGA_B[7] <= <GND>
+VGA_BLANK_N <= <GND>
+VGA_CLK <= <GND>
+VGA_G[0] <= <GND>
+VGA_G[1] <= <GND>
+VGA_G[2] <= <GND>
+VGA_G[3] <= <GND>
+VGA_G[4] <= <GND>
+VGA_G[5] <= <GND>
+VGA_G[6] <= <GND>
+VGA_G[7] <= <GND>
+VGA_HS <= <GND>
+VGA_R[0] <= <GND>
+VGA_R[1] <= <GND>
+VGA_R[2] <= <GND>
+VGA_R[3] <= <GND>
+VGA_R[4] <= <GND>
+VGA_R[5] <= <GND>
+VGA_R[6] <= <GND>
+VGA_R[7] <= <GND>
+VGA_SYNC_N <= <GND>
+VGA_VS <= <GND>
+
+
+|DE1|game:game_inst
+clk => clk.IN2
+reset => reset.IN2
+i_guess[0] => i_guess[0].IN1
+i_guess[1] => i_guess[1].IN1
+i_guess[2] => i_guess[2].IN1
+i_guess[3] => i_guess[3].IN1
+i_guess[4] => i_guess[4].IN1
+i_guess[5] => i_guess[5].IN1
+i_guess[6] => i_guess[6].IN1
+i_guess[7] => i_guess[7].IN1
+i_enter => i_enter.IN1
+o_under <= dp_under.DB_MAX_OUTPUT_PORT_TYPE
+o_over <= dp_over.DB_MAX_OUTPUT_PORT_TYPE
+o_equal <= dp_equal.DB_MAX_OUTPUT_PORT_TYPE
+o_update_leds <= control:the_control.o_update_leds
+
+
+|DE1|game:game_inst|datapath:the_datapath
+clk => actual[0].CLK
+clk => actual[1].CLK
+clk => actual[2].CLK
+clk => actual[3].CLK
+clk => actual[4].CLK
+clk => actual[5].CLK
+clk => actual[6].CLK
+clk => actual[7].CLK
+reset => actual[0].ACLR
+reset => actual[1].ACLR
+reset => actual[2].ACLR
+reset => actual[3].ACLR
+reset => actual[4].ACLR
+reset => actual[5].ACLR
+reset => actual[6].ACLR
+reset => actual[7].ACLR
+i_guess[0] => LessThan0.IN8
+i_guess[0] => Equal0.IN7
+i_guess[0] => LessThan1.IN8
+i_guess[1] => LessThan0.IN7
+i_guess[1] => Equal0.IN6
+i_guess[1] => LessThan1.IN7
+i_guess[2] => LessThan0.IN6
+i_guess[2] => Equal0.IN5
+i_guess[2] => LessThan1.IN6
+i_guess[3] => LessThan0.IN5
+i_guess[3] => Equal0.IN4
+i_guess[3] => LessThan1.IN5
+i_guess[4] => LessThan0.IN4
+i_guess[4] => Equal0.IN3
+i_guess[4] => LessThan1.IN4
+i_guess[5] => LessThan0.IN3
+i_guess[5] => Equal0.IN2
+i_guess[5] => LessThan1.IN3
+i_guess[6] => LessThan0.IN2
+i_guess[6] => Equal0.IN1
+i_guess[6] => LessThan1.IN2
+i_guess[7] => LessThan0.IN1
+i_guess[7] => Equal0.IN0
+i_guess[7] => LessThan1.IN1
+i_inc_actual => actual[7].ENA
+i_inc_actual => actual[6].ENA
+i_inc_actual => actual[5].ENA
+i_inc_actual => actual[4].ENA
+i_inc_actual => actual[3].ENA
+i_inc_actual => actual[2].ENA
+i_inc_actual => actual[1].ENA
+i_inc_actual => actual[0].ENA
+o_over <= LessThan0.DB_MAX_OUTPUT_PORT_TYPE
+o_under <= LessThan1.DB_MAX_OUTPUT_PORT_TYPE
+o_equal <= Equal0.DB_MAX_OUTPUT_PORT_TYPE
+
+
+|DE1|game:game_inst|control:the_control
+clk => state~1.DATAIN
+reset => state~3.DATAIN
+i_enter => Selector1.IN0
+i_enter => Selector2.IN1
+i_enter => Selector0.IN1
+o_inc_actual <= o_inc_actual.DB_MAX_OUTPUT_PORT_TYPE
+i_over => ~NO_FANOUT~
+i_under => ~NO_FANOUT~
+i_equal => ~NO_FANOUT~
+o_update_leds <= o_update_leds.DB_MAX_OUTPUT_PORT_TYPE
+
+
+|DE1|led_ctrl:ledc_under
+clk => o_out~reg0.CLK
+reset => o_out~reg0.ACLR
+i_val => o_out~reg0.DATAIN
+i_enable => o_out~reg0.ENA
+o_out <= o_out~reg0.DB_MAX_OUTPUT_PORT_TYPE
+
+
+|DE1|led_ctrl:ledc_over
+clk => o_out~reg0.CLK
+reset => o_out~reg0.ACLR
+i_val => o_out~reg0.DATAIN
+i_enable => o_out~reg0.ENA
+o_out <= o_out~reg0.DB_MAX_OUTPUT_PORT_TYPE
+
+
+|DE1|led_ctrl:ledc_equal
+clk => o_out~reg0.CLK
+reset => o_out~reg0.ACLR
+i_val => o_out~reg0.DATAIN
+i_enable => o_out~reg0.ENA
+o_out <= o_out~reg0.DB_MAX_OUTPUT_PORT_TYPE
+
+
+|DE1|hex_decoder:hexdec_guess0
+hex_digit[0] => Decoder0.IN3
+hex_digit[1] => Decoder0.IN2
+hex_digit[2] => Decoder0.IN1
+hex_digit[3] => Decoder0.IN0
+segments[0] <= WideOr6.DB_MAX_OUTPUT_PORT_TYPE
+segments[1] <= WideOr5.DB_MAX_OUTPUT_PORT_TYPE
+segments[2] <= WideOr4.DB_MAX_OUTPUT_PORT_TYPE
+segments[3] <= WideOr3.DB_MAX_OUTPUT_PORT_TYPE
+segments[4] <= WideOr2.DB_MAX_OUTPUT_PORT_TYPE
+segments[5] <= WideOr1.DB_MAX_OUTPUT_PORT_TYPE
+segments[6] <= WideOr0.DB_MAX_OUTPUT_PORT_TYPE
+
+
+|DE1|hex_decoder:hexdec_guess1
+hex_digit[0] => Decoder0.IN3
+hex_digit[1] => Decoder0.IN2
+hex_digit[2] => Decoder0.IN1
+hex_digit[3] => Decoder0.IN0
+segments[0] <= WideOr6.DB_MAX_OUTPUT_PORT_TYPE
+segments[1] <= WideOr5.DB_MAX_OUTPUT_PORT_TYPE
+segments[2] <= WideOr4.DB_MAX_OUTPUT_PORT_TYPE
+segments[3] <= WideOr3.DB_MAX_OUTPUT_PORT_TYPE
+segments[4] <= WideOr2.DB_MAX_OUTPUT_PORT_TYPE
+segments[5] <= WideOr1.DB_MAX_OUTPUT_PORT_TYPE
+segments[6] <= WideOr0.DB_MAX_OUTPUT_PORT_TYPE
+
+

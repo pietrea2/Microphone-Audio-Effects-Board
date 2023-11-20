@@ -1,0 +1,6 @@
+
+State Machine - |DE1|game:game_inst|control:the_control|state
+Name state.S_IDLE state.S_ENTER_UP state.S_ENTER_DOWN 
+state.S_IDLE 0 0 0 
+state.S_ENTER_DOWN 1 0 1 
+state.S_ENTER_UP 1 1 0 

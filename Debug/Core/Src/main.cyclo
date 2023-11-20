@@ -1,9 +1,0 @@
-main.c:73:6:delay_us	2
-main.c:80:9:get_spi_word	4
-main.c:135:5:main	3
-main.c:400:6:SystemClock_Config	3
-main.c:447:13:MX_SPI1_Init	2
-main.c:485:13:MX_TIM1_Init	4
-main.c:531:13:MX_USART3_UART_Init	2
-main.c:564:13:MX_GPIO_Init	1
-main.c:663:6:Error_Handler	1

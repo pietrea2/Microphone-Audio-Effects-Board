@@ -1,0 +1,580 @@
+Analysis & Synthesis report for DE1
+Thu Mar 30 21:25:08 2023
+Quartus Prime Version 22.1std.1 Build 917 02/14/2023 SC Lite Edition
+
+
+---------------------
+; Table of Contents ;
+---------------------
+  1. Legal Notice
+  2. Analysis & Synthesis Summary
+  3. Analysis & Synthesis Settings
+  4. Parallel Compilation
+  5. Analysis & Synthesis Source Files Read
+  6. Analysis & Synthesis Resource Usage Summary
+  7. Analysis & Synthesis Resource Utilization by Entity
+  8. State Machine - |DE1|game:game_inst|control:the_control|state
+  9. Registers Removed During Synthesis
+ 10. General Register Statistics
+ 11. Post-Synthesis Netlist Statistics for Top Partition
+ 12. Elapsed Time Per Partition
+ 13. Analysis & Synthesis Messages
+
+
+
+----------------
+; Legal Notice ;
+----------------
+Copyright (C) 2023  Intel Corporation. All rights reserved.
+Your use of Intel Corporation's design tools, logic functions 
+and other software and tools, and any partner logic 
+functions, and any output files from any of the foregoing 
+(including device programming or simulation files), and any 
+associated documentation or information are expressly subject 
+to the terms and conditions of the Intel Program License 
+Subscription Agreement, the Intel Quartus Prime License Agreement,
+the Intel FPGA IP License Agreement, or other applicable license
+agreement, including, without limitation, that your use is for
+the sole purpose of programming logic devices manufactured by
+Intel and sold by Intel or its authorized distributors.  Please
+refer to the applicable agreement for further details, at
+https://fpgasoftware.intel.com/eula.
+
+
+
++----------------------------------------------------------------------------------+
+; Analysis & Synthesis Summary                                                     ;
++---------------------------------+------------------------------------------------+
+; Analysis & Synthesis Status     ; Successful - Thu Mar 30 21:25:08 2023          ;
+; Quartus Prime Version           ; 22.1std.1 Build 917 02/14/2023 SC Lite Edition ;
+; Revision Name                   ; DE1                                            ;
+; Top-level Entity Name           ; DE1                                            ;
+; Family                          ; Cyclone V                                      ;
+; Logic utilization (in ALMs)     ; N/A                                            ;
+; Total registers                 ; 14                                             ;
+; Total pins                      ; 96                                             ;
+; Total virtual pins              ; 0                                              ;
+; Total block memory bits         ; 0                                              ;
+; Total DSP Blocks                ; 0                                              ;
+; Total HSSI RX PCSs              ; 0                                              ;
+; Total HSSI PMA RX Deserializers ; 0                                              ;
+; Total HSSI TX PCSs              ; 0                                              ;
+; Total HSSI PMA TX Serializers   ; 0                                              ;
+; Total PLLs                      ; 0                                              ;
+; Total DLLs                      ; 0                                              ;
++---------------------------------+------------------------------------------------+
+
+
++---------------------------------------------------------------------------------------------------------------------------+
+; Analysis & Synthesis Settings                                                                                             ;
++---------------------------------------------------------------------------------+--------------------+--------------------+
+; Option                                                                          ; Setting            ; Default Value      ;
++---------------------------------------------------------------------------------+--------------------+--------------------+
+; Device                                                                          ; 5CSEMA5F31C6       ;                    ;
+; Top-level entity name                                                           ; DE1                ; DE1                ;
+; Family name                                                                     ; Cyclone V          ; Cyclone V          ;
+; Use smart compilation                                                           ; Off                ; Off                ;
+; Enable parallel Assembler and Timing Analyzer during compilation                ; On                 ; On                 ;
+; Enable compact report table                                                     ; Off                ; Off                ;
+; Restructure Multiplexers                                                        ; Auto               ; Auto               ;
+; MLAB Add Timing Constraints For Mixed-Port Feed-Through Mode Setting Don't Care ; Off                ; Off                ;
+; Create Debugging Nodes for IP Cores                                             ; Off                ; Off                ;
+; Preserve fewer node names                                                       ; On                 ; On                 ;
+; Intel FPGA IP Evaluation Mode                                                   ; Enable             ; Enable             ;
+; Verilog Version                                                                 ; Verilog_2001       ; Verilog_2001       ;
+; VHDL Version                                                                    ; VHDL_1993          ; VHDL_1993          ;
+; State Machine Processing                                                        ; Auto               ; Auto               ;
+; Safe State Machine                                                              ; Off                ; Off                ;
+; Extract Verilog State Machines                                                  ; On                 ; On                 ;
+; Extract VHDL State Machines                                                     ; On                 ; On                 ;
+; Ignore Verilog initial constructs                                               ; Off                ; Off                ;
+; Iteration limit for constant Verilog loops                                      ; 5000               ; 5000               ;
+; Iteration limit for non-constant Verilog loops                                  ; 250                ; 250                ;
+; Add Pass-Through Logic to Inferred RAMs                                         ; On                 ; On                 ;
+; Infer RAMs from Raw Logic                                                       ; On                 ; On                 ;
+; Parallel Synthesis                                                              ; On                 ; On                 ;
+; DSP Block Balancing                                                             ; Auto               ; Auto               ;
+; NOT Gate Push-Back                                                              ; On                 ; On                 ;
+; Power-Up Don't Care                                                             ; On                 ; On                 ;
+; Remove Redundant Logic Cells                                                    ; Off                ; Off                ;
+; Remove Duplicate Registers                                                      ; On                 ; On                 ;
+; Ignore CARRY Buffers                                                            ; Off                ; Off                ;
+; Ignore CASCADE Buffers                                                          ; Off                ; Off                ;
+; Ignore GLOBAL Buffers                                                           ; Off                ; Off                ;
+; Ignore ROW GLOBAL Buffers                                                       ; Off                ; Off                ;
+; Ignore LCELL Buffers                                                            ; Off                ; Off                ;
+; Ignore SOFT Buffers                                                             ; On                 ; On                 ;
+; Limit AHDL Integers to 32 Bits                                                  ; Off                ; Off                ;
+; Optimization Technique                                                          ; Balanced           ; Balanced           ;
+; Carry Chain Length                                                              ; 70                 ; 70                 ;
+; Auto Carry Chains                                                               ; On                 ; On                 ;
+; Auto Open-Drain Pins                                                            ; On                 ; On                 ;
+; Perform WYSIWYG Primitive Resynthesis                                           ; Off                ; Off                ;
+; Auto ROM Replacement                                                            ; On                 ; On                 ;
+; Auto RAM Replacement                                                            ; On                 ; On                 ;
+; Auto DSP Block Replacement                                                      ; On                 ; On                 ;
+; Auto Shift Register Replacement                                                 ; Auto               ; Auto               ;
+; Allow Shift Register Merging across Hierarchies                                 ; Auto               ; Auto               ;
+; Auto Clock Enable Replacement                                                   ; On                 ; On                 ;
+; Strict RAM Replacement                                                          ; Off                ; Off                ;
+; Allow Synchronous Control Signals                                               ; On                 ; On                 ;
+; Force Use of Synchronous Clear Signals                                          ; Off                ; Off                ;
+; Auto Resource Sharing                                                           ; Off                ; Off                ;
+; Allow Any RAM Size For Recognition                                              ; Off                ; Off                ;
+; Allow Any ROM Size For Recognition                                              ; Off                ; Off                ;
+; Allow Any Shift Register Size For Recognition                                   ; Off                ; Off                ;
+; Use LogicLock Constraints during Resource Balancing                             ; On                 ; On                 ;
+; Ignore translate_off and synthesis_off directives                               ; Off                ; Off                ;
+; Timing-Driven Synthesis                                                         ; On                 ; On                 ;
+; Report Parameter Settings                                                       ; On                 ; On                 ;
+; Report Source Assignments                                                       ; On                 ; On                 ;
+; Report Connectivity Checks                                                      ; On                 ; On                 ;
+; Ignore Maximum Fan-Out Assignments                                              ; Off                ; Off                ;
+; Synchronization Register Chain Length                                           ; 3                  ; 3                  ;
+; Power Optimization During Synthesis                                             ; Normal compilation ; Normal compilation ;
+; HDL message level                                                               ; Level2             ; Level2             ;
+; Suppress Register Optimization Related Messages                                 ; Off                ; Off                ;
+; Number of Removed Registers Reported in Synthesis Report                        ; 5000               ; 5000               ;
+; Number of Swept Nodes Reported in Synthesis Report                              ; 5000               ; 5000               ;
+; Number of Inverted Registers Reported in Synthesis Report                       ; 100                ; 100                ;
+; Clock MUX Protection                                                            ; On                 ; On                 ;
+; Auto Gated Clock Conversion                                                     ; Off                ; Off                ;
+; Block Design Naming                                                             ; Auto               ; Auto               ;
+; SDC constraint protection                                                       ; Off                ; Off                ;
+; Synthesis Effort                                                                ; Auto               ; Auto               ;
+; Shift Register Replacement - Allow Asynchronous Clear Signal                    ; On                 ; On                 ;
+; Pre-Mapping Resynthesis Optimization                                            ; Off                ; Off                ;
+; Analysis & Synthesis Message Level                                              ; Medium             ; Medium             ;
+; Disable Register Merging Across Hierarchies                                     ; Auto               ; Auto               ;
+; Resource Aware Inference For Block RAM                                          ; On                 ; On                 ;
+; Automatic Parallel Synthesis                                                    ; On                 ; On                 ;
+; Partial Reconfiguration Bitstream ID                                            ; Off                ; Off                ;
++---------------------------------------------------------------------------------+--------------------+--------------------+
+
+
++------------------------------------------+
+; Parallel Compilation                     ;
++----------------------------+-------------+
+; Processors                 ; Number      ;
++----------------------------+-------------+
+; Number detected on machine ; 16          ;
+; Maximum allowed            ; 12          ;
+;                            ;             ;
+; Average used               ; 1.00        ;
+; Maximum used               ; 12          ;
+;                            ;             ;
+; Usage by Processor         ; % Time Used ;
+;     Processor 1            ; 100.0%      ;
+;     Processors 2-12        ;   0.0%      ;
++----------------------------+-------------+
+
+
++--------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+; Analysis & Synthesis Source Files Read                                                                                                                                   ;
++----------------------------------+-----------------+------------------------------+----------------------------------------------------------------------------+---------+
+; File Name with User-Entered Path ; Used in Netlist ; File Type                    ; File Name with Absolute Path                                               ; Library ;
++----------------------------------+-----------------+------------------------------+----------------------------------------------------------------------------+---------+
+; led_ctrl.sv                      ; yes             ; User SystemVerilog HDL File  ; C:/adam/winter 2023/ECE342/project/ece342-final-project/DE1/led_ctrl.sv    ;         ;
+; hex_decoder.sv                   ; yes             ; User SystemVerilog HDL File  ; C:/adam/winter 2023/ECE342/project/ece342-final-project/DE1/hex_decoder.sv ;         ;
+; game.sv                          ; yes             ; User SystemVerilog HDL File  ; C:/adam/winter 2023/ECE342/project/ece342-final-project/DE1/game.sv        ;         ;
+; de1soc_top.sv                    ; yes             ; User SystemVerilog HDL File  ; C:/adam/winter 2023/ECE342/project/ece342-final-project/DE1/de1soc_top.sv  ;         ;
+; datapath.sv                      ; yes             ; User SystemVerilog HDL File  ; C:/adam/winter 2023/ECE342/project/ece342-final-project/DE1/datapath.sv    ;         ;
+; control.sv                       ; yes             ; User SystemVerilog HDL File  ; C:/adam/winter 2023/ECE342/project/ece342-final-project/DE1/control.sv     ;         ;
++----------------------------------+-----------------+------------------------------+----------------------------------------------------------------------------+---------+
+
+
++--------------------------------------------------------------+
+; Analysis & Synthesis Resource Usage Summary                  ;
++---------------------------------------------+----------------+
+; Resource                                    ; Usage          ;
++---------------------------------------------+----------------+
+; Estimate of Logic utilization (ALMs needed) ; 20             ;
+;                                             ;                ;
+; Combinational ALUT usage for logic          ; 37             ;
+;     -- 7 input functions                    ; 0              ;
+;     -- 6 input functions                    ; 3              ;
+;     -- 5 input functions                    ; 5              ;
+;     -- 4 input functions                    ; 18             ;
+;     -- <=3 input functions                  ; 11             ;
+;                                             ;                ;
+; Dedicated logic registers                   ; 14             ;
+;                                             ;                ;
+; I/O pins                                    ; 96             ;
+;                                             ;                ;
+; Total DSP Blocks                            ; 0              ;
+;                                             ;                ;
+; Maximum fan-out node                        ; CLOCK_50~input ;
+; Maximum fan-out                             ; 14             ;
+; Total fan-out                               ; 303            ;
+; Average fan-out                             ; 1.25           ;
++---------------------------------------------+----------------+
+
+
++------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+; Analysis & Synthesis Resource Utilization by Entity                                                                                                                                                              ;
++--------------------------------+---------------------+---------------------------+-------------------+------------+------+--------------+-------------------------------------------+-------------+--------------+
+; Compilation Hierarchy Node     ; Combinational ALUTs ; Dedicated Logic Registers ; Block Memory Bits ; DSP Blocks ; Pins ; Virtual Pins ; Full Hierarchy Name                       ; Entity Name ; Library Name ;
++--------------------------------+---------------------+---------------------------+-------------------+------------+------+--------------+-------------------------------------------+-------------+--------------+
+; |DE1                           ; 37 (0)              ; 14 (0)                    ; 0                 ; 0          ; 96   ; 0            ; |DE1                                      ; DE1         ; work         ;
+;    |game:game_inst|            ; 23 (0)              ; 11 (0)                    ; 0                 ; 0          ; 0    ; 0            ; |DE1|game:game_inst                       ; game        ; work         ;
+;       |control:the_control|    ; 3 (3)               ; 3 (3)                     ; 0                 ; 0          ; 0    ; 0            ; |DE1|game:game_inst|control:the_control   ; control     ; work         ;
+;       |datapath:the_datapath|  ; 20 (20)             ; 8 (8)                     ; 0                 ; 0          ; 0    ; 0            ; |DE1|game:game_inst|datapath:the_datapath ; datapath    ; work         ;
+;    |hex_decoder:hexdec_guess0| ; 7 (7)               ; 0 (0)                     ; 0                 ; 0          ; 0    ; 0            ; |DE1|hex_decoder:hexdec_guess0            ; hex_decoder ; work         ;
+;    |hex_decoder:hexdec_guess1| ; 7 (7)               ; 0 (0)                     ; 0                 ; 0          ; 0    ; 0            ; |DE1|hex_decoder:hexdec_guess1            ; hex_decoder ; work         ;
+;    |led_ctrl:ledc_equal|       ; 0 (0)               ; 1 (1)                     ; 0                 ; 0          ; 0    ; 0            ; |DE1|led_ctrl:ledc_equal                  ; led_ctrl    ; work         ;
+;    |led_ctrl:ledc_over|        ; 0 (0)               ; 1 (1)                     ; 0                 ; 0          ; 0    ; 0            ; |DE1|led_ctrl:ledc_over                   ; led_ctrl    ; work         ;
+;    |led_ctrl:ledc_under|       ; 0 (0)               ; 1 (1)                     ; 0                 ; 0          ; 0    ; 0            ; |DE1|led_ctrl:ledc_under                  ; led_ctrl    ; work         ;
++--------------------------------+---------------------+---------------------------+-------------------+------------+------+--------------+-------------------------------------------+-------------+--------------+
+Note: For table entries with two numbers listed, the numbers in parentheses indicate the number of resources of the given type used by the specific entity alone. The numbers listed outside of parentheses indicate the total resources of the given type used by the specific entity and all of its sub-entities in the hierarchy.
+
+
+Encoding Type:  One-Hot
++---------------------------------------------------------------------------+
+; State Machine - |DE1|game:game_inst|control:the_control|state             ;
++--------------------+--------------+------------------+--------------------+
+; Name               ; state.S_IDLE ; state.S_ENTER_UP ; state.S_ENTER_DOWN ;
++--------------------+--------------+------------------+--------------------+
+; state.S_IDLE       ; 0            ; 0                ; 0                  ;
+; state.S_ENTER_DOWN ; 1            ; 0                ; 1                  ;
+; state.S_ENTER_UP   ; 1            ; 1                ; 0                  ;
++--------------------+--------------+------------------+--------------------+
+
+
++------------------------------------------------------------------+
+; Registers Removed During Synthesis                               ;
++---------------------------------------------+--------------------+
+; Register name                               ; Reason for Removal ;
++---------------------------------------------+--------------------+
+; game:game_inst|control:the_control|state~6  ; Lost fanout        ;
+; game:game_inst|control:the_control|state~7  ; Lost fanout        ;
+; game:game_inst|control:the_control|state~8  ; Lost fanout        ;
+; game:game_inst|control:the_control|state~9  ; Lost fanout        ;
+; game:game_inst|control:the_control|state~10 ; Lost fanout        ;
+; game:game_inst|control:the_control|state~11 ; Lost fanout        ;
+; game:game_inst|control:the_control|state~12 ; Lost fanout        ;
+; game:game_inst|control:the_control|state~13 ; Lost fanout        ;
+; game:game_inst|control:the_control|state~14 ; Lost fanout        ;
+; game:game_inst|control:the_control|state~15 ; Lost fanout        ;
+; game:game_inst|control:the_control|state~16 ; Lost fanout        ;
+; game:game_inst|control:the_control|state~17 ; Lost fanout        ;
+; game:game_inst|control:the_control|state~18 ; Lost fanout        ;
+; game:game_inst|control:the_control|state~19 ; Lost fanout        ;
+; game:game_inst|control:the_control|state~20 ; Lost fanout        ;
+; game:game_inst|control:the_control|state~21 ; Lost fanout        ;
+; game:game_inst|control:the_control|state~22 ; Lost fanout        ;
+; game:game_inst|control:the_control|state~23 ; Lost fanout        ;
+; game:game_inst|control:the_control|state~24 ; Lost fanout        ;
+; game:game_inst|control:the_control|state~25 ; Lost fanout        ;
+; game:game_inst|control:the_control|state~26 ; Lost fanout        ;
+; game:game_inst|control:the_control|state~27 ; Lost fanout        ;
+; game:game_inst|control:the_control|state~28 ; Lost fanout        ;
+; game:game_inst|control:the_control|state~29 ; Lost fanout        ;
+; game:game_inst|control:the_control|state~30 ; Lost fanout        ;
+; game:game_inst|control:the_control|state~31 ; Lost fanout        ;
+; game:game_inst|control:the_control|state~32 ; Lost fanout        ;
+; game:game_inst|control:the_control|state~33 ; Lost fanout        ;
+; game:game_inst|control:the_control|state~34 ; Lost fanout        ;
+; game:game_inst|control:the_control|state~35 ; Lost fanout        ;
+; Total Number of Removed Registers = 30      ;                    ;
++---------------------------------------------+--------------------+
+
+
++------------------------------------------------------+
+; General Register Statistics                          ;
++----------------------------------------------+-------+
+; Statistic                                    ; Value ;
++----------------------------------------------+-------+
+; Total registers                              ; 14    ;
+; Number of registers using Synchronous Clear  ; 0     ;
+; Number of registers using Synchronous Load   ; 0     ;
+; Number of registers using Asynchronous Clear ; 14    ;
+; Number of registers using Asynchronous Load  ; 0     ;
+; Number of registers using Clock Enable       ; 11    ;
+; Number of registers using Preset             ; 0     ;
++----------------------------------------------+-------+
+
+
++-----------------------------------------------------+
+; Post-Synthesis Netlist Statistics for Top Partition ;
++-----------------------+-----------------------------+
+; Type                  ; Count                       ;
++-----------------------+-----------------------------+
+; arriav_ff             ; 14                          ;
+;     CLR               ; 3                           ;
+;     ENA CLR           ; 11                          ;
+; arriav_lcell_comb     ; 41                          ;
+;     arith             ; 7                           ;
+;         1 data inputs ; 6                           ;
+;         2 data inputs ; 1                           ;
+;     normal            ; 34                          ;
+;         0 data inputs ; 2                           ;
+;         1 data inputs ; 3                           ;
+;         2 data inputs ; 2                           ;
+;         3 data inputs ; 1                           ;
+;         4 data inputs ; 18                          ;
+;         5 data inputs ; 5                           ;
+;         6 data inputs ; 3                           ;
+; boundary_port         ; 96                          ;
+;                       ;                             ;
+; Max LUT depth         ; 3.00                        ;
+; Average LUT depth     ; 1.56                        ;
++-----------------------+-----------------------------+
+
+
++-------------------------------+
+; Elapsed Time Per Partition    ;
++----------------+--------------+
+; Partition Name ; Elapsed Time ;
++----------------+--------------+
+; Top            ; 00:00:00     ;
++----------------+--------------+
+
+
++-------------------------------+
+; Analysis & Synthesis Messages ;
++-------------------------------+
+Info: *******************************************************************
+Info: Running Quartus Prime Analysis & Synthesis
+    Info: Version 22.1std.1 Build 917 02/14/2023 SC Lite Edition
+    Info: Processing started: Thu Mar 30 21:25:01 2023
+Info: Command: quartus_map --read_settings_files=on --write_settings_files=off DE1 -c DE1
+Warning (18236): Number of processors has not been specified which may cause overloading on shared machines.  Set the global assignment NUM_PARALLEL_PROCESSORS in your QSF to an appropriate value for best performance.
+Info (20030): Parallel compilation is enabled and will use 12 of the 12 processors detected
+Info (12021): Found 1 design units, including 1 entities, in source file led_ctrl.sv
+    Info (12023): Found entity 1: led_ctrl File: C:/adam/winter 2023/ECE342/project/ece342-final-project/DE1/led_ctrl.sv Line: 1
+Info (12021): Found 1 design units, including 1 entities, in source file hex_decoder.sv
+    Info (12023): Found entity 1: hex_decoder File: C:/adam/winter 2023/ECE342/project/ece342-final-project/DE1/hex_decoder.sv Line: 1
+Info (12021): Found 1 design units, including 1 entities, in source file game.sv
+    Info (12023): Found entity 1: game File: C:/adam/winter 2023/ECE342/project/ece342-final-project/DE1/game.sv Line: 1
+Info (12021): Found 1 design units, including 1 entities, in source file de1soc_top.sv
+    Info (12023): Found entity 1: DE1 File: C:/adam/winter 2023/ECE342/project/ece342-final-project/DE1/de1soc_top.sv Line: 1
+Info (12021): Found 1 design units, including 1 entities, in source file datapath.sv
+    Info (12023): Found entity 1: datapath File: C:/adam/winter 2023/ECE342/project/ece342-final-project/DE1/datapath.sv Line: 1
+Info (12021): Found 1 design units, including 1 entities, in source file control.sv
+    Info (12023): Found entity 1: control File: C:/adam/winter 2023/ECE342/project/ece342-final-project/DE1/control.sv Line: 1
+Info (12127): Elaborating entity "DE1" for the top level hierarchy
+Warning (10034): Output port "LEDR[9..8]" at de1soc_top.sv(21) has no driver File: C:/adam/winter 2023/ECE342/project/ece342-final-project/DE1/de1soc_top.sv Line: 21
+Warning (10034): Output port "LEDR[6..5]" at de1soc_top.sv(21) has no driver File: C:/adam/winter 2023/ECE342/project/ece342-final-project/DE1/de1soc_top.sv Line: 21
+Warning (10034): Output port "LEDR[3..1]" at de1soc_top.sv(21) has no driver File: C:/adam/winter 2023/ECE342/project/ece342-final-project/DE1/de1soc_top.sv Line: 21
+Warning (10034): Output port "VGA_B" at de1soc_top.sv(27) has no driver File: C:/adam/winter 2023/ECE342/project/ece342-final-project/DE1/de1soc_top.sv Line: 27
+Warning (10034): Output port "VGA_G" at de1soc_top.sv(30) has no driver File: C:/adam/winter 2023/ECE342/project/ece342-final-project/DE1/de1soc_top.sv Line: 30
+Warning (10034): Output port "VGA_R" at de1soc_top.sv(32) has no driver File: C:/adam/winter 2023/ECE342/project/ece342-final-project/DE1/de1soc_top.sv Line: 32
+Warning (10034): Output port "VGA_BLANK_N" at de1soc_top.sv(28) has no driver File: C:/adam/winter 2023/ECE342/project/ece342-final-project/DE1/de1soc_top.sv Line: 28
+Warning (10034): Output port "VGA_CLK" at de1soc_top.sv(29) has no driver File: C:/adam/winter 2023/ECE342/project/ece342-final-project/DE1/de1soc_top.sv Line: 29
+Warning (10034): Output port "VGA_HS" at de1soc_top.sv(31) has no driver File: C:/adam/winter 2023/ECE342/project/ece342-final-project/DE1/de1soc_top.sv Line: 31
+Warning (10034): Output port "VGA_SYNC_N" at de1soc_top.sv(33) has no driver File: C:/adam/winter 2023/ECE342/project/ece342-final-project/DE1/de1soc_top.sv Line: 33
+Warning (10034): Output port "VGA_VS" at de1soc_top.sv(35) has no driver File: C:/adam/winter 2023/ECE342/project/ece342-final-project/DE1/de1soc_top.sv Line: 35
+Info (12128): Elaborating entity "game" for hierarchy "game:game_inst" File: C:/adam/winter 2023/ECE342/project/ece342-final-project/DE1/de1soc_top.sv Line: 61
+Info (12128): Elaborating entity "datapath" for hierarchy "game:game_inst|datapath:the_datapath" File: C:/adam/winter 2023/ECE342/project/ece342-final-project/DE1/game.sv Line: 28
+Info (12128): Elaborating entity "control" for hierarchy "game:game_inst|control:the_control" File: C:/adam/winter 2023/ECE342/project/ece342-final-project/DE1/game.sv Line: 41
+Info (12128): Elaborating entity "led_ctrl" for hierarchy "led_ctrl:ledc_under" File: C:/adam/winter 2023/ECE342/project/ece342-final-project/DE1/de1soc_top.sv Line: 64
+Info (12128): Elaborating entity "hex_decoder" for hierarchy "hex_decoder:hexdec_guess0" File: C:/adam/winter 2023/ECE342/project/ece342-final-project/DE1/de1soc_top.sv Line: 73
+Warning (13024): Output pins are stuck at VCC or GND
+    Warning (13410): Pin "HEX2[0]" is stuck at VCC File: C:/adam/winter 2023/ECE342/project/ece342-final-project/DE1/de1soc_top.sv Line: 12
+    Warning (13410): Pin "HEX2[1]" is stuck at VCC File: C:/adam/winter 2023/ECE342/project/ece342-final-project/DE1/de1soc_top.sv Line: 12
+    Warning (13410): Pin "HEX2[2]" is stuck at VCC File: C:/adam/winter 2023/ECE342/project/ece342-final-project/DE1/de1soc_top.sv Line: 12
+    Warning (13410): Pin "HEX2[3]" is stuck at VCC File: C:/adam/winter 2023/ECE342/project/ece342-final-project/DE1/de1soc_top.sv Line: 12
+    Warning (13410): Pin "HEX2[4]" is stuck at VCC File: C:/adam/winter 2023/ECE342/project/ece342-final-project/DE1/de1soc_top.sv Line: 12
+    Warning (13410): Pin "HEX2[5]" is stuck at VCC File: C:/adam/winter 2023/ECE342/project/ece342-final-project/DE1/de1soc_top.sv Line: 12
+    Warning (13410): Pin "HEX2[6]" is stuck at VCC File: C:/adam/winter 2023/ECE342/project/ece342-final-project/DE1/de1soc_top.sv Line: 12
+    Warning (13410): Pin "HEX3[0]" is stuck at VCC File: C:/adam/winter 2023/ECE342/project/ece342-final-project/DE1/de1soc_top.sv Line: 13
+    Warning (13410): Pin "HEX3[1]" is stuck at VCC File: C:/adam/winter 2023/ECE342/project/ece342-final-project/DE1/de1soc_top.sv Line: 13
+    Warning (13410): Pin "HEX3[2]" is stuck at VCC File: C:/adam/winter 2023/ECE342/project/ece342-final-project/DE1/de1soc_top.sv Line: 13
+    Warning (13410): Pin "HEX3[3]" is stuck at VCC File: C:/adam/winter 2023/ECE342/project/ece342-final-project/DE1/de1soc_top.sv Line: 13
+    Warning (13410): Pin "HEX3[4]" is stuck at VCC File: C:/adam/winter 2023/ECE342/project/ece342-final-project/DE1/de1soc_top.sv Line: 13
+    Warning (13410): Pin "HEX3[5]" is stuck at VCC File: C:/adam/winter 2023/ECE342/project/ece342-final-project/DE1/de1soc_top.sv Line: 13
+    Warning (13410): Pin "HEX3[6]" is stuck at VCC File: C:/adam/winter 2023/ECE342/project/ece342-final-project/DE1/de1soc_top.sv Line: 13
+    Warning (13410): Pin "HEX4[0]" is stuck at VCC File: C:/adam/winter 2023/ECE342/project/ece342-final-project/DE1/de1soc_top.sv Line: 14
+    Warning (13410): Pin "HEX4[1]" is stuck at VCC File: C:/adam/winter 2023/ECE342/project/ece342-final-project/DE1/de1soc_top.sv Line: 14
+    Warning (13410): Pin "HEX4[2]" is stuck at VCC File: C:/adam/winter 2023/ECE342/project/ece342-final-project/DE1/de1soc_top.sv Line: 14
+    Warning (13410): Pin "HEX4[3]" is stuck at VCC File: C:/adam/winter 2023/ECE342/project/ece342-final-project/DE1/de1soc_top.sv Line: 14
+    Warning (13410): Pin "HEX4[4]" is stuck at VCC File: C:/adam/winter 2023/ECE342/project/ece342-final-project/DE1/de1soc_top.sv Line: 14
+    Warning (13410): Pin "HEX4[5]" is stuck at VCC File: C:/adam/winter 2023/ECE342/project/ece342-final-project/DE1/de1soc_top.sv Line: 14
+    Warning (13410): Pin "HEX4[6]" is stuck at VCC File: C:/adam/winter 2023/ECE342/project/ece342-final-project/DE1/de1soc_top.sv Line: 14
+    Warning (13410): Pin "HEX5[0]" is stuck at VCC File: C:/adam/winter 2023/ECE342/project/ece342-final-project/DE1/de1soc_top.sv Line: 15
+    Warning (13410): Pin "HEX5[1]" is stuck at VCC File: C:/adam/winter 2023/ECE342/project/ece342-final-project/DE1/de1soc_top.sv Line: 15
+    Warning (13410): Pin "HEX5[2]" is stuck at VCC File: C:/adam/winter 2023/ECE342/project/ece342-final-project/DE1/de1soc_top.sv Line: 15
+    Warning (13410): Pin "HEX5[3]" is stuck at VCC File: C:/adam/winter 2023/ECE342/project/ece342-final-project/DE1/de1soc_top.sv Line: 15
+    Warning (13410): Pin "HEX5[4]" is stuck at VCC File: C:/adam/winter 2023/ECE342/project/ece342-final-project/DE1/de1soc_top.sv Line: 15
+    Warning (13410): Pin "HEX5[5]" is stuck at VCC File: C:/adam/winter 2023/ECE342/project/ece342-final-project/DE1/de1soc_top.sv Line: 15
+    Warning (13410): Pin "HEX5[6]" is stuck at VCC File: C:/adam/winter 2023/ECE342/project/ece342-final-project/DE1/de1soc_top.sv Line: 15
+    Warning (13410): Pin "LEDR[1]" is stuck at GND File: C:/adam/winter 2023/ECE342/project/ece342-final-project/DE1/de1soc_top.sv Line: 21
+    Warning (13410): Pin "LEDR[2]" is stuck at GND File: C:/adam/winter 2023/ECE342/project/ece342-final-project/DE1/de1soc_top.sv Line: 21
+    Warning (13410): Pin "LEDR[3]" is stuck at GND File: C:/adam/winter 2023/ECE342/project/ece342-final-project/DE1/de1soc_top.sv Line: 21
+    Warning (13410): Pin "LEDR[5]" is stuck at GND File: C:/adam/winter 2023/ECE342/project/ece342-final-project/DE1/de1soc_top.sv Line: 21
+    Warning (13410): Pin "LEDR[6]" is stuck at GND File: C:/adam/winter 2023/ECE342/project/ece342-final-project/DE1/de1soc_top.sv Line: 21
+    Warning (13410): Pin "LEDR[8]" is stuck at GND File: C:/adam/winter 2023/ECE342/project/ece342-final-project/DE1/de1soc_top.sv Line: 21
+    Warning (13410): Pin "LEDR[9]" is stuck at GND File: C:/adam/winter 2023/ECE342/project/ece342-final-project/DE1/de1soc_top.sv Line: 21
+    Warning (13410): Pin "VGA_B[0]" is stuck at GND File: C:/adam/winter 2023/ECE342/project/ece342-final-project/DE1/de1soc_top.sv Line: 27
+    Warning (13410): Pin "VGA_B[1]" is stuck at GND File: C:/adam/winter 2023/ECE342/project/ece342-final-project/DE1/de1soc_top.sv Line: 27
+    Warning (13410): Pin "VGA_B[2]" is stuck at GND File: C:/adam/winter 2023/ECE342/project/ece342-final-project/DE1/de1soc_top.sv Line: 27
+    Warning (13410): Pin "VGA_B[3]" is stuck at GND File: C:/adam/winter 2023/ECE342/project/ece342-final-project/DE1/de1soc_top.sv Line: 27
+    Warning (13410): Pin "VGA_B[4]" is stuck at GND File: C:/adam/winter 2023/ECE342/project/ece342-final-project/DE1/de1soc_top.sv Line: 27
+    Warning (13410): Pin "VGA_B[5]" is stuck at GND File: C:/adam/winter 2023/ECE342/project/ece342-final-project/DE1/de1soc_top.sv Line: 27
+    Warning (13410): Pin "VGA_B[6]" is stuck at GND File: C:/adam/winter 2023/ECE342/project/ece342-final-project/DE1/de1soc_top.sv Line: 27
+    Warning (13410): Pin "VGA_B[7]" is stuck at GND File: C:/adam/winter 2023/ECE342/project/ece342-final-project/DE1/de1soc_top.sv Line: 27
+    Warning (13410): Pin "VGA_BLANK_N" is stuck at GND File: C:/adam/winter 2023/ECE342/project/ece342-final-project/DE1/de1soc_top.sv Line: 28
+    Warning (13410): Pin "VGA_CLK" is stuck at GND File: C:/adam/winter 2023/ECE342/project/ece342-final-project/DE1/de1soc_top.sv Line: 29
+    Warning (13410): Pin "VGA_G[0]" is stuck at GND File: C:/adam/winter 2023/ECE342/project/ece342-final-project/DE1/de1soc_top.sv Line: 30
+    Warning (13410): Pin "VGA_G[1]" is stuck at GND File: C:/adam/winter 2023/ECE342/project/ece342-final-project/DE1/de1soc_top.sv Line: 30
+    Warning (13410): Pin "VGA_G[2]" is stuck at GND File: C:/adam/winter 2023/ECE342/project/ece342-final-project/DE1/de1soc_top.sv Line: 30
+    Warning (13410): Pin "VGA_G[3]" is stuck at GND File: C:/adam/winter 2023/ECE342/project/ece342-final-project/DE1/de1soc_top.sv Line: 30
+    Warning (13410): Pin "VGA_G[4]" is stuck at GND File: C:/adam/winter 2023/ECE342/project/ece342-final-project/DE1/de1soc_top.sv Line: 30
+    Warning (13410): Pin "VGA_G[5]" is stuck at GND File: C:/adam/winter 2023/ECE342/project/ece342-final-project/DE1/de1soc_top.sv Line: 30
+    Warning (13410): Pin "VGA_G[6]" is stuck at GND File: C:/adam/winter 2023/ECE342/project/ece342-final-project/DE1/de1soc_top.sv Line: 30
+    Warning (13410): Pin "VGA_G[7]" is stuck at GND File: C:/adam/winter 2023/ECE342/project/ece342-final-project/DE1/de1soc_top.sv Line: 30
+    Warning (13410): Pin "VGA_HS" is stuck at GND File: C:/adam/winter 2023/ECE342/project/ece342-final-project/DE1/de1soc_top.sv Line: 31
+    Warning (13410): Pin "VGA_R[0]" is stuck at GND File: C:/adam/winter 2023/ECE342/project/ece342-final-project/DE1/de1soc_top.sv Line: 32
+    Warning (13410): Pin "VGA_R[1]" is stuck at GND File: C:/adam/winter 2023/ECE342/project/ece342-final-project/DE1/de1soc_top.sv Line: 32
+    Warning (13410): Pin "VGA_R[2]" is stuck at GND File: C:/adam/winter 2023/ECE342/project/ece342-final-project/DE1/de1soc_top.sv Line: 32
+    Warning (13410): Pin "VGA_R[3]" is stuck at GND File: C:/adam/winter 2023/ECE342/project/ece342-final-project/DE1/de1soc_top.sv Line: 32
+    Warning (13410): Pin "VGA_R[4]" is stuck at GND File: C:/adam/winter 2023/ECE342/project/ece342-final-project/DE1/de1soc_top.sv Line: 32
+    Warning (13410): Pin "VGA_R[5]" is stuck at GND File: C:/adam/winter 2023/ECE342/project/ece342-final-project/DE1/de1soc_top.sv Line: 32
+    Warning (13410): Pin "VGA_R[6]" is stuck at GND File: C:/adam/winter 2023/ECE342/project/ece342-final-project/DE1/de1soc_top.sv Line: 32
+    Warning (13410): Pin "VGA_R[7]" is stuck at GND File: C:/adam/winter 2023/ECE342/project/ece342-final-project/DE1/de1soc_top.sv Line: 32
+    Warning (13410): Pin "VGA_SYNC_N" is stuck at GND File: C:/adam/winter 2023/ECE342/project/ece342-final-project/DE1/de1soc_top.sv Line: 33
+    Warning (13410): Pin "VGA_VS" is stuck at GND File: C:/adam/winter 2023/ECE342/project/ece342-final-project/DE1/de1soc_top.sv Line: 35
+Info (286030): Timing-Driven Synthesis is running
+Info (17049): 30 registers lost all their fanouts during netlist optimizations.
+Warning (20013): Ignored 123 assignments for entity "de1soc_top" -- entity does not exist in design
+    Warning (20014): Assignment for entity set_instance_assignment -name FAST_INPUT_REGISTER ON -to * -entity de1soc_top was ignored
+    Warning (20014): Assignment for entity set_instance_assignment -name FAST_OUTPUT_ENABLE_REGISTER ON -to * -entity de1soc_top was ignored
+    Warning (20014): Assignment for entity set_instance_assignment -name CURRENT_STRENGTH_NEW "MINIMUM CURRENT" -to VGA_* -entity de1soc_top was ignored
+    Warning (20014): Assignment for entity set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to CLOCK_50 -entity de1soc_top was ignored
+    Warning (20014): Assignment for entity set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to HEX0[0] -entity de1soc_top was ignored
+    Warning (20014): Assignment for entity set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to HEX0[1] -entity de1soc_top was ignored
+    Warning (20014): Assignment for entity set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to HEX0[2] -entity de1soc_top was ignored
+    Warning (20014): Assignment for entity set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to HEX0[3] -entity de1soc_top was ignored
+    Warning (20014): Assignment for entity set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to HEX0[4] -entity de1soc_top was ignored
+    Warning (20014): Assignment for entity set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to HEX0[5] -entity de1soc_top was ignored
+    Warning (20014): Assignment for entity set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to HEX0[6] -entity de1soc_top was ignored
+    Warning (20014): Assignment for entity set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to HEX1[0] -entity de1soc_top was ignored
+    Warning (20014): Assignment for entity set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to HEX1[1] -entity de1soc_top was ignored
+    Warning (20014): Assignment for entity set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to HEX1[2] -entity de1soc_top was ignored
+    Warning (20014): Assignment for entity set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to HEX1[3] -entity de1soc_top was ignored
+    Warning (20014): Assignment for entity set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to HEX1[4] -entity de1soc_top was ignored
+    Warning (20014): Assignment for entity set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to HEX1[5] -entity de1soc_top was ignored
+    Warning (20014): Assignment for entity set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to HEX1[6] -entity de1soc_top was ignored
+    Warning (20014): Assignment for entity set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to HEX2[0] -entity de1soc_top was ignored
+    Warning (20014): Assignment for entity set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to HEX2[1] -entity de1soc_top was ignored
+    Warning (20014): Assignment for entity set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to HEX2[2] -entity de1soc_top was ignored
+    Warning (20014): Assignment for entity set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to HEX2[3] -entity de1soc_top was ignored
+    Warning (20014): Assignment for entity set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to HEX2[4] -entity de1soc_top was ignored
+    Warning (20014): Assignment for entity set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to HEX2[5] -entity de1soc_top was ignored
+    Warning (20014): Assignment for entity set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to HEX2[6] -entity de1soc_top was ignored
+    Warning (20014): Assignment for entity set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to HEX3[0] -entity de1soc_top was ignored
+    Warning (20014): Assignment for entity set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to HEX3[1] -entity de1soc_top was ignored
+    Warning (20014): Assignment for entity set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to HEX3[2] -entity de1soc_top was ignored
+    Warning (20014): Assignment for entity set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to HEX3[3] -entity de1soc_top was ignored
+    Warning (20014): Assignment for entity set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to HEX3[4] -entity de1soc_top was ignored
+    Warning (20014): Assignment for entity set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to HEX3[5] -entity de1soc_top was ignored
+    Warning (20014): Assignment for entity set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to HEX3[6] -entity de1soc_top was ignored
+    Warning (20014): Assignment for entity set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to HEX4[0] -entity de1soc_top was ignored
+    Warning (20014): Assignment for entity set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to HEX4[1] -entity de1soc_top was ignored
+    Warning (20014): Assignment for entity set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to HEX4[2] -entity de1soc_top was ignored
+    Warning (20014): Assignment for entity set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to HEX4[3] -entity de1soc_top was ignored
+    Warning (20014): Assignment for entity set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to HEX4[4] -entity de1soc_top was ignored
+    Warning (20014): Assignment for entity set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to HEX4[5] -entity de1soc_top was ignored
+    Warning (20014): Assignment for entity set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to HEX4[6] -entity de1soc_top was ignored
+    Warning (20014): Assignment for entity set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to HEX5[0] -entity de1soc_top was ignored
+    Warning (20014): Assignment for entity set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to HEX5[1] -entity de1soc_top was ignored
+    Warning (20014): Assignment for entity set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to HEX5[2] -entity de1soc_top was ignored
+    Warning (20014): Assignment for entity set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to HEX5[3] -entity de1soc_top was ignored
+    Warning (20014): Assignment for entity set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to HEX5[4] -entity de1soc_top was ignored
+    Warning (20014): Assignment for entity set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to HEX5[5] -entity de1soc_top was ignored
+    Warning (20014): Assignment for entity set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to HEX5[6] -entity de1soc_top was ignored
+    Warning (20014): Assignment for entity set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to KEY[0] -entity de1soc_top was ignored
+    Warning (20014): Assignment for entity set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to KEY[1] -entity de1soc_top was ignored
+    Warning (20014): Assignment for entity set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to KEY[2] -entity de1soc_top was ignored
+    Warning (20014): Assignment for entity set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to KEY[3] -entity de1soc_top was ignored
+    Warning (20014): Assignment for entity set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to LEDR[0] -entity de1soc_top was ignored
+    Warning (20014): Assignment for entity set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to LEDR[1] -entity de1soc_top was ignored
+    Warning (20014): Assignment for entity set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to LEDR[2] -entity de1soc_top was ignored
+    Warning (20014): Assignment for entity set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to LEDR[3] -entity de1soc_top was ignored
+    Warning (20014): Assignment for entity set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to LEDR[4] -entity de1soc_top was ignored
+    Warning (20014): Assignment for entity set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to LEDR[5] -entity de1soc_top was ignored
+    Warning (20014): Assignment for entity set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to LEDR[6] -entity de1soc_top was ignored
+    Warning (20014): Assignment for entity set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to LEDR[7] -entity de1soc_top was ignored
+    Warning (20014): Assignment for entity set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to LEDR[8] -entity de1soc_top was ignored
+    Warning (20014): Assignment for entity set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to LEDR[9] -entity de1soc_top was ignored
+    Warning (20014): Assignment for entity set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to SW[0] -entity de1soc_top was ignored
+    Warning (20014): Assignment for entity set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to SW[1] -entity de1soc_top was ignored
+    Warning (20014): Assignment for entity set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to SW[2] -entity de1soc_top was ignored
+    Warning (20014): Assignment for entity set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to SW[3] -entity de1soc_top was ignored
+    Warning (20014): Assignment for entity set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to SW[4] -entity de1soc_top was ignored
+    Warning (20014): Assignment for entity set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to SW[5] -entity de1soc_top was ignored
+    Warning (20014): Assignment for entity set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to SW[6] -entity de1soc_top was ignored
+    Warning (20014): Assignment for entity set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to SW[7] -entity de1soc_top was ignored
+    Warning (20014): Assignment for entity set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to SW[8] -entity de1soc_top was ignored
+    Warning (20014): Assignment for entity set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to SW[9] -entity de1soc_top was ignored
+    Warning (20014): Assignment for entity set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to VGA_BLANK_N -entity de1soc_top was ignored
+    Warning (20014): Assignment for entity set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to VGA_B[0] -entity de1soc_top was ignored
+    Warning (20014): Assignment for entity set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to VGA_B[1] -entity de1soc_top was ignored
+    Warning (20014): Assignment for entity set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to VGA_B[2] -entity de1soc_top was ignored
+    Warning (20014): Assignment for entity set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to VGA_B[3] -entity de1soc_top was ignored
+    Warning (20014): Assignment for entity set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to VGA_B[4] -entity de1soc_top was ignored
+    Warning (20014): Assignment for entity set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to VGA_B[5] -entity de1soc_top was ignored
+    Warning (20014): Assignment for entity set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to VGA_B[6] -entity de1soc_top was ignored
+    Warning (20014): Assignment for entity set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to VGA_B[7] -entity de1soc_top was ignored
+    Warning (20014): Assignment for entity set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to VGA_CLK -entity de1soc_top was ignored
+    Warning (20014): Assignment for entity set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to VGA_G[0] -entity de1soc_top was ignored
+    Warning (20014): Assignment for entity set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to VGA_G[1] -entity de1soc_top was ignored
+    Warning (20014): Assignment for entity set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to VGA_G[2] -entity de1soc_top was ignored
+    Warning (20014): Assignment for entity set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to VGA_G[3] -entity de1soc_top was ignored
+    Warning (20014): Assignment for entity set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to VGA_G[4] -entity de1soc_top was ignored
+    Warning (20014): Assignment for entity set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to VGA_G[5] -entity de1soc_top was ignored
+    Warning (20014): Assignment for entity set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to VGA_G[6] -entity de1soc_top was ignored
+    Warning (20014): Assignment for entity set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to VGA_G[7] -entity de1soc_top was ignored
+    Warning (20014): Assignment for entity set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to VGA_HS -entity de1soc_top was ignored
+    Warning (20014): Assignment for entity set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to VGA_R[0] -entity de1soc_top was ignored
+    Warning (20014): Assignment for entity set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to VGA_R[1] -entity de1soc_top was ignored
+    Warning (20014): Assignment for entity set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to VGA_R[2] -entity de1soc_top was ignored
+    Warning (20014): Assignment for entity set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to VGA_R[3] -entity de1soc_top was ignored
+    Warning (20014): Assignment for entity set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to VGA_R[4] -entity de1soc_top was ignored
+    Warning (20014): Assignment for entity set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to VGA_R[5] -entity de1soc_top was ignored
+    Warning (20014): Assignment for entity set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to VGA_R[6] -entity de1soc_top was ignored
+    Warning (20014): Assignment for entity set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to VGA_R[7] -entity de1soc_top was ignored
+    Warning (20014): Assignment for entity set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to VGA_SYNC_N -entity de1soc_top was ignored
+    Warning (20014): Assignment for entity set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to VGA_VS -entity de1soc_top was ignored
+    Warning (20014): Assignment for entity set_instance_assignment -name PARTITION_HIERARCHY root_partition -to | -entity de1soc_top -section_id Top was ignored
+    Warning (20014): Assignment for entity set_global_assignment -name PARTITION_NETLIST_TYPE SOURCE -entity de1soc_top -section_id Top was ignored
+    Warning (20014): Assignment for entity set_global_assignment -name PARTITION_FITTER_PRESERVATION_LEVEL PLACEMENT_AND_ROUTING -entity de1soc_top -section_id Top was ignored
+    Warning (20014): Assignment for entity set_global_assignment -name PARTITION_PRESERVE_HIGH_SPEED_TILES ON -entity de1soc_top -section_id Top was ignored
+    Warning (20014): Assignment for entity set_global_assignment -name PARTITION_IGNORE_SOURCE_FILE_CHANGES OFF -entity de1soc_top -section_id Top was ignored
+    Warning (20014): Assignment for entity set_global_assignment -name PARTITION_ALWAYS_USE_QXP_NETLIST OFF -entity de1soc_top -section_id Top was ignored
+    Warning (20014): Assignment for entity set_global_assignment -name PARTITION_COLOR 16764057 -entity de1soc_top -section_id Top was ignored
+    Warning (20014): Assignment for entity set_global_assignment -name PARTITION_IMPORT_ASSIGNMENTS ON -entity de1soc_top -section_id Top was ignored
+    Warning (20014): Assignment for entity set_global_assignment -name PARTITION_IMPORT_EXISTING_ASSIGNMENTS REPLACE_CONFLICTING -entity de1soc_top -section_id Top was ignored
+    Warning (20014): Assignment for entity set_global_assignment -name PARTITION_IMPORT_EXISTING_LOGICLOCK_REGIONS UPDATE_CONFLICTING -entity de1soc_top -section_id Top was ignored
+    Warning (20014): Assignment for entity set_global_assignment -name PARTITION_IMPORT_PIN_ASSIGNMENTS ON -entity de1soc_top -section_id Top was ignored
+    Warning (20014): Assignment for entity set_global_assignment -name PARTITION_IMPORT_PROMOTE_ASSIGNMENTS ON -entity de1soc_top -section_id Top was ignored
+    Warning (20014): Assignment for entity set_global_assignment -name PARTITION_TYPE STANDARD_PARTITION -entity de1soc_top -section_id Top was ignored
+    Warning (20014): Assignment for entity set_global_assignment -name ALLOW_MULTIPLE_PERSONAS OFF -entity de1soc_top -section_id Top was ignored
+    Warning (20014): Assignment for entity set_global_assignment -name PARTITION_ASD_REGION_ID 1 -entity de1soc_top -section_id Top was ignored
+    Warning (20014): Assignment for entity set_global_assignment -name CROSS_BOUNDARY_OPTIMIZATIONS OFF -entity de1soc_top -section_id Top was ignored
+    Warning (20014): Assignment for entity set_global_assignment -name PROPAGATE_CONSTANTS_ON_INPUTS ON -entity de1soc_top -section_id Top was ignored
+    Warning (20014): Assignment for entity set_global_assignment -name PROPAGATE_INVERSIONS_ON_INPUTS ON -entity de1soc_top -section_id Top was ignored
+    Warning (20014): Assignment for entity set_global_assignment -name REMOVE_LOGIC_ON_UNCONNECTED_OUTPUTS ON -entity de1soc_top -section_id Top was ignored
+    Warning (20014): Assignment for entity set_global_assignment -name MERGE_EQUIVALENT_INPUTS ON -entity de1soc_top -section_id Top was ignored
+    Warning (20014): Assignment for entity set_global_assignment -name MERGE_EQUIVALENT_BIDIRS ON -entity de1soc_top -section_id Top was ignored
+    Warning (20014): Assignment for entity set_global_assignment -name ABSORB_PATHS_FROM_OUTPUTS_TO_INPUTS ON -entity de1soc_top -section_id Top was ignored
+    Warning (20014): Assignment for entity set_global_assignment -name PARTITION_EXTRACT_HARD_BLOCK_NODES ON -entity de1soc_top -section_id Top was ignored
+    Warning (20014): Assignment for entity set_global_assignment -name PARTITION_ENABLE_STRICT_PRESERVATION OFF -entity de1soc_top -section_id Top was ignored
+Info (16010): Generating hard_block partition "hard_block:auto_generated_inst"
+    Info (16011): Adding 0 node(s), including 0 DDIO, 0 PLL, 0 transceiver and 0 LCELL
+Warning (21074): Design contains 4 input pin(s) that do not drive logic
+    Warning (15610): No output dependent on input pin "KEY[2]" File: C:/adam/winter 2023/ECE342/project/ece342-final-project/DE1/de1soc_top.sv Line: 18
+    Warning (15610): No output dependent on input pin "KEY[3]" File: C:/adam/winter 2023/ECE342/project/ece342-final-project/DE1/de1soc_top.sv Line: 18
+    Warning (15610): No output dependent on input pin "SW[8]" File: C:/adam/winter 2023/ECE342/project/ece342-final-project/DE1/de1soc_top.sv Line: 24
+    Warning (15610): No output dependent on input pin "SW[9]" File: C:/adam/winter 2023/ECE342/project/ece342-final-project/DE1/de1soc_top.sv Line: 24
+Info (21057): Implemented 133 device resources after synthesis - the final resource count might be different
+    Info (21058): Implemented 15 input pins
+    Info (21059): Implemented 81 output pins
+    Info (21061): Implemented 37 logic cells
+Info: Quartus Prime Analysis & Synthesis was successful. 0 errors, 206 warnings
+    Info: Peak virtual memory: 4871 megabytes
+    Info: Processing ended: Thu Mar 30 21:25:08 2023
+    Info: Elapsed time: 00:00:07
+    Info: Total CPU time (on all processors): 00:00:07
+
+
