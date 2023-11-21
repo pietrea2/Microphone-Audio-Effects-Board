@@ -8,6 +8,7 @@ This final working version of the vioce effects board uses the Altera DE1 SoC FP
   - **Audio_ARM.amp:** Project File for Intel FPGA Monitor Program that has specification for hardware system and program source files
       - **To upload and run project onto DE1 SOC FPGA:**
       - File->Open Project->Audio_ARM.amp
+      - ![Intel FPGA Program IDE](https://github.com/mayawarrier/ece342-final-project/blob/main/Documents%2C%20Manuals%20and%20Proposal/Photos/Intel_FPGA_Program.jpg)
   - **main.c:** interrupt setup, config and infinite loop
     - ```
       init_interrupts();
@@ -85,3 +86,23 @@ This final working version of the vioce effects board uses the Altera DE1 SoC FP
    - _DE1_Computer2/Computer_System/synthesis/submodules/Computer_System_AV_Config.v_
      - Within the above file, the **FPGA's audio CODEC [WM8731](https://cdn.sparkfun.com/datasheets/Dev/Arduino/Shields/WolfsonWM8731.pdf)** was modified for proper sampling rates and settings.
    - Use updated DE1_Computer2 files in Intel FPGA Monitor Program 
+
+## Audio Effects Settings
+- To select next audio effect, press KEY3
+- To increase/decrease audio effect (for select) press KEY0 or KEY1
+- For Loop Effect: Press KEY0 to Record, Press KEY 1 to Play
+- ![Default](https://github.com/mayawarrier/ece342-final-project/blob/main/Documents%2C%20Manuals%20and%20Proposal/Photos/effect_1_def.jpg): Default
+- ![Pitch](https://github.com/mayawarrier/ece342-final-project/blob/main/Documents%2C%20Manuals%20and%20Proposal/Photos/effect_2_pitch.jpg): Pitch Effect
+- ![Pitch High 1](https://github.com/mayawarrier/ece342-final-project/blob/main/Documents%2C%20Manuals%20and%20Proposal/Photos/effect_3_pitch_h1.jpg): Pitch Effect High 1
+- ![Pitch High 2](https://github.com/mayawarrier/ece342-final-project/blob/main/Documents%2C%20Manuals%20and%20Proposal/Photos/effect_4_pitch_h2.jpg): Pitch Effect High 2
+- ![Tremolo](https://github.com/mayawarrier/ece342-final-project/blob/main/Documents%2C%20Manuals%20and%20Proposal/Photos/effect_5_tremelo.jpg): Tremolo Effect
+- ![Tremolo High 1](https://github.com/mayawarrier/ece342-final-project/blob/main/Documents%2C%20Manuals%20and%20Proposal/Photos/effect_6_tremelo_h1.jpg): Tremolo Effect High 1
+- ![Tremolo High 2](https://github.com/mayawarrier/ece342-final-project/blob/main/Documents%2C%20Manuals%20and%20Proposal/Photos/effect_7_tremelo_h2.jpg): Tremolo Effect High 2
+- ![Tremolo Low 1](https://github.com/mayawarrier/ece342-final-project/blob/main/Documents%2C%20Manuals%20and%20Proposal/Photos/effect_8_tremelo_L1.jpg): Tremolo Effect Low 1
+- ![Tremolo Low 2](https://github.com/mayawarrier/ece342-final-project/blob/main/Documents%2C%20Manuals%20and%20Proposal/Photos/effect_9_tremelo_L2.jpg): Tremolo Effect Low 2
+- ![Echo](https://github.com/mayawarrier/ece342-final-project/blob/main/Documents%2C%20Manuals%20and%20Proposal/Photos/effect_10_echo.jpg): Echo Effect
+- ![Echo High](https://github.com/mayawarrier/ece342-final-project/blob/main/Documents%2C%20Manuals%20and%20Proposal/Photos/effect_11_echo_HI.jpg): Echo Effect High
+- ![Echo Low](https://github.com/mayawarrier/ece342-final-project/blob/main/Documents%2C%20Manuals%20and%20Proposal/Photos/effect_12_echo_LO.jpg): Echo Effect Low
+- ![Loop](https://github.com/mayawarrier/ece342-final-project/blob/main/Documents%2C%20Manuals%20and%20Proposal/Photos/effect_13_loop.jpg): Loop Effect Start
+- ![Loop Record](https://github.com/mayawarrier/ece342-final-project/blob/main/Documents%2C%20Manuals%20and%20Proposal/Photos/effect_14_loop_rec.jpg): Loop Effect Record
+- ![Loop Play](https://github.com/mayawarrier/ece342-final-project/blob/main/Documents%2C%20Manuals%20and%20Proposal/Photos/effect_15_loop_play.jpg): Loop Effect Play
