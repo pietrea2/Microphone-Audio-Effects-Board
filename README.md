@@ -19,7 +19,7 @@ The final version of the project was developed using the following hardware:
 
 This project was developed in C for the ARM DE1 SOC FPGA to read data from the microphone and output the audio through speakers.
 
-The **FPGA's audio CODEC [WM8731]**(https://cdn.sparkfun.com/datasheets/Dev/Arduino/Shields/WolfsonWM8731.pdf) was modified for proper sampling rates and settings.
+The **FPGA's audio CODEC [WM8731](https://cdn.sparkfun.com/datasheets/Dev/Arduino/Shields/WolfsonWM8731.pdf)** was modified for proper sampling rates and settings.
 ```
 Ver 3.0 FINAL DE1 SoC FPGA/DE1_Computer2/Computer_System/synthesis/submodules/Computer_System_AV_Config.v
 
