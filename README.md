@@ -7,9 +7,9 @@ ECE342 Computer Hardware project created by:
 The goal was to interface with 2 hardware peripherals: a microphone and speakers, using embedded systems fundamentals learned in ECE342 to read, interface and output audio data to perform different cool audio effects.
 The project development included multiple designs due to the experimentation with different microphones and development boards in order to find the best fit (specifications and requirements) for an audio hardware project.
 
-## Project Development Timeline
+# Project Development Timeline
 
-### [Version 3.0: Using the ALTERA ARM Cyclone V DE1 SOC FPGA Board](https://github.com/mayawarrier/ece342-final-project/tree/main/Ver%203.0%20FINAL%20DE1%20SoC%20FPGA)
+## [Version 3.0: Using the ALTERA ARM Cyclone V DE1 SOC FPGA Board](https://github.com/mayawarrier/ece342-final-project/tree/main/Ver%203.0%20FINAL%20DE1%20SoC%20FPGA)
 The final version of the project was developed using the following hardware:
 - [ARM DE1 SOC FPGA Board](https://www.terasic.com.tw/cgi-bin/page/archive.pl?Language=English&No=836)
 - [Yanmai SF-910 Condenser Microphone](https://www.canadacomputers.com/product_info.php?cPath=35_920_922&item_id=121777&review=all)
@@ -65,7 +65,7 @@ void audio_ISR(void)
 
 
 
-### [Version 1.0 & 2.0: Using the STM32 ARM NUCLEO F446ZE MCU and Digilent Pmod MIC3 Microphone](https://github.com/mayawarrier/ece342-final-project/tree/main/Ver%201.0%20%26%202.0%20NUCLEO-F446ZE)
+## [Version 1.0 & 2.0: Using the STM32 ARM NUCLEO F446ZE MCU and Digilent Pmod MIC3 Microphone](https://github.com/mayawarrier/ece342-final-project/tree/main/Ver%201.0%20%26%202.0%20NUCLEO-F446ZE)
 The initial version of this project was to interface with the [**Pmod MIC3 microphone module**](https://digilent.com/reference/pmod/pmodmic3/start) using the [**Nucleo F446ZE MCU**](https://www.st.com/en/evaluation-tools/nucleo-f446ze.html) because it was the developemnt board used for the course instruction.
 
 With the help of the university lab manager, our team found the Pmod MIC3 microphone was an easy to use module to get started with. It uses **SPI communication** to read audio data from the on-board microphone.
@@ -73,7 +73,7 @@ The module includes its own ADC. Therefore this module provides an easy interfac
 
 ![Nucleo Microphone Setup](https://github.com/mayawarrier/ece342-final-project/blob/main/Documents%2C%20Manuals%20and%20Proposal/Photos/nucleo_mic.jpg)
 
-#### Version 1.0: Example of reading audio data using the Nucleo 446ZE:
+### Version 1.0: Example of reading audio data using the Nucleo 446ZE:
 ```
 Ver 1.0 & 2.0 NUCLEO-F446ZE/Core/Src/main.c
 
@@ -88,7 +88,7 @@ HAL_GPIO_WritePin(SPI_SNSS_GPIO_Port, SPI_SNSS_Pin, GPIO_PIN_SET);  // NSS1 low
 
 - **Solution #1:** Try to read more bits of data in parallel to see if audio data is audible. Therefore proposed idea was to read data from the microphone using SPI with the Nucleo board, then **send audio data bits in parallel to Altera DE1 SoC FPGA using GPIO pins.**
 
-#### Version 2.0: Read audio from Pmod MIC3 using SPI on Nucleo 466ZE, then send data to DE1 SoC FPGA using GPIO pins for playback
+### Version 2.0: Read audio from Pmod MIC3 using SPI on Nucleo 466ZE, then send data to DE1 SoC FPGA using GPIO pins for playback
 GPIO pins on Nucleo 446ZE and DE1 SOC boards were tested. 16 audio data bits from the Nucleo were connected to the DE1 using available GPIO pins.
 
 ![Nucleo and FPGA](https://github.com/mayawarrier/ece342-final-project/blob/main/Documents%2C%20Manuals%20and%20Proposal/Photos/nucleo_de1_gpio.jpg)
